@@ -42,7 +42,7 @@ public class TuneComposer extends Application {
     /**
      * The set of all notes, to be played later.
      */
-    private static Set<Note> allNotes;
+    private static Set<Playable> allNotes;
 
     /**
      * A line moves from left to right across the main pane. It crosses each
@@ -60,7 +60,7 @@ public class TuneComposer extends Application {
     /**
      * List of notes being selected by the selection area
      */
-    private Set<Note> selectedNotes;
+    private Set<Playable> selectedNotes;
 
     /**
      * The background of the application.
@@ -240,19 +240,23 @@ public class TuneComposer extends Application {
             Note note = new Note(event.getX(), event.getY(), instrument);
             
             allNotes.add(note);
-            notePane.getChildren().add(note.getRectangle());
+            // gest = new Gesture();
+            // gest.addNote(note);
+            // allNotes.add(gest);
             
-            note.getRectangle().setOnMousePressed((MouseEvent pressedEvent) -> {
-                handleNoteClick(pressedEvent, note);
-                handleNotePress(pressedEvent, note);
-            });
-            
-            note.getRectangle().setOnMouseDragged((MouseEvent dragEvent) -> {
-                handleNoteDrag(dragEvent);
-            });
-            
-            note.getRectangle().setOnMouseReleased((MouseEvent releaseEvent) -> {
-                handleNoteStopDragging(releaseEvent);
+            note.getRectangle().forEach((n) -> {
+                notePane.getChildren().add(n);
+
+                n.setOnMousePressed((MouseEvent pressedEvent) -> {
+                    handleNoteClick(pressedEvent, note);
+                    handleNotePress(pressedEvent, note);
+                });
+                n.setOnMouseDragged((MouseEvent dragEvent) -> {
+                    handleNoteDrag(dragEvent);
+                });
+                n.setOnMouseReleased((MouseEvent releaseEvent) -> {
+                    handleNoteStopDragging(releaseEvent);
+                });
             });
         }
         clickInPane = true;
@@ -382,12 +386,11 @@ public class TuneComposer extends Application {
         selection.update(event.getX(), event.getY());
 
         allNotes.forEach((note) -> {
-            Rectangle rect = note.getRectangle();
             double horizontal = selectRect.getX() + selectRect.getWidth();
             double vertical = selectRect.getY() + selectRect.getHeight();
 
             // Thanks to Paul for suggesting the `intersects` method.
-            if(selection.getRectangle().intersects(note.getRectangle().getLayoutBounds())) {
+            if(selection.getRectangle().intersects(note.getBounds())) {
                 selectedNotes.add(note);
                 note.setSelected(true);
             } else {

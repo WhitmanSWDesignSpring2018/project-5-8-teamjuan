@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package tunecomposer;
+
+import java.util.ArrayList;
+
+import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
@@ -12,7 +16,7 @@ import javafx.scene.shape.Rectangle;
  * Note class creates a Rectangle representing the note to be played
  * @author Ian Hawkins, Madi Crowley, Ian Stewart, Melissa Kohl
  */
-public class Note {
+public class Note implements Playable {
     
     /**
      * Constants for playing note in MidiPlayer
@@ -66,6 +70,7 @@ public class Note {
      * @param inst instrument that the note should be played
      */
     public Note(double x, double y, Instrument inst) {
+
         startTime = (int) x;
         pitch = MAX_PITCH - (int) y / RECTHEIGHT;
         
@@ -90,13 +95,19 @@ public class Note {
             lastNote = x_coord + rectWidth;
         }
     }
+
+    public Bounds getBounds() {
+        return noteRect.getLayoutBounds();
+    }
     
     /**
      * Get this Note's Rectangle object
      * @return this Note's Rectangle
      */
-    public Rectangle getRectangle() {
-        return noteRect;
+    public ArrayList<Rectangle> getRectangle() {
+        ArrayList<Rectangle> arr = new ArrayList();
+        arr.add(noteRect);
+        return arr;
     }
     
     /**

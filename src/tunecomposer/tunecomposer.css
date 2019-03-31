@@ -24,6 +24,12 @@
     -fx-stroke: #000000;
 }
 
+.gesture {
+    -fx-stroke: #E81A0B;
+    -fx-border-style: dashed; 
+    -fx-fill: transparent;
+}
+
 .spacing {
     -fx-max-width: 161px;
 }

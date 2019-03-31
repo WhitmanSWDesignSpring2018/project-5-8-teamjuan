@@ -250,14 +250,16 @@ public class TuneComposer extends Application {
                 n.setOnMousePressed((MouseEvent pressedEvent) -> {
                     handleNoteClick(pressedEvent, note);
                     handleNotePress(pressedEvent, note);
+                }); 
+
+                n.setOnMouseDragged((MouseEvent dragEvent) -> {
+                    handleNoteDrag(dragEvent);
+                }); 
+
+                n.setOnMouseReleased((MouseEvent releaseEvent) -> {
+                    handleNoteStopDragging(releaseEvent);
                 });
-               TODO: outer rectangle
-               TODO: outer rectangle
-               TODO: outer rectangle
-               TODO: outer rectangle
-               TODO: outer rectangle
-               TODO: outer rectangle
-            });TODO: outer rectangle
+            });
         }
         clickInPane = true;
     }
@@ -275,10 +277,13 @@ public class TuneComposer extends Application {
         if (! control && ! selected) {
             selectAll(false);
             note.setSelected(true);
+            selectedNotes.add(note);
         } else if ( control && ! selected) {
             note.setSelected(true);
+            selectedNotes.add(note);
         } else if (control && selected) {
             note.setSelected(false);
+            selectedNotes.remove(note);
         }
     }
     
@@ -402,17 +407,24 @@ public class TuneComposer extends Application {
         });
     }
 
+    @FXML
     private void handleGroup(ActionEvent event) {
         Gesture gest = new Gesture();
+        // for testing ONLY
+        System.out.println(selectedNotes.size());
+        // above line PRINTS ZERO, WHYYYYY
         selectedNotes.forEach((note) -> {
             gest.addPlayable(note);
         });
         selectedNotes.clear();
         selectedNotes.add(gest);
         allNotes.add(gest);
+        gest.createRectangle();
+        notePane.getChildren().add(gest.getOuterRectangle());
         
     }
 
+    @FXML
     private void handleUngroup(ActionEvent event) {
         HashSet<Playable> temp = new HashSet<Playable>();
         selectedNotes.forEach((playable) -> {
@@ -421,6 +433,7 @@ public class TuneComposer extends Application {
                 allNotes.remove(playable);
                 temp.addAll(((Gesture)playable).getPlayables());
                 selectedNotes.remove(playable);
+                notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
             }
         });
         selectedNotes.addAll(temp);
@@ -458,6 +471,12 @@ public class TuneComposer extends Application {
     private void selectAll(boolean selected) {
         allNotes.forEach((note) -> {
             note.setSelected(selected);
+            if(selected) {
+                selectedNotes.add(note);
+            }
+            else {
+                selectedNotes.remove(note);
+            }
         });
     }
 

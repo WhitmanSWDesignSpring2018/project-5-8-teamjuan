@@ -18,13 +18,42 @@ public class Gesture implements Playable {
     //TODO: use Rectangle!!!
     private Rectangle outerRect;
 
+    private double upperXBound;
+
+    private double upperYBound;
+
+    private double lowerXBound;
+
+    private double lowerYBound;
+
     public Gesture() {
+        upperXBound = 110;
+        upperYBound = 110;
+        lowerXBound = 101;
+        lowerYBound = 101;
         allPlayables = new HashSet();
         isSelected = true;
     }
 
     public void addPlayable(Playable play) {
         allPlayables.add(play);
+        upperXBound = Math.max(play.getBounds().getMaxX(), upperXBound);
+        System.out.println(play.getBounds().getMaxX());
+        upperYBound = Math.max(play.getBounds().getMaxY(), upperYBound);
+        lowerXBound = Math.min(play.getBounds().getMinX(), lowerXBound);
+        lowerYBound = Math.min(play.getBounds().getMinY(), lowerYBound);
+    }
+
+    public void createRectangle() {
+        outerRect = new Rectangle(lowerXBound, 
+                                  lowerYBound, 
+                                  upperXBound - lowerXBound, 
+                                  upperYBound - lowerYBound);
+        outerRect.getStyleClass().add("gesture");
+    }
+
+    public Rectangle getOuterRectangle() {
+        return outerRect;
     }
 
     public HashSet<Playable> getPlayables() {

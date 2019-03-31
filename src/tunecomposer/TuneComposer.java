@@ -251,13 +251,13 @@ public class TuneComposer extends Application {
                     handleNoteClick(pressedEvent, note);
                     handleNotePress(pressedEvent, note);
                 });
-                n.setOnMouseDragged((MouseEvent dragEvent) -> {
-                    handleNoteDrag(dragEvent);
-                });
-                n.setOnMouseReleased((MouseEvent releaseEvent) -> {
-                    handleNoteStopDragging(releaseEvent);
-                });
-            });
+               TODO: outer rectangle
+               TODO: outer rectangle
+               TODO: outer rectangle
+               TODO: outer rectangle
+               TODO: outer rectangle
+               TODO: outer rectangle
+            });TODO: outer rectangle
         }
         clickInPane = true;
     }
@@ -402,6 +402,30 @@ public class TuneComposer extends Application {
         });
     }
 
+    private void handleGroup(ActionEvent event) {
+        Gesture gest = new Gesture();
+        selectedNotes.forEach((note) -> {
+            gest.addPlayable(note);
+        });
+        selectedNotes.clear();
+        selectedNotes.add(gest);
+        allNotes.add(gest);
+        
+    }
+
+    private void handleUngroup(ActionEvent event) {
+        HashSet<Playable> temp = new HashSet<Playable>();
+        selectedNotes.forEach((playable) -> {
+            if(playable.getClass() == Gesture.class) {
+                allNotes.addAll(((Gesture)playable).getPlayables());
+                allNotes.remove(playable);
+                temp.addAll(((Gesture)playable).getPlayables());
+                selectedNotes.remove(playable);
+            }
+        });
+        selectedNotes.addAll(temp);
+    }
+    
     /**
      * Delete all selected notes. Called from FXML
      * @param event unused

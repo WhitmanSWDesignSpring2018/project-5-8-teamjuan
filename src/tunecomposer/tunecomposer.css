@@ -24,9 +24,17 @@
     -fx-stroke: #000000;
 }
 
-.gesture {
+.selected-gesture {
     -fx-stroke: #E81A0B;
     -fx-border-style: dashed; 
+    -fx-stroke-dash-array: 5 5 5 5;
+    -fx-fill: transparent;
+}
+
+.selected-gesture {
+    -fx-stroke: #000000;
+    -fx-border-style: dashed; 
+    -fx-stroke-dash-array: 5 5 5 5;
     -fx-fill: transparent;
 }
 

@@ -410,15 +410,23 @@ public class TuneComposer extends Application {
     @FXML
     private void handleGroup(ActionEvent event) {
         Gesture gest = new Gesture();
+        HashSet<Playable> temp = new HashSet<Playable>();
         // for testing ONLY
         System.out.println(selectedNotes.size());
-        // above line PRINTS ZERO, WHYYYYY
-        selectedNotes.forEach((note) -> {
-            gest.addPlayable(note);
+        
+        allNotes.forEach((playable) -> {
+            if (playable.getSelected()) {
+                gest.addPlayable(playable);
+                temp.add(playable);
+            }
         });
-        selectedNotes.clear();
-        selectedNotes.add(gest);
+        // selectedNotes.forEach((note) -> {
+        //     gest.addPlayable(note);
+        // });
+        // selectedNotes.clear();
+        // selectedNotes.add(gest);
         allNotes.add(gest);
+        allNotes.removeAll(temp);
         gest.createRectangle();
         notePane.getChildren().add(gest.getOuterRectangle());
         
@@ -427,8 +435,9 @@ public class TuneComposer extends Application {
     @FXML
     private void handleUngroup(ActionEvent event) {
         HashSet<Playable> temp = new HashSet<Playable>();
-        selectedNotes.forEach((playable) -> {
-            if(playable.getClass() == Gesture.class) {
+        //selectedNotes.forEach((playable) -> {
+        allNotes.forEach((playable) -> {
+            if( playable.getSelected() && ( playable.getClass() == Gesture.class ) ) {
                 allNotes.addAll(((Gesture)playable).getPlayables());
                 allNotes.remove(playable);
                 temp.addAll(((Gesture)playable).getPlayables());

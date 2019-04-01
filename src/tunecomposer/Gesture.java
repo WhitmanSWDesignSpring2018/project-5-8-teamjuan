@@ -27,11 +27,11 @@ public class Gesture implements Playable {
     private double lowerYBound;
 
     public Gesture() {
-        upperXBound = 110;
-        upperYBound = 110;
-        lowerXBound = 101;
-        lowerYBound = 101;
-        allPlayables = new HashSet();
+        upperXBound = 0;
+        upperYBound = 0;
+        lowerXBound = 3000;
+        lowerYBound = 3000;
+        allPlayables = new HashSet<Playable>();
         isSelected = true;
     }
 
@@ -49,7 +49,8 @@ public class Gesture implements Playable {
                                   lowerYBound, 
                                   upperXBound - lowerXBound, 
                                   upperYBound - lowerYBound);
-        outerRect.getStyleClass().add("gesture");
+        outerRect.getStyleClass().add("selected-gesture");
+        outerRect.setMouseTransparent(false);
     }
 
     public Rectangle getOuterRectangle() {
@@ -77,7 +78,7 @@ public class Gesture implements Playable {
     }
 
     public ArrayList<Rectangle> getRectangle(){
-        ArrayList<Rectangle> arr = new ArrayList();
+        ArrayList<Rectangle> arr = new ArrayList<Rectangle>();
         allPlayables.forEach((n) -> {
             arr.addAll(n.getRectangle());
         });
@@ -97,7 +98,7 @@ public class Gesture implements Playable {
 
     public boolean inLastFive(MouseEvent event){
         //TODO
-        return true;
+        return false;
     }
     
     public void setMovingCoords(MouseEvent event){

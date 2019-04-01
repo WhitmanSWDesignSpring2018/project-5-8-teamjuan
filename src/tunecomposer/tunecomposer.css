@@ -31,7 +31,7 @@
     -fx-fill: transparent;
 }
 
-.selected-gesture {
+.unselected-gesture {
     -fx-stroke: #000000;
     -fx-border-style: dashed; 
     -fx-stroke-dash-array: 5 5 5 5;

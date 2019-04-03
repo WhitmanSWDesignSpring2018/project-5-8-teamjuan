@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 
-<BorderPane id="root-pane" stylesheets="@../NetBeansProjects/project5day1/src/tunecomposer/tunecomposer.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tunecomposer.TuneComposer">
+<BorderPane id="root-pane" stylesheets="tunecomposer/tunecomposer.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tunecomposer.TuneComposer">
    <top>
       <MenuBar>
         <menus>
@@ -44,12 +44,12 @@
                      </accelerator>
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Group">
+                  <MenuItem mnemonicParsing="false" text="Group" onAction="#handleGroup" >
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Ungroup">
+                  <MenuItem mnemonicParsing="false" text="Ungroup" onAction="#handleUngroup">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>

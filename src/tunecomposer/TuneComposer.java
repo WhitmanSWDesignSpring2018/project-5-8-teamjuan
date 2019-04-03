@@ -250,10 +250,12 @@ public class TuneComposer extends Application {
                 n.setOnMousePressed((MouseEvent pressedEvent) -> {
                     handleNoteClick(pressedEvent, note);
                     handleNotePress(pressedEvent, note);
-                });
+                }); 
+
                 n.setOnMouseDragged((MouseEvent dragEvent) -> {
                     handleNoteDrag(dragEvent);
-                });
+                }); 
+
                 n.setOnMouseReleased((MouseEvent releaseEvent) -> {
                     handleNoteStopDragging(releaseEvent);
                 });
@@ -268,17 +270,20 @@ public class TuneComposer extends Application {
      * @param event mouse click
      * @param note note Rectangle that was clicked
      */
-    private void handleNoteClick(MouseEvent event, Note note) {
+    private void handleNoteClick(MouseEvent event, Playable note) {
         clickInPane = false;
         boolean control = event.isControlDown();
         boolean selected = note.getSelected();
         if (! control && ! selected) {
             selectAll(false);
             note.setSelected(true);
+            selectedNotes.add(note);
         } else if ( control && ! selected) {
             note.setSelected(true);
+            selectedNotes.add(note);
         } else if (control && selected) {
             note.setSelected(false);
+            selectedNotes.remove(note);
         }
     }
     
@@ -288,14 +293,14 @@ public class TuneComposer extends Application {
      * @param event mouse click
      * @param note note Rectangle that was clicked
      */
-    private void handleNotePress(MouseEvent event, Note note) {
+    private void handleNotePress(MouseEvent event, Playable note) {
         changeDuration = note.inLastFive(event);
         allNotes.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.setMovingDuration(event);
+                    n.onMousePressedLastFive(event);
                 } else {
-                    n.setMovingCoords(event);
+                    n.onMousePressed(event);
                 }
             }
         });
@@ -310,9 +315,9 @@ public class TuneComposer extends Application {
         allNotes.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.moveDuration(event);
+                    n.onMouseDraggedLastFive(event);
                 } else {
-                    n.moveNote(event);
+                    n.onMouseDragged(event);
                 }
             }
         });
@@ -327,9 +332,9 @@ public class TuneComposer extends Application {
         allNotes.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.stopDuration(event);
+                    n.onMouseReleasedLastFive(event);
                 } else {
-                    n.stopMoving(event);
+                    n.onMouseReleased(event);
                 }
             }
         });
@@ -402,17 +407,70 @@ public class TuneComposer extends Application {
         });
     }
 
+    @FXML
+    private void handleGroup(ActionEvent event) {
+        Gesture gest = new Gesture();
+        HashSet<Playable> temp = new HashSet<Playable>();
+        // for testing ONLY
+        System.out.println(selectedNotes.size());
+        
+        allNotes.forEach((playable) -> {
+            if (playable.getSelected()) {
+                gest.addPlayable(playable);
+                temp.add(playable);
+            }
+        });
+
+        allNotes.add(gest);
+        allNotes.removeAll(temp);
+        gest.createRectangle();
+        notePane.getChildren().add(gest.getOuterRectangle());
+        MoveableRect n = gest.getOuterRectangle();
+
+
+        n.setOnMousePressed((MouseEvent pressedEvent) -> {
+            handleNoteClick(pressedEvent, gest);
+            handleNotePress(pressedEvent, gest);
+        }); 
+
+        n.setOnMouseDragged((MouseEvent dragEvent) -> {
+            handleNoteDrag(dragEvent);
+        }); 
+
+        n.setOnMouseReleased((MouseEvent releaseEvent) -> {
+            handleNoteStopDragging(releaseEvent);
+        });
+
+        
+    }
+
+    @FXML
+    private void handleUngroup(ActionEvent event) {
+        HashSet<Playable> temp = new HashSet<Playable>();
+        //selectedNotes.forEach((playable) -> {
+        allNotes.forEach((playable) -> {
+            if( playable.getSelected() && ( playable.getClass() == Gesture.class ) ) {
+                allNotes.addAll(((Gesture)playable).getPlayables());
+                allNotes.remove(playable);
+                temp.addAll(((Gesture)playable).getPlayables());
+                selectedNotes.remove(playable);
+                notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
+            }
+        });
+        selectedNotes.addAll(temp);
+    }
+    
     /**
      * Delete all selected notes. Called from FXML
      * @param event unused
      */
     @FXML
     void handleDelete(ActionEvent event) {
-        Collection toDelete = new ArrayList();
+        ArrayList<Playable> toDelete = new ArrayList();
         allNotes.forEach((note) -> {
             if (note.getSelected()) {
                 toDelete.add(note);
-                notePane.getChildren().remove(note.getRectangle());
+                notePane.getChildren().removeAll(note.getRectangle());
             }
         });
         allNotes.removeAll(toDelete);
@@ -434,6 +492,12 @@ public class TuneComposer extends Application {
     private void selectAll(boolean selected) {
         allNotes.forEach((note) -> {
             note.setSelected(selected);
+            if(selected) {
+                selectedNotes.add(note);
+            }
+            else {
+                selectedNotes.remove(note);
+            }
         });
     }
 

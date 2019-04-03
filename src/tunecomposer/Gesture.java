@@ -11,20 +11,67 @@ import javafx.scene.shape.Rectangle;
 
 public class Gesture implements Playable {
 
-    private HashSet<Playable> allGestures;
+    private HashSet<Playable> allPlayables;
 
     private boolean isSelected;
 
     //TODO: use Rectangle!!!
-    private Rectangle outerRect;
+    private MoveableRect outerRect;
+
+    private double upperXBound;
+
+    private double upperYBound;
+
+    private double lowerXBound;
+
+    private double lowerYBound;
 
     public Gesture() {
-        allGestures = new HashSet();
+        upperXBound = 0;
+        upperYBound = 0;
+        lowerXBound = 3000;
+        lowerYBound = 3000;
+        allPlayables = new HashSet<Playable>();
         isSelected = true;
     }
 
-    public void addGesture(Gesture gest) {
-        allGestures.add(gest);
+    private double getMargin() {
+        double max = 0;
+        for (Playable play : allPlayables) {
+            max = Math.max(play.getBounds().getMaxX(), max);
+        }
+        return max - lowerXBound;
+    }
+
+    public void addPlayable(Playable play) {
+        allPlayables.add(play);
+        upperXBound = Math.max(play.getBounds().getMaxX(), upperXBound);
+        System.out.println(play.getBounds().getMaxX());
+        upperYBound = Math.max(play.getBounds().getMaxY(), upperYBound);
+        lowerXBound = Math.min(play.getBounds().getMinX(), lowerXBound);
+        lowerYBound = Math.min(play.getBounds().getMinY(), lowerYBound);
+    }
+
+    public void createRectangle() {
+        outerRect = new MoveableRect();
+
+        outerRect.setX(lowerXBound);
+        outerRect.setY(lowerYBound); 
+        outerRect.setWidth(upperXBound - lowerXBound);
+        outerRect.setHeight(upperYBound - lowerYBound);
+
+        outerRect.updateCoordinates();
+
+        outerRect.getStyleClass().add("selected-gesture");
+        outerRect.setMouseTransparent(false);
+    }
+
+    public MoveableRect getOuterRectangle() {
+        return outerRect;
+    }
+
+    public HashSet<Playable> getPlayables() {
+        return allPlayables; 
     }
 
     public Bounds getBounds() {
@@ -32,20 +79,20 @@ public class Gesture implements Playable {
     }
 
     public void schedule() {
-        allGestures.forEach((n) -> {
+        allPlayables.forEach((n) -> {
             n.schedule();
         });
     }
 
     public void updateLastNote(){
-        allGestures.forEach((n) -> {
+        allPlayables.forEach((n) -> {
             n.updateLastNote();
         });
     }
 
-    public ArrayList<Rectangle> getRectangle(){
-        ArrayList<Rectangle> arr = new ArrayList();
-        allGestures.forEach((n) -> {
+    public ArrayList<MoveableRect> getRectangle(){
+        ArrayList<MoveableRect> arr = new ArrayList<MoveableRect>();
+        allPlayables.forEach((n) -> {
             arr.addAll(n.getRectangle());
         });
         return arr;
@@ -56,48 +103,73 @@ public class Gesture implements Playable {
     }
 
     public void setSelected(boolean selected){
-        //TODO: outer rectangle
-        allGestures.forEach((n) -> {
+        isSelected = selected;
+        if (selected) {
+            outerRect.getStyleClass().clear();
+            outerRect.getStyleClass().add("selected-gesture");
+        } else {
+            outerRect.getStyleClass().clear();
+            outerRect.getStyleClass().add("unselected-gesture");
+        }
+
+        allPlayables.forEach((n) -> {
             n.setSelected(selected);
         });
     }
 
     public boolean inLastFive(MouseEvent event){
-        //TODO
-        return true;
+        return outerRect.inLastFive(event);
     }
     
-    public void setMovingCoords(MouseEvent event){
-        allGestures.forEach((n) -> {
-            n.setMovingCoords(event);
+    public void onMousePressed(MouseEvent event){
+
+        outerRect.setMovingCoords(event);
+
+        allPlayables.forEach((n) -> {
+            n.onMousePressed(event);
         });
     }
 
-    public void setMovingDuration(MouseEvent event){
-        allGestures.forEach((n) -> {
-            n.setMovingDuration(event);
+    public void onMousePressedLastFive(MouseEvent event){
+        
+        outerRect.setMovingDuration(event); 
+
+        allPlayables.forEach((n) -> {
+            n.onMousePressedLastFive(event);
         });
     }
     
-    public void moveDuration(MouseEvent event){
-        allGestures.forEach((n) -> {
-            n.moveDuration(event);
+    public void onMouseDraggedLastFive(MouseEvent event){
+
+        outerRect.moveDuration(event, getMargin());
+
+        allPlayables.forEach((n) -> {
+            n.onMouseDraggedLastFive(event);
         });
     }
-    public void moveNote(MouseEvent event){
-        allGestures.forEach((n) -> {
-            n.moveNote(event);
+    public void onMouseDragged(MouseEvent event){
+        
+        outerRect.moveNote(event);
+
+        allPlayables.forEach((n) -> {
+            n.onMouseDragged(event);
         });
     }
 
-    public void stopMoving(MouseEvent event){
-        allGestures.forEach((n) -> {
-            n.stopMoving(event);
+    public void onMouseReleased(MouseEvent event){
+        
+        outerRect.stopMoving(event);
+
+        allPlayables.forEach((n) -> {
+            n.onMouseReleased(event);
         });
     }
-    public void stopDuration(MouseEvent event){
-        allGestures.forEach((n) -> {
-            n.stopDuration(event);
+    public void onMouseReleasedLastFive(MouseEvent event){
+        
+        outerRect.stopDuration(event);
+
+        allPlayables.forEach((n) -> {
+            n.onMouseReleasedLastFive(event);
         });
     }
 }

@@ -41,20 +41,13 @@ public class Note implements Playable {
      * Note fields for creating rectangle and playing note
      */
 
-    private final Rectangle noteRect;
+    private final MoveableRect noteRect;
     private double x_coord;
     private double y_coord;
     private double rectWidth;
     private int startTime;
     private int pitch;
     private final Instrument instrument;
-    
-    /**
-     * Offsets for dragging Rectangle
-     */
-    private double xOffset;
-    private double yOffset;
-    private double widthOffset;
     
     /**
      * Is this note currently selected
@@ -80,7 +73,12 @@ public class Note implements Playable {
         instrument = inst;
         rectWidth = DEFAULT_DURATION;
         
-        noteRect = new Rectangle(x_coord, y_coord, rectWidth, RECTHEIGHT);
+        noteRect = new MoveableRect();
+        noteRect.setX(x_coord);
+        noteRect.setY(y_coord);
+        noteRect.setWidth(rectWidth);
+        noteRect.setHeight(RECTHEIGHT);
+        noteRect.updateCoordinates();
         noteRect.getStyleClass().addAll("selected", instrument.toString());
         noteRect.setMouseTransparent(false);
         
@@ -104,8 +102,8 @@ public class Note implements Playable {
      * Get this Note's Rectangle object
      * @return this Note's Rectangle
      */
-    public ArrayList<Rectangle> getRectangle() {
-        ArrayList<Rectangle> arr = new ArrayList();
+    public ArrayList<MoveableRect> getRectangle() {
+        ArrayList<MoveableRect> arr = new ArrayList<MoveableRect>();
         arr.add(noteRect);
         return arr;
     }
@@ -150,18 +148,16 @@ public class Note implements Playable {
      * in the Rectangle
      * @param event mouse click
      */
-    public void setMovingCoords(MouseEvent event) {
-        xOffset = event.getX() - x_coord;
-        yOffset = event.getY() - y_coord;
+    public void onMousePressed(MouseEvent event) {
+        noteRect.setMovingCoords(event);
     }
     
     /**
      * While the user is dragging the mouse, move the Rectangle with it
      * @param event mouse drag
      */
-    public void moveNote(MouseEvent event) {
-        noteRect.setX(event.getX() - xOffset);
-        noteRect.setY(event.getY() - yOffset );
+    public void onMouseDragged(MouseEvent event) {
+        noteRect.moveNote(event);
     }
     
     /**
@@ -169,18 +165,15 @@ public class Note implements Playable {
      * Rectangle's current location
      * @param event mouse click
      */
-    public void stopMoving(MouseEvent event) {
-        double x = event.getX() - xOffset;
-        double y = event.getY() - yOffset;
+    public void onMouseReleased(MouseEvent event) {
+        noteRect.stopMoving(event);
         
-        startTime = (int) x;
-        pitch = MAX_PITCH - (int) y / RECTHEIGHT;
+        startTime = (int) noteRect.getX();
+        pitch = MAX_PITCH - (int) noteRect.getY() / RECTHEIGHT;
         
-        x_coord = x;
-        y_coord = y - (y % RECTHEIGHT);
+        x_coord = noteRect.getX();
+        y_coord = noteRect.getY() - (noteRect.getY() % RECTHEIGHT);
         
-        noteRect.setX(x_coord);
-        noteRect.setY(y_coord);
     }
     
     /**
@@ -190,7 +183,7 @@ public class Note implements Playable {
      * @return true if mouse is within the last 5 pixels of the Rectangle
      */
     public boolean inLastFive(MouseEvent event) {
-        return (event.getX() > x_coord + rectWidth - MARGIN);
+        return noteRect.inLastFive(event);
     }
     
     /**
@@ -199,18 +192,16 @@ public class Note implements Playable {
      * is in the Rectangle 
      * @param event mouse click
      */
-    public void setMovingDuration(MouseEvent event) {
-        widthOffset = x_coord + rectWidth - event.getX();
+    public void onMousePressedLastFive(MouseEvent event) {
+        noteRect.setMovingDuration(event);
     }
     
     /**
      * While the user is dragging the mouse, change the width of the Rectangle
      * @param event mouse drag
      */
-    public void moveDuration(MouseEvent event) {
-        double tempWidth = event.getX() - x_coord + widthOffset;
-        if (tempWidth < 5) tempWidth = 5;
-        noteRect.setWidth(tempWidth);
+    public void onMouseDraggedLastFive(MouseEvent event) {
+        noteRect.moveDuration(event, MARGIN);
     }
     
     /**
@@ -218,11 +209,8 @@ public class Note implements Playable {
      * to final width
      * @param event 
      */
-    public void stopDuration(MouseEvent event) {
-        rectWidth = event.getX() - x_coord + widthOffset;
-        if (rectWidth < MARGIN) rectWidth = MARGIN;
-        
-        noteRect.setWidth(rectWidth);
+    public void onMouseReleasedLastFive(MouseEvent event) {
+        noteRect.stopDuration(event);
     }
     
 }

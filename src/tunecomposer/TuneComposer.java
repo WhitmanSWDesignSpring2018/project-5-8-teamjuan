@@ -270,7 +270,7 @@ public class TuneComposer extends Application {
      * @param event mouse click
      * @param note note Rectangle that was clicked
      */
-    private void handleNoteClick(MouseEvent event, Note note) {
+    private void handleNoteClick(MouseEvent event, Playable note) {
         clickInPane = false;
         boolean control = event.isControlDown();
         boolean selected = note.getSelected();
@@ -293,14 +293,14 @@ public class TuneComposer extends Application {
      * @param event mouse click
      * @param note note Rectangle that was clicked
      */
-    private void handleNotePress(MouseEvent event, Note note) {
+    private void handleNotePress(MouseEvent event, Playable note) {
         changeDuration = note.inLastFive(event);
         allNotes.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.setMovingDuration(event);
+                    n.onMousePressedLastFive(event);
                 } else {
-                    n.setMovingCoords(event);
+                    n.onMousePressed(event);
                 }
             }
         });
@@ -315,9 +315,9 @@ public class TuneComposer extends Application {
         allNotes.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.moveDuration(event);
+                    n.onMouseDraggedLastFive(event);
                 } else {
-                    n.moveNote(event);
+                    n.onMouseDragged(event);
                 }
             }
         });
@@ -332,9 +332,9 @@ public class TuneComposer extends Application {
         allNotes.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.stopDuration(event);
+                    n.onMouseReleasedLastFive(event);
                 } else {
-                    n.stopMoving(event);
+                    n.onMouseReleased(event);
                 }
             }
         });
@@ -420,15 +420,27 @@ public class TuneComposer extends Application {
                 temp.add(playable);
             }
         });
-        // selectedNotes.forEach((note) -> {
-        //     gest.addPlayable(note);
-        // });
-        // selectedNotes.clear();
-        // selectedNotes.add(gest);
+
         allNotes.add(gest);
         allNotes.removeAll(temp);
         gest.createRectangle();
         notePane.getChildren().add(gest.getOuterRectangle());
+        MoveableRect n = gest.getOuterRectangle();
+
+
+        n.setOnMousePressed((MouseEvent pressedEvent) -> {
+            handleNoteClick(pressedEvent, gest);
+            handleNotePress(pressedEvent, gest);
+        }); 
+
+        n.setOnMouseDragged((MouseEvent dragEvent) -> {
+            handleNoteDrag(dragEvent);
+        }); 
+
+        n.setOnMouseReleased((MouseEvent releaseEvent) -> {
+            handleNoteStopDragging(releaseEvent);
+        });
+
         
     }
 
@@ -454,11 +466,11 @@ public class TuneComposer extends Application {
      */
     @FXML
     void handleDelete(ActionEvent event) {
-        Collection toDelete = new ArrayList();
+        ArrayList<Playable> toDelete = new ArrayList();
         allNotes.forEach((note) -> {
             if (note.getSelected()) {
                 toDelete.add(note);
-                notePane.getChildren().remove(note.getRectangle());
+                notePane.getChildren().removeAll(note.getRectangle());
             }
         });
         allNotes.removeAll(toDelete);

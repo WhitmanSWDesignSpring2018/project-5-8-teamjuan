@@ -1,1 +1,11 @@
-Put your reflection here
+Team Juan - Madi Crowley, Melissa Kohl, Michelle Zhang, and Sage Levin
+
+Project 5 Team Reflection
+
+For Project 5, our team built off of the code from Melissa's previous team. To implement the gestures, we decided to create an interface, Playable, so that notes could be gestures. We also wrote a new class called Gesture, which extends from Playable, that features all the functionality needed to create and group notes together. Another new class is MoveableRect, which extends Rectangle, which calculates and accounts for the dragging and moving of a grouped gesture. 
+
+By creating an interface and two additional classes, we hoped to alleviate unnecessary code reuse across all the classes to implement the grouping of notes into gestures. The decision to use an interface was based on the four principles of inheritance. We also refactored some code using the guidelines given in class, especially when we moved methods and adjusted them to work in MoveableRect. 
+
+We forgot about Planning Poker. So we can't honestly compute a velocity. However, we were pleasantly surprised to find that we had done almost all of the project by the 6 hour mark, with the last two hours dedicated to debugging, writing the reflection, and generating a UML diagram. 
+
+As for collaboration, we met four seperate times for about two hours each and had each member of the team at the keyboard. The order was Melissa, Madi, Michelle, and Sage. We did not pair off while coding, rather, we all sat together around one computer and worked together on Melissa's account, seeing that collectively, we all agreed that there was not much we could pair off and allocate when it came to this project. She is a pro at using the Terminal to deal with GitHub. This would explain why most of the history on our GitHub repository is under Melissa's account. For our team, we found out that 4-6 on Tuesdays and Thursdays were fair game for all of us to meet; going forward, we hope to continue meeting at these times. As for improvement, the three-not-so-Terminal-savvy members of the team will look into learning about using the Terminal to push things to GitHub seeing that NetBeans is a wreck. We will also push more for pair-programming for the next project. 

@@ -40,7 +40,7 @@ public class TuneComposer extends Application {
     private final int[] timbreList = new int[] {0, 6, 12, 19, 21, 24, 40, 60};
 
     /**
-     * The set of all notes, to be played later.
+     * The Playble set of all notes, to be played later.
      */
     private static Set<Playable> allNotes;
 
@@ -58,7 +58,7 @@ public class TuneComposer extends Application {
     private boolean isDragSelecting = false;
     
     /**
-     * List of notes being selected by the selection area
+     * List of Playable selected notes being selected by the selection area
      */
     private Set<Playable> selectedNotes;
 
@@ -265,7 +265,7 @@ public class TuneComposer extends Application {
      * When user presses on a note, set the notes to be selected or 
      * unselected accordingly.
      * @param event mouse click
-     * @param note note Rectangle that was clicked
+     * @param note note Playable that was clicked
      */
     private void handleNoteClick(MouseEvent event, Playable note) {
         clickInPane = false;
@@ -285,7 +285,7 @@ public class TuneComposer extends Application {
      * When user presses on a note, set offsets in each Note in case the user
      * drags the mouse.
      * @param event mouse click
-     * @param note note Rectangle that was clicked
+     * @param note note Playable that was clicked
      */
     private void handleNotePress(MouseEvent event, Playable note) {
         changeDuration = note.inLastFive(event);
@@ -338,7 +338,7 @@ public class TuneComposer extends Application {
     /**
      * Automatically-called when user drags mouse. Stops playing if composition
      * is playing, and starts dragging selection rectangle if mouse click is
-     * not on a note Rectangle.
+     * not on a Playable note.
      * @param event mouse click
      */
     public void startDrag(MouseEvent event) {
@@ -352,7 +352,7 @@ public class TuneComposer extends Application {
     /**
      * Automatically-called when user drags mouse. Stops playing if composition
      * is playing, and continues to drag selection rectangle if initial mouse 
-     * click was not on a note Rectangle.
+     * click was not on a Playable note.
      * @param event mouse click
      */
     public void continueDrag(MouseEvent event) {
@@ -399,6 +399,10 @@ public class TuneComposer extends Application {
         });
     }
 
+    /**
+    * Handles all the notes grouped together as a Gesture.
+    * @param event
+    */
     @FXML
     private void handleGroup(ActionEvent event) {
         Gesture gest = new Gesture();
@@ -433,6 +437,10 @@ public class TuneComposer extends Application {
         
     }
 
+    /**
+    * Removes all playable Gestures as a group.
+    * @param event
+    */
     @FXML
     private void handleUngroup(ActionEvent event) {
         HashSet<Playable> temp = new HashSet<Playable>();

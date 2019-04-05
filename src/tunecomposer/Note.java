@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 
 
 /**
@@ -94,6 +93,10 @@ public class Note implements Playable {
         }
     }
 
+    /**
+     * Gets the bounds of the rectangle
+     * @return Bounds of the rectangle
+     */
     public Bounds getBounds() {
         return noteRect.getLayoutBounds();
     }
@@ -210,7 +213,7 @@ public class Note implements Playable {
      * @param event 
      */
     public void onMouseReleasedLastFive(MouseEvent event) {
-        noteRect.stopDuration(event);
+        noteRect.stopDuration(event, MARGIN);
     }
     
 }

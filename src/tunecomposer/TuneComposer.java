@@ -107,8 +107,8 @@ public class TuneComposer extends Application {
      * Constructor initializes Note sets
      */
     public TuneComposer() {
-        allNotes = new HashSet();
-        selectedNotes = new HashSet();
+        allNotes = new HashSet<Playable>();
+        selectedNotes = new HashSet<Playable>();
     }
 
     /**
@@ -240,9 +240,6 @@ public class TuneComposer extends Application {
             Note note = new Note(event.getX(), event.getY(), instrument);
             
             allNotes.add(note);
-            // gest = new Gesture();
-            // gest.addNote(note);
-            // allNotes.add(gest);
             
             note.getRectangle().forEach((n) -> {
                 notePane.getChildren().add(n);
@@ -277,13 +274,10 @@ public class TuneComposer extends Application {
         if (! control && ! selected) {
             selectAll(false);
             note.setSelected(true);
-            selectedNotes.add(note);
         } else if ( control && ! selected) {
             note.setSelected(true);
-            selectedNotes.add(note);
         } else if (control && selected) {
             note.setSelected(false);
-            selectedNotes.remove(note);
         }
     }
     
@@ -391,8 +385,6 @@ public class TuneComposer extends Application {
         selection.update(event.getX(), event.getY());
 
         allNotes.forEach((note) -> {
-            double horizontal = selectRect.getX() + selectRect.getWidth();
-            double vertical = selectRect.getY() + selectRect.getHeight();
 
             // Thanks to Paul for suggesting the `intersects` method.
             if(selection.getRectangle().intersects(note.getBounds())) {
@@ -411,9 +403,6 @@ public class TuneComposer extends Application {
     private void handleGroup(ActionEvent event) {
         Gesture gest = new Gesture();
         HashSet<Playable> temp = new HashSet<Playable>();
-        // for testing ONLY
-        System.out.println(selectedNotes.size());
-        
         allNotes.forEach((playable) -> {
             if (playable.getSelected()) {
                 gest.addPlayable(playable);
@@ -447,7 +436,6 @@ public class TuneComposer extends Application {
     @FXML
     private void handleUngroup(ActionEvent event) {
         HashSet<Playable> temp = new HashSet<Playable>();
-        //selectedNotes.forEach((playable) -> {
         allNotes.forEach((playable) -> {
             if( playable.getSelected() && ( playable.getClass() == Gesture.class ) ) {
                 allNotes.addAll(((Gesture)playable).getPlayables());
@@ -466,11 +454,13 @@ public class TuneComposer extends Application {
      */
     @FXML
     void handleDelete(ActionEvent event) {
-        ArrayList<Playable> toDelete = new ArrayList();
-        allNotes.forEach((note) -> {
-            if (note.getSelected()) {
-                toDelete.add(note);
-                notePane.getChildren().removeAll(note.getRectangle());
+        ArrayList<Playable> toDelete = new ArrayList<Playable>();
+        allNotes.forEach((playable) -> {
+            if (playable.getSelected()) {
+                toDelete.add(playable);
+                if( playable.getClass() == Gesture.class )
+                    notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
+                notePane.getChildren().removeAll(playable.getRectangle());
             }
         });
         allNotes.removeAll(toDelete);

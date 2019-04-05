@@ -1,14 +1,12 @@
 package tunecomposer;
 
-import java.util.ArrayList;
-
-import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 public class MoveableRect extends Rectangle {
     
     private static final int MARGIN = 5;
+    private static final double RECTHEIGHT = 10;
 
     /**
      * Offsets for dragging Rectangle
@@ -19,13 +17,14 @@ public class MoveableRect extends Rectangle {
     private double x_coord;
     private double y_coord;
     private double rectWidth;
-    private double rectHeight;
 
+    /**
+     * Sets the fields to the current coordinates.
+     */
     public void updateCoordinates() {
         x_coord = getX();
         y_coord = getY();
         rectWidth = getWidth();
-        rectHeight = getHeight();
     }
 
     /**
@@ -57,9 +56,10 @@ public class MoveableRect extends Rectangle {
         double x = event.getX() - xOffset;
         double y = event.getY() - yOffset;
         x_coord = x;
-        y_coord = y - (y % rectHeight);
+        y_coord = y - (y % RECTHEIGHT);
         
-        updateCoordinates();
+        setX(x_coord);
+        setY(y_coord);
     }
     
     /**
@@ -85,6 +85,7 @@ public class MoveableRect extends Rectangle {
     /**
      * While the user is dragging the mouse, change the width of the Rectangle
      * @param event mouse drag
+     * @param margin the minimum width
      */
     public void moveDuration(MouseEvent event, double margin) {
         double tempWidth = event.getX() - x_coord + widthOffset;
@@ -96,10 +97,11 @@ public class MoveableRect extends Rectangle {
      * When the user stops dragging the mouse, set Rectangle width
      * to final width
      * @param event 
+     * @param margin is minimum width
      */
-    public void stopDuration(MouseEvent event) {
+    public void stopDuration(MouseEvent event, double margin) {
         rectWidth = event.getX() - x_coord + widthOffset;
-        if (rectWidth < MARGIN) rectWidth = MARGIN;
+        if (rectWidth < margin) rectWidth = margin;
         
         setWidth(rectWidth);
     }

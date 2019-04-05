@@ -6,7 +6,6 @@ import java.util.HashSet;
 
 import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 
 
 public class Gesture implements Playable {
@@ -15,7 +14,6 @@ public class Gesture implements Playable {
 
     private boolean isSelected;
 
-    //TODO: use Rectangle!!!
     private MoveableRect outerRect;
 
     private double upperXBound;
@@ -26,27 +24,33 @@ public class Gesture implements Playable {
 
     private double lowerYBound;
 
+    private double margin;
+
     public Gesture() {
         upperXBound = 0;
         upperYBound = 0;
         lowerXBound = 3000;
         lowerYBound = 3000;
+        margin = 5;
         allPlayables = new HashSet<Playable>();
         isSelected = true;
     }
 
-    private double getMargin() {
+    private void setMargin() {
         double max = 0;
         for (Playable play : allPlayables) {
-            max = Math.max(play.getBounds().getMaxX(), max);
+            max = Math.max(play.getBounds().getMinX(), max);
         }
-        return max - lowerXBound;
+        margin = max + 5 - outerRect.getX();
+    }
+
+    private double getMargin() {
+        return margin;
     }
 
     public void addPlayable(Playable play) {
         allPlayables.add(play);
         upperXBound = Math.max(play.getBounds().getMaxX(), upperXBound);
-        System.out.println(play.getBounds().getMaxX());
         upperYBound = Math.max(play.getBounds().getMaxY(), upperYBound);
         lowerXBound = Math.min(play.getBounds().getMinX(), lowerXBound);
         lowerYBound = Math.min(play.getBounds().getMinY(), lowerYBound);
@@ -59,11 +63,10 @@ public class Gesture implements Playable {
         outerRect.setY(lowerYBound); 
         outerRect.setWidth(upperXBound - lowerXBound);
         outerRect.setHeight(upperYBound - lowerYBound);
-
         outerRect.updateCoordinates();
-
         outerRect.getStyleClass().add("selected-gesture");
         outerRect.setMouseTransparent(false);
+        setMargin();
     }
 
     public MoveableRect getOuterRectangle() {
@@ -147,6 +150,7 @@ public class Gesture implements Playable {
             n.onMouseDraggedLastFive(event);
         });
     }
+
     public void onMouseDragged(MouseEvent event){
         
         outerRect.moveNote(event);
@@ -164,9 +168,10 @@ public class Gesture implements Playable {
             n.onMouseReleased(event);
         });
     }
+    
     public void onMouseReleasedLastFive(MouseEvent event){
         
-        outerRect.stopDuration(event);
+        outerRect.stopDuration(event, getMargin());
 
         allPlayables.forEach((n) -> {
             n.onMouseReleasedLastFive(event);

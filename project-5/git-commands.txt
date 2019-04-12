@@ -1,0 +1,53 @@
+Here's how to use git in the terminal
+
+To clone directory:
+Navigate to desired directory. Then:
+
+git clone https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan.git .
+
+To open files in VSCode and run TuneComposer:
+
+cd ../route-to-cloned-dir/project-5-teamjuam/src/
+git checkout master
+git pull
+code .
+javac tunecomposer/*.java
+java tunecomposer.TuneComposer
+
+
+To switch branches:
+  If creating a new branch:
+
+git checkout -b branchname
+
+  If switching to already created branch:
+
+git checkout branchname
+
+
+To commit to GitHub from Terminal:
+
+git checkout branchname
+git add tunecomposer/*
+git commit -m "commit message"
+git push
+
+Then go to GitHub and create a pull request. 
+If there is a merge conflict:
+
+git checkout master
+git pull
+git checkout branchname
+git merge master
+
+Then fix merge conflicts in VSCode and commit changes:
+
+git add tunecomposer/*
+git commit -m "commit message"
+git push
+
+Then someone can merge the pull request. 
+Remember to pull from master again once pull request is merged!
+
+git checkout master
+git pull

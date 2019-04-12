@@ -4,7 +4,6 @@
 package tunecomposer;
 
 import java.io.IOException;
-import java.util.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -198,7 +196,7 @@ public class TuneComposer extends Application {
     /**
      * Automatically-called when user drags mouse. Stops playing if composition
      * is playing, and starts dragging selection rectangle if mouse click is
-     * not on a note Rectangle.
+     * not on a Playable note.
      * @param event mouse click
      */
     public void startDrag(MouseEvent event) {
@@ -213,7 +211,7 @@ public class TuneComposer extends Application {
     /**
      * Automatically-called when user drags mouse. Stops playing if composition
      * is playing, and continues to drag selection rectangle if initial mouse 
-     * click was not on a note Rectangle.
+     * click was not on a Playable note.
      * @param event mouse click
      */
     public void continueDrag(MouseEvent event) {
@@ -224,11 +222,19 @@ public class TuneComposer extends Application {
         }
     }
 
+    /**
+    * Handles all the notes grouped together as a Gesture.
+    * @param event
+    */
     @FXML
     private void handleGroup(ActionEvent event) {
         NoteHandler.group(notePane);
     }
 
+    /**
+    * Removes all playable Gestures as a group.
+    * @param event
+    */
     @FXML
     private void handleUngroup(ActionEvent event) {
         NoteHandler.ungroup(notePane);

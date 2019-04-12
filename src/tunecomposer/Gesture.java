@@ -10,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 
 public class Gesture implements Playable {
 
+    /**
+    * Fields for the Gesture class.
+    */
     private HashSet<Playable> allPlayables;
 
     private boolean isSelected;
@@ -26,6 +29,9 @@ public class Gesture implements Playable {
 
     private double margin;
 
+    /**
+    * Constructs a Gesture.
+    */
     public Gesture() {
         upperXBound = 0;
         upperYBound = 0;
@@ -36,6 +42,9 @@ public class Gesture implements Playable {
         isSelected = true;
     }
 
+    /**
+    * Sets the margin for the Gesture.
+    */
     private void setMargin() {
         double max = 0;
         for (Playable play : allPlayables) {
@@ -44,10 +53,17 @@ public class Gesture implements Playable {
         margin = max + 5 - outerRect.getX();
     }
 
+    /**
+    * Gets the margin value.
+    * @return margin 
+    */
     private double getMargin() {
         return margin;
     }
 
+    /**
+    * Gets bounds and adds to Playable.
+    */
     public void addPlayable(Playable play) {
         allPlayables.add(play);
         upperXBound = Math.max(play.getBounds().getMaxX(), upperXBound);
@@ -56,6 +72,9 @@ public class Gesture implements Playable {
         lowerYBound = Math.min(play.getBounds().getMinY(), lowerYBound);
     }
 
+    /**
+    * Creates the rectangle that groups the Gesture. 
+    */
     public void createRectangle() {
         outerRect = new MoveableRect();
 
@@ -83,30 +102,53 @@ public class Gesture implements Playable {
         setMargin();
     }
 
+    /**
+    * Gets the outer rectangle for the moveable rectangle.
+    * @return outer rectanlge 
+    */
     public MoveableRect getOuterRectangle() {
         return outerRect;
     }
 
+    /**
+    * Gets all the Playale values from the HashSet.
+    * @return all playables
+    */
     public HashSet<Playable> getPlayables() {
         return allPlayables; 
     }
 
+    /**
+    * Gets bounds from the outer rectangle.
+    * @return outer rectangle bounds
+    */
     public Bounds getBounds() {
         return outerRect.getLayoutBounds();
     }
 
+    /**
+    * Passes all playables into the schedule method
+    * so that they can play.
+    */
     public void schedule() {
         allPlayables.forEach((n) -> {
             n.schedule();
         });
     }
 
+    /**
+    * Updates each note.
+    */ 
     public void updateLastNote(){
         allPlayables.forEach((n) -> {
             n.updateLastNote();
         });
     }
 
+    /**
+    * Adds each playable into an array.
+    * @return array
+    */
     public ArrayList<MoveableRect> getRectangle(){
         ArrayList<MoveableRect> arr = new ArrayList<MoveableRect>();
         allPlayables.forEach((n) -> {
@@ -115,10 +157,17 @@ public class Gesture implements Playable {
         return arr;
     }
 
+    /**
+    * Checks if playable is selected.
+    * @return boolean 
+    */
     public boolean getSelected(){
         return isSelected;
     }
 
+    /**
+    * Selects gestures.
+    */
     public void setSelected(boolean selected){
         isSelected = selected;
         if (selected) {
@@ -134,10 +183,18 @@ public class Gesture implements Playable {
         });
     }
 
+    /**
+    * Returns true/false within the last five of the rectangle.
+    * @param event 
+    */
     public boolean inLastFive(MouseEvent event){
         return outerRect.inLastFive(event);
     }
     
+    /**
+    * Sets the outer rectangle in relationship to the mouse press from user.
+    * @param event mouse press
+    */
     public void onMousePressed(MouseEvent event){
 
         outerRect.setMovingCoords(event);
@@ -147,6 +204,11 @@ public class Gesture implements Playable {
         });
     }
 
+    /**
+    * Sets the rectangle around the gesture in relationship to
+    * the mouse press from the user.
+    * @param event mouse press
+    */
     public void onMousePressedLastFive(MouseEvent event){
         
         outerRect.setMovingDuration(event); 
@@ -156,6 +218,11 @@ public class Gesture implements Playable {
         });
     }
     
+    /**
+    * Sets the rectangle around the gesture in relationship to
+    * the mouse drag from the user.
+    * @param event mouse drag
+    */
     public void onMouseDraggedLastFive(MouseEvent event){
 
         outerRect.moveDuration(event, getMargin());
@@ -165,6 +232,11 @@ public class Gesture implements Playable {
         });
     }
 
+    /**
+    * Sets the rectangle in relationship to
+    * the mouse drag from the user.
+    * @param event mouse drag
+    */
     public void onMouseDragged(MouseEvent event){
         
         outerRect.moveNote(event);
@@ -173,7 +245,12 @@ public class Gesture implements Playable {
             n.onMouseDragged(event);
         });
     }
-
+    
+    /**
+    * Sets the rectangle in relationship to
+    * the mouse release from the user.
+    * @param event mouse drag
+    */
     public void onMouseReleased(MouseEvent event){
         
         outerRect.stopMoving(event);
@@ -183,6 +260,11 @@ public class Gesture implements Playable {
         });
     }
     
+    /**
+    * Sets the rectangle to a gesture in relationship to
+    * the mouse release from the user.
+    * @param event mouse drag
+    */
     public void onMouseReleasedLastFive(MouseEvent event){
         
         outerRect.stopDuration(event, getMargin());

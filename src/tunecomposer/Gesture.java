@@ -66,6 +66,20 @@ public class Gesture implements Playable {
         outerRect.updateCoordinates();
         outerRect.getStyleClass().add("selected-gesture");
         outerRect.setMouseTransparent(false);
+
+        outerRect.setOnMousePressed((MouseEvent pressedEvent) -> {
+            NoteHandler.handleNoteClick(pressedEvent, this);
+            NoteHandler.handleNotePress(pressedEvent, this);
+        }); 
+
+        outerRect.setOnMouseDragged((MouseEvent dragEvent) -> {
+            NoteHandler.handleNoteDrag(dragEvent);
+        }); 
+
+        outerRect.setOnMouseReleased((MouseEvent releaseEvent) -> {
+            NoteHandler.handleNoteStopDragging(releaseEvent);
+        });
+
         setMargin();
     }
 

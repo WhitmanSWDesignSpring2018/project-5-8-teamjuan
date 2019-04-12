@@ -5,8 +5,11 @@
  */
 package tunecomposer;
 
+import javafx.scene.control.RadioButton;
+
 /**
  * Enumerates the instruments playable in the TuneComposer application
+ * 
  * @author Ian Hawkins, Ian Stewart, Melissa Kohl, Angie Mead
  */
 public enum Instrument {
@@ -35,6 +38,26 @@ public enum Instrument {
                 case VIOLIN:        return "violin";
                 case FRENCH_HORN:   return "french-horn";
                 default: throw new IllegalArgumentException();
+            }
+        }
+
+        /**
+         * Get the instrument currently selected in the sidebar.
+         * @return the selected instrument
+         */
+        public static Instrument getInstrument(RadioButton selectedButton) {
+            String instrument = selectedButton.getText();
+            switch(instrument) {
+                case "Piano":           return Instrument.PIANO;
+                case "Harpsichord":     return Instrument.HARPSICHORD;
+                case "Marimba":         return Instrument.MARIMBA;
+                case "Church Organ":    return Instrument.CHURCH_ORGAN;
+                case "Accordion":       return Instrument.ACCORDION;
+                case "Guitar":          return Instrument.GUITAR;
+                case "Violin":          return Instrument.VIOLIN;
+                case "French Horn":     return Instrument.FRENCH_HORN;
+                default:
+                    throw new IllegalArgumentException("Unrecognized Instrument");
             }
         }
     }

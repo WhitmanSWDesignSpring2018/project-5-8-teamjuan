@@ -3,20 +3,29 @@
  */
 package tunecomposer;
 
+import java.util.HashSet;
+
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 /**
  * A unique rectangle drawn when selecting notes in an area.
+ * 
  * @author Ian Hawkins, Angie Mead
  */
 public class SelectionArea {
-    
+
     /**
      * Fields for SelectionArea Rectangle
      */
     private final Rectangle rect;
     private double originX;
     private double originY;
+
+    /**
+     * List of notes being selected by the selection area
+     */
+    public static HashSet<Playable> selectedNotes = new HashSet<Playable>();
     
     /**
      * Construct SelectionArea object
@@ -25,13 +34,48 @@ public class SelectionArea {
     public SelectionArea(Rectangle newRect) {
         rect = newRect;
     }
+
+    /**
+     * Move lower-right corner of selection rectangle with the dragging mouse
+     * @param event mouse drag
+     */
+    public void handleSelectionStartDrag(MouseEvent event) {
+        
+        startRectangle(event.getX(), event.getY());
+
+        if(!event.isControlDown()){
+            NoteHandler.selectAll(false);
+        }
+    }
+
+    /**
+     * Continue to update notes throughout drag. Called from FXML
+     * @param event Current value of MouseEvent
+     */
+    public void handleSelectionContinueDrag(MouseEvent event) {
+        update(event.getX(), event.getY());
+
+        NoteHandler.allNotes.forEach((note) -> {
+
+            // Thanks to Paul for suggesting the `intersects` method.
+            if(getRectangle().intersects(note.getBounds())) {
+                selectedNotes.add(note);
+                note.setSelected(true);
+            } else {
+                if(selectedNotes.contains(note)) {
+                    note.setSelected(false);
+                    selectedNotes.remove(note); 
+                }
+            }
+        });
+    }
     
     /**
      * Begin to draw selection box rectangle
      * @param initX starting X coordinate
      * @param initY starting Y coordinate
      */
-    public void startRectangle(double initX, double initY) {
+    private void startRectangle(double initX, double initY) {
         rect.setX(initX);
         rect.setY(initY);
         originX = initX;

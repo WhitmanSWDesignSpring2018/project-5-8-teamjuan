@@ -16,25 +16,7 @@ import javafx.scene.input.MouseEvent;
  * @author Ian Hawkins, Madi Crowley, Ian Stewart, Melissa Kohl
  */
 public class Note implements Playable {
-    
-    /**
-     * Constants for playing note in MidiPlayer
-     */
-    private static final int VOLUME = 127;
-    private static final int MAX_PITCH = 128;
-    private static final int DEFAULT_DURATION = 100;
-    private static final int TRACK = 0;
-    
-    /**
-     * Constants for Rectangle in composition panel
-     */
-    private static final int RECTHEIGHT = 10;
-    private static final int MARGIN = 5;
-    
-    /**
-     * End time for MidiPlayer
-     */
-    public static double lastNote = 0;
+
     
     /**
      * Note fields for creating rectangle and playing note
@@ -64,32 +46,47 @@ public class Note implements Playable {
     public Note(double x, double y, Instrument inst) {
 
         startTime = (int) x;
-        pitch = MAX_PITCH - (int) y / RECTHEIGHT;
+        pitch = NoteHandler.MAX_PITCH - (int) y / NoteHandler.RECTHEIGHT;
         
         x_coord = x;
-        y_coord = y - ( y % RECTHEIGHT);
+        y_coord = y - ( y % NoteHandler.RECTHEIGHT);
         
         instrument = inst;
-        rectWidth = DEFAULT_DURATION;
+        rectWidth = NoteHandler.DEFAULT_DURATION;
         
         noteRect = new MoveableRect();
         noteRect.setX(x_coord);
         noteRect.setY(y_coord);
         noteRect.setWidth(rectWidth);
-        noteRect.setHeight(RECTHEIGHT);
+        noteRect.setHeight(NoteHandler.RECTHEIGHT);
         noteRect.updateCoordinates();
         noteRect.getStyleClass().addAll("selected", instrument.toString());
         noteRect.setMouseTransparent(false);
+
+        noteRect.setOnMousePressed((MouseEvent pressedEvent) -> {
+            NoteHandler.handleNoteClick(pressedEvent, this);
+            NoteHandler.handleNotePress(pressedEvent, this);
+        }); 
+
+        noteRect.setOnMouseDragged((MouseEvent dragEvent) -> {
+            NoteHandler.handleNoteDrag(dragEvent);
+        }); 
+
+        noteRect.setOnMouseReleased((MouseEvent releaseEvent) -> {
+            NoteHandler.handleNoteStopDragging(releaseEvent);
+        });
         
         isSelected = true;
     }
+
+
 
     /**
      * Update the last note so we know when to stop the player and red line
      */
     public void updateLastNote() {
-        if (x_coord + rectWidth > lastNote) {
-            lastNote = x_coord + rectWidth;
+        if (x_coord + rectWidth > NoteHandler.lastNote) {
+            NoteHandler.lastNote = x_coord + rectWidth;
         }
     }
 
@@ -115,8 +112,8 @@ public class Note implements Playable {
      * Adds this Note to the MidiPlayer
      */
     public void schedule() {
-        TuneComposer.PLAYER.addNote(pitch, VOLUME, startTime, (int)rectWidth, 
-                                    instrument.ordinal(), TRACK);
+        TuneComposer.PLAYER.addNote(pitch, NoteHandler.VOLUME, startTime, (int)rectWidth, 
+                                    instrument.ordinal(), NoteHandler.TRACK);
     }
     
     /**
@@ -172,10 +169,10 @@ public class Note implements Playable {
         noteRect.stopMoving(event);
         
         startTime = (int) noteRect.getX();
-        pitch = MAX_PITCH - (int) noteRect.getY() / RECTHEIGHT;
+        pitch = NoteHandler.MAX_PITCH - (int) noteRect.getY() / NoteHandler.RECTHEIGHT;
         
         x_coord = noteRect.getX();
-        y_coord = noteRect.getY() - (noteRect.getY() % RECTHEIGHT);
+        y_coord = noteRect.getY() - (noteRect.getY() % NoteHandler.RECTHEIGHT);
         
     }
     
@@ -204,7 +201,7 @@ public class Note implements Playable {
      * @param event mouse drag
      */
     public void onMouseDraggedLastFive(MouseEvent event) {
-        noteRect.moveDuration(event, MARGIN);
+        noteRect.moveDuration(event, NoteHandler.MARGIN);
     }
     
     /**
@@ -213,7 +210,7 @@ public class Note implements Playable {
      * @param event 
      */
     public void onMouseReleasedLastFive(MouseEvent event) {
-        noteRect.stopDuration(event, MARGIN);
+        noteRect.stopDuration(event, NoteHandler.MARGIN);
     }
     
 }

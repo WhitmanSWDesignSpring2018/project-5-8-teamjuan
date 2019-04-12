@@ -4,7 +4,6 @@
 package tunecomposer;
 
 import java.io.IOException;
-import java.util.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -40,11 +38,6 @@ public class TuneComposer extends Application {
     private final int[] timbreList = new int[] {0, 6, 12, 19, 21, 24, 40, 60};
 
     /**
-     * The Playble set of all notes, to be played later.
-     */
-    private static Set<Playable> allNotes;
-
-    /**
      * A line moves from left to right across the main pane. It crosses each
      * note as that note is played.
      */
@@ -53,14 +46,7 @@ public class TuneComposer extends Application {
     /**
      * Boolean flags to control flow when user clicks in composition panel
      */
-    private boolean clickInPane = true;
-    private boolean changeDuration = false;
     private boolean isDragSelecting = false;
-    
-    /**
-     * List of Playable selected notes being selected by the selection area
-     */
-    private Set<Playable> selectedNotes;
 
     /**
      * The background of the application.
@@ -104,19 +90,11 @@ public class TuneComposer extends Application {
     private ToggleGroup instrumentToggle;
 
     /**
-     * Constructor initializes Note sets
-     */
-    public TuneComposer() {
-        allNotes = new HashSet<Playable>();
-        selectedNotes = new HashSet<Playable>();
-    }
-
-    /**
      * Add the given note to the set of all notes, to be played later.
      * @param note note added to composition
      */
     public static void addNote(Note note) {
-        allNotes.add(note);
+        NoteHandler.allNotes.add(note);
     }
 
     /**
@@ -129,13 +107,13 @@ public class TuneComposer extends Application {
         for(int i=0; i<8; i++){
             PLAYER.addMidiEvent(ShortMessage.PROGRAM_CHANGE + i, timbreList[i], 0, 0, 0);
         }
-        allNotes.forEach((note) -> {
+        NoteHandler.allNotes.forEach((note) -> {
             note.schedule();
             note.updateLastNote();
         });
 
         PLAYER.play();
-        playLine.play(Note.lastNote);
+        playLine.play(NoteHandler.lastNote);
     }
 
     /**
@@ -198,141 +176,21 @@ public class TuneComposer extends Application {
     }
 
     /**
-     * Get the instrument currently selected in the sidebar.
-     * @return the selected instrument
-     */
-    private Instrument getInstrument() {
-        RadioButton selectedButton = (RadioButton)instrumentToggle.getSelectedToggle();
-        String instrument = selectedButton.getText();
-        switch(instrument) {
-            case "Piano":           return Instrument.PIANO;
-            case "Harpsichord":     return Instrument.HARPSICHORD;
-            case "Marimba":         return Instrument.MARIMBA;
-            case "Church Organ":    return Instrument.CHURCH_ORGAN;
-            case "Accordion":       return Instrument.ACCORDION;
-            case "Guitar":          return Instrument.GUITAR;
-            case "Violin":          return Instrument.VIOLIN;
-            case "French Horn":     return Instrument.FRENCH_HORN;
-            default:
-                throw new IllegalArgumentException("Unrecognized Instrument");
-        }
-    }
-
-    /**
      * Construct a note from a click. Called via FXML.
      * @param event a mouse click
      */
     public void handleClick(MouseEvent event) {
         if (playLine.isPlaying()) {
             stopPlaying();
-        }
-        else if (isDragSelecting){
+        } else if (isDragSelecting){
             isDragSelecting = false;
             selection.endRectangle();
-            selectedNotes.clear();
+            // TODO: CHECK IF THIS IS NECESSARY
+            SelectionArea.selectedNotes.clear();
+        } else if (NoteHandler.clickInPane) {
+            NoteHandler.handleClick(event, notePane, instrumentToggle);
         }
-        else if (clickInPane) {
-            if (! event.isControlDown()) {
-                selectAll(false);
-            }
-            
-            Instrument instrument = getInstrument();
-            Note note = new Note(event.getX(), event.getY(), instrument);
-            
-            allNotes.add(note);
-            
-            note.getRectangle().forEach((n) -> {
-                notePane.getChildren().add(n);
-
-                n.setOnMousePressed((MouseEvent pressedEvent) -> {
-                    handleNoteClick(pressedEvent, note);
-                    handleNotePress(pressedEvent, note);
-                }); 
-
-                n.setOnMouseDragged((MouseEvent dragEvent) -> {
-                    handleNoteDrag(dragEvent);
-                }); 
-
-                n.setOnMouseReleased((MouseEvent releaseEvent) -> {
-                    handleNoteStopDragging(releaseEvent);
-                });
-            });
-        }
-        clickInPane = true;
-    }
-    
-    /**
-     * When user presses on a note, set the notes to be selected or 
-     * unselected accordingly.
-     * @param event mouse click
-     * @param note note Playable that was clicked
-     */
-    private void handleNoteClick(MouseEvent event, Playable note) {
-        clickInPane = false;
-        boolean control = event.isControlDown();
-        boolean selected = note.getSelected();
-        if (! control && ! selected) {
-            selectAll(false);
-            note.setSelected(true);
-        } else if ( control && ! selected) {
-            note.setSelected(true);
-        } else if (control && selected) {
-            note.setSelected(false);
-        }
-    }
-    
-    /**
-     * When user presses on a note, set offsets in each Note in case the user
-     * drags the mouse.
-     * @param event mouse click
-     * @param note note Playable that was clicked
-     */
-    private void handleNotePress(MouseEvent event, Playable note) {
-        changeDuration = note.inLastFive(event);
-        allNotes.forEach((n) -> {
-            if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMousePressedLastFive(event);
-                } else {
-                    n.onMousePressed(event);
-                }
-            }
-        });
-    }
-    
-    /**
-     * When the user drags the mouse on a note Rectangle, move all selected
-     * notes
-     * @param event mouse drag
-     */
-    private void handleNoteDrag(MouseEvent event) {
-        allNotes.forEach((n) -> {
-            if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMouseDraggedLastFive(event);
-                } else {
-                    n.onMouseDragged(event);
-                }
-            }
-        });
-    }
-    
-    /**
-     * When the user stops dragging the mouse, stop moving the selected notes
-     * @param event mouse click
-     */
-    private void handleNoteStopDragging(MouseEvent event) {
-        clickInPane = false;
-        allNotes.forEach((n) -> {
-            if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMouseReleasedLastFive(event);
-                } else {
-                    n.onMouseReleased(event);
-                }
-            }
-        });
-        changeDuration = false;
+        NoteHandler.clickInPane = true;
     }
 
     /**
@@ -344,8 +202,9 @@ public class TuneComposer extends Application {
     public void startDrag(MouseEvent event) {
         if (playLine.isPlaying()) {
             stopPlaying();
-        } else if (clickInPane) {
-            handleSelectionStartDrag(event);
+        } else if (NoteHandler.clickInPane) {
+            selection.handleSelectionStartDrag(event);
+            isDragSelecting = true;
         }
     }
 
@@ -358,45 +217,9 @@ public class TuneComposer extends Application {
     public void continueDrag(MouseEvent event) {
         if (playLine.isPlaying()) {
             stopPlaying();
-        } else if (clickInPane) {
-            handleSelectionContinueDrag(event);
+        } else if (NoteHandler.clickInPane) {
+            selection.handleSelectionContinueDrag(event);
         }
-    }
-    
-    /**
-     * Move lower-right corner of selection rectangle with the dragging mouse
-     * @param event mouse drag
-     */
-    private void handleSelectionStartDrag(MouseEvent event) {
-        isDragSelecting = true;
-        
-        selection.startRectangle(event.getX(), event.getY());
-
-        if(!event.isControlDown()){
-            selectAll(false);
-        }
-    }
-    
-    /**
-     * Continue to update notes throughout drag. Called from FXML
-     * @param event Current value of MouseEvent
-     */
-    private void handleSelectionContinueDrag(MouseEvent event) {
-        selection.update(event.getX(), event.getY());
-
-        allNotes.forEach((note) -> {
-
-            // Thanks to Paul for suggesting the `intersects` method.
-            if(selection.getRectangle().intersects(note.getBounds())) {
-                selectedNotes.add(note);
-                note.setSelected(true);
-            } else {
-                if(selectedNotes.contains(note)) {
-                    note.setSelected(false);
-                    selectedNotes.remove(note); 
-                }
-            }
-        });
     }
 
     /**
@@ -405,36 +228,7 @@ public class TuneComposer extends Application {
     */
     @FXML
     private void handleGroup(ActionEvent event) {
-        Gesture gest = new Gesture();
-        HashSet<Playable> temp = new HashSet<Playable>();
-        allNotes.forEach((playable) -> {
-            if (playable.getSelected()) {
-                gest.addPlayable(playable);
-                temp.add(playable);
-            }
-        });
-
-        allNotes.add(gest);
-        allNotes.removeAll(temp);
-        gest.createRectangle();
-        notePane.getChildren().add(gest.getOuterRectangle());
-        MoveableRect n = gest.getOuterRectangle();
-
-
-        n.setOnMousePressed((MouseEvent pressedEvent) -> {
-            handleNoteClick(pressedEvent, gest);
-            handleNotePress(pressedEvent, gest);
-        }); 
-
-        n.setOnMouseDragged((MouseEvent dragEvent) -> {
-            handleNoteDrag(dragEvent);
-        }); 
-
-        n.setOnMouseReleased((MouseEvent releaseEvent) -> {
-            handleNoteStopDragging(releaseEvent);
-        });
-
-        
+        NoteHandler.group(notePane);
     }
 
     /**
@@ -443,17 +237,7 @@ public class TuneComposer extends Application {
     */
     @FXML
     private void handleUngroup(ActionEvent event) {
-        HashSet<Playable> temp = new HashSet<Playable>();
-        allNotes.forEach((playable) -> {
-            if( playable.getSelected() && ( playable.getClass() == Gesture.class ) ) {
-                allNotes.addAll(((Gesture)playable).getPlayables());
-                allNotes.remove(playable);
-                temp.addAll(((Gesture)playable).getPlayables());
-                selectedNotes.remove(playable);
-                notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
-            }
-        });
-        selectedNotes.addAll(temp);
+        NoteHandler.ungroup(notePane);
     }
     
     /**
@@ -461,17 +245,8 @@ public class TuneComposer extends Application {
      * @param event unused
      */
     @FXML
-    void handleDelete(ActionEvent event) {
-        ArrayList<Playable> toDelete = new ArrayList<Playable>();
-        allNotes.forEach((playable) -> {
-            if (playable.getSelected()) {
-                toDelete.add(playable);
-                if( playable.getClass() == Gesture.class )
-                    notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
-                notePane.getChildren().removeAll(playable.getRectangle());
-            }
-        });
-        allNotes.removeAll(toDelete);
+    private void handleDelete(ActionEvent event) {
+        NoteHandler.delete(notePane);
     }
     
     /**
@@ -479,25 +254,11 @@ public class TuneComposer extends Application {
      * @param event unused
      */
     @FXML
-    void handleSelectAll(ActionEvent event) {
-        selectAll(true);
+    private void handleSelectAll(ActionEvent event) {
+        NoteHandler.selectAll(true);
     }
     
-    /**
-     * Sets selection values for all of the notes
-     * @param selected true to select all
-     */
-    private void selectAll(boolean selected) {
-        allNotes.forEach((note) -> {
-            note.setSelected(selected);
-            if(selected) {
-                selectedNotes.add(note);
-            }
-            else {
-                selectedNotes.remove(note);
-            }
-        });
-    }
+    
 
     /**
      * Construct the scene and start the application.

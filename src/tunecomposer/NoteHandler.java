@@ -32,21 +32,21 @@ public class NoteHandler {
      */
     public static double lastNote = 0;
 
-    public static HashSet<Playable> allNotes = new HashSet<Playable>();
+    protected static HashSet<Playable> allPlayables = new HashSet<Playable>();
 
         /**
      * Sets selection values for all of the notes
      * @param selected true to select all
      */
     public static void selectAll(boolean selected) {
-        allNotes.forEach((note) -> {
+        allPlayables.forEach((note) -> {
             note.setSelected(selected);
         });
     }
 
     public static void delete(Pane notePane) {
         ArrayList<Playable> toDelete = new ArrayList<Playable>();
-        allNotes.forEach((playable) -> {
+        allPlayables.forEach((playable) -> {
             if (playable.getSelected()) {
                 toDelete.add(playable);
                 if( playable.getClass() == Gesture.class )
@@ -54,31 +54,33 @@ public class NoteHandler {
                 notePane.getChildren().removeAll(playable.getRectangle());
             }
         });
-        allNotes.removeAll(toDelete);
+        allPlayables.removeAll(toDelete);
     }
 
     public static void group(Pane notePane) {
+        HistoryManager.addEvent();
         Gesture gest = new Gesture();
         HashSet<Playable> temp = new HashSet<Playable>();
-        NoteHandler.allNotes.forEach((playable) -> {
+        NoteHandler.allPlayables.forEach((playable) -> {
             if (playable.getSelected()) {
                 gest.addPlayable(playable);
                 temp.add(playable);
             }
         });
 
-        NoteHandler.allNotes.add(gest);
-        NoteHandler.allNotes.removeAll(temp);
+        NoteHandler.allPlayables.add(gest);
+        NoteHandler.allPlayables.removeAll(temp);
         gest.createRectangle();
         notePane.getChildren().add(gest.getOuterRectangle());
     }
 
     public static void ungroup(Pane notePane) {
+        HistoryManager.addEvent();
         HashSet<Playable> temp = new HashSet<Playable>();
-        NoteHandler.allNotes.forEach((playable) -> {
+        NoteHandler.allPlayables.forEach((playable) -> {
             if( playable.getSelected() && ( playable.getClass() == Gesture.class ) ) {
-                NoteHandler.allNotes.addAll(((Gesture)playable).getPlayables());
-                NoteHandler.allNotes.remove(playable);
+                NoteHandler.allPlayables.addAll(((Gesture)playable).getPlayables());
+                NoteHandler.allPlayables.remove(playable);
                 temp.addAll(((Gesture)playable).getPlayables());
                 notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
             }
@@ -86,6 +88,7 @@ public class NoteHandler {
     }
 
     public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle) {
+        HistoryManager.addEvent();
         if (! event.isControlDown()) {
             NoteHandler.selectAll(false);
         }
@@ -94,7 +97,7 @@ public class NoteHandler {
         Instrument instrument = Instrument.getInstrument(selectedButton);
         Note note = new Note(event.getX(), event.getY(), instrument);
         
-        NoteHandler.allNotes.add(note);
+        NoteHandler.allPlayables.add(note);
         
         note.getRectangle().forEach((n) -> {
             notePane.getChildren().add(n);
@@ -129,7 +132,7 @@ public class NoteHandler {
      */
     public static void handleNotePress(MouseEvent event, Playable note) {
         changeDuration = note.inLastFive(event);
-        NoteHandler.allNotes.forEach((n) -> {
+        NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
                     n.onMousePressedLastFive(event);
@@ -146,7 +149,7 @@ public class NoteHandler {
      * @param event mouse drag
      */
     public static void handleNoteDrag(MouseEvent event) {
-        NoteHandler.allNotes.forEach((n) -> {
+        NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
                     n.onMouseDraggedLastFive(event);
@@ -163,7 +166,7 @@ public class NoteHandler {
      */
     public static void handleNoteStopDragging(MouseEvent event) {
         clickInPane = false;
-        NoteHandler.allNotes.forEach((n) -> {
+        NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
                     n.onMouseReleasedLastFive(event);

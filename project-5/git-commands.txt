@@ -3,7 +3,7 @@ Here's how to use git in the terminal
 To clone directory:
 Navigate to desired directory. Then:
 
-git clone https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan.git .
+git clone https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan.git
 
 To open files in VSCode and run TuneComposer:
 

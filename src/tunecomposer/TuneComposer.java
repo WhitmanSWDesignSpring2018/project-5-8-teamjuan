@@ -105,14 +105,6 @@ public class TuneComposer extends Application {
     private MenuItem stopButton; 
 
     /**
-     * Add the given note to the set of all notes, to be played later.
-     * @param note note added to composition
-     */
-    public static void addNote(Note note) {
-        NoteHandler.allNotes.add(note);
-    }
-
-    /**
      * Plays notes that have been added.
      * Called when the Play button is clicked.
      */
@@ -122,7 +114,7 @@ public class TuneComposer extends Application {
         for(int i=0; i<8; i++){
             PLAYER.addMidiEvent(ShortMessage.PROGRAM_CHANGE + i, timbreList[i], 0, 0, 0);
         }
-        NoteHandler.allNotes.forEach((note) -> {
+        NoteHandler.allPlayables.forEach((note) -> {
             note.schedule();
             note.updateLastNote();
         });
@@ -167,6 +159,16 @@ public class TuneComposer extends Application {
     @FXML
     protected void handleExitMenuItemAction(ActionEvent event) {
         System.exit(0);
+    }
+
+    @FXML
+    protected void handleUndo(ActionEvent event) {
+        HistoryManager.undo(notePane);
+    }
+
+    @FXML
+    protected void handleRedo(ActionEvent event) {
+        HistoryManager.redo(notePane);
     }
 
     /**

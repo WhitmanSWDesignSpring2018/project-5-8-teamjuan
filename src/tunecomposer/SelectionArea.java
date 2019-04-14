@@ -55,7 +55,7 @@ public class SelectionArea {
     public void handleSelectionContinueDrag(MouseEvent event) {
         update(event.getX(), event.getY());
 
-        NoteHandler.allNotes.forEach((note) -> {
+        NoteHandler.allPlayables.forEach((note) -> {
 
             // Thanks to Paul for suggesting the `intersects` method.
             if(getRectangle().intersects(note.getBounds())) {

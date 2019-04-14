@@ -95,14 +95,14 @@ public class TuneComposer extends Application {
      * depending on what is present in the Pane.
      */
     @FXML
-    private MenuItem undo;
-    private MenuItem redo;
-    private MenuItem group;
-    private MenuItem ungroup;
-    private MenuItem selectAll;
-    private MenuItem delete; 
-    private MenuItem play;
-    private MenuItem stop; 
+    private MenuItem undoButton;
+    private MenuItem redoButton;
+    private MenuItem groupButton;
+    private MenuItem ungroupButton;
+    private MenuItem selectAllButton;
+    private MenuItem deleteButton; 
+    private MenuItem playButton;
+    private MenuItem stopButton; 
 
     /**
      * Add the given note to the set of all notes, to be played later.
@@ -217,6 +217,7 @@ public class TuneComposer extends Application {
     public void startDrag(MouseEvent event) {
         if (playLine.isPlaying()) {
             stopPlaying();
+            playButton.setDisable(true);
         } else if (NoteHandler.clickInPane) {
             selection.handleSelectionStartDrag(event);
             isDragSelecting = true;

@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -88,6 +89,20 @@ public class TuneComposer extends Application {
      */
     @FXML
     private ToggleGroup instrumentToggle;
+    
+    /**
+     * A group of menu buttons that can be enabled/disabled
+     * depending on what is present in the Pane.
+     */
+    @FXML
+    private MenuItem undo;
+    private MenuItem redo;
+    private MenuItem group;
+    private MenuItem ungroup;
+    private MenuItem selectAll;
+    private MenuItem delete; 
+    private MenuItem play;
+    private MenuItem stop; 
 
     /**
      * Add the given note to the set of all notes, to be played later.
@@ -246,7 +261,8 @@ public class TuneComposer extends Application {
      */
     @FXML
     private void handleDelete(ActionEvent event) {
-        NoteHandler.delete(notePane);
+        NoteHandler.delete(notePane); 
+        // check if pane is empty, or it it's the hashset
     }
     
     /**

@@ -9,14 +9,14 @@ class HistoryManager {
     private static Stack<HashSet> redoStack = new Stack<HashSet>();
 
     public static void addEvent() {
-        HashSet<Playable> currentNotes = NoteHandler.allPlayables;
+        HashSet<Playable> currentNotes = new HashSet<Playable>(NoteHandler.allPlayables);
         undoStack.push(currentNotes);
         redoStack.removeAllElements();
     }
 
     public static void undo(Pane notePane) {
         HashSet<Playable> state = undoStack.pop();
-        redoStack.push(NoteHandler.allPlayables);
+        redoStack.push(new HashSet<Playable>(NoteHandler.allPlayables));
         restore(state, notePane);
     }
 
@@ -25,7 +25,7 @@ class HistoryManager {
             notePane.getChildren().removeAll(playable.getRectangle());
         });
         NoteHandler.allPlayables.clear();
-        NoteHandler.allPlayables = state;
+        NoteHandler.allPlayables = new HashSet<Playable>(state);
         NoteHandler.allPlayables.forEach((playable) -> {
             notePane.getChildren().addAll(playable.getRectangle());
         });
@@ -33,7 +33,7 @@ class HistoryManager {
 
     public static void redo(Pane notePane) {
         HashSet<Playable> state = redoStack.pop();
-        undoStack.push(NoteHandler.allPlayables);
+        undoStack.push(new HashSet<Playable>(NoteHandler.allPlayables));
         restore(state, notePane);
     }
 }

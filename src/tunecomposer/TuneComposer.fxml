@@ -33,12 +33,12 @@
           </Menu>
            <Menu text="Edit">
               <items>
-                  <MenuItem fx:id="undoButton" mnemonicParsing="false" text="Undo">
+                  <MenuItem fx:id="undoButton" mnemonicParsing="false" text="Undo" onAction="#handleUndo">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="redoButton" mnemonicParsing="false" text="Redo">
+                  <MenuItem fx:id="redoButton" mnemonicParsing="false" text="Redo" onAction="#handleRedo">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                      </accelerator>

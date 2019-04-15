@@ -34,13 +34,23 @@ public class NoteHandler {
 
     protected static HashSet<Playable> allPlayables = new HashSet<Playable>();
 
-        /**
+    /**
      * Sets selection values for all of the notes
      * @param selected true to select all
      */
     public static void selectAll(boolean selected) {
         allPlayables.forEach((note) -> {
             note.setSelected(selected);
+        });
+    }
+
+    /**
+     * Schedules the set of notes for playing with the midiplayer.
+     */
+    public static void schedule() {
+        allPlayables.forEach((note) -> {
+            note.schedule();
+            note.updateLastNote();
         });
     }
 

@@ -114,10 +114,7 @@ public class TuneComposer extends Application {
         for(int i=0; i<8; i++){
             PLAYER.addMidiEvent(ShortMessage.PROGRAM_CHANGE + i, timbreList[i], 0, 0, 0);
         }
-        NoteHandler.allPlayables.forEach((note) -> {
-            note.schedule();
-            note.updateLastNote();
-        });
+        NoteHandler.schedule();
 
         PLAYER.play();
         playLine.play(NoteHandler.lastNote);

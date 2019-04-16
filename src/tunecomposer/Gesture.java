@@ -157,6 +157,12 @@ public class Gesture implements Playable {
         return arr;
     }
 
+    public ArrayList<MoveableRect> getAllRectangles() {
+        ArrayList<MoveableRect> temp = new ArrayList<MoveableRect>(getRectangle());
+        temp.add(outerRect);
+        return temp;
+    }
+
     /**
     * Checks if playable is selected.
     * @return boolean 

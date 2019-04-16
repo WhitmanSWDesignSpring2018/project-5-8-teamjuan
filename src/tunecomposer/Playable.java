@@ -29,4 +29,6 @@ public interface Playable {
     public void onMouseReleased(MouseEvent event);
     public void onMouseReleasedLastFive(MouseEvent event);
 
+	public ArrayList<MoveableRect> getAllRectangles();
+
 }

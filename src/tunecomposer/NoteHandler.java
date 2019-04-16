@@ -3,6 +3,7 @@ package tunecomposer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -67,8 +68,8 @@ public class NoteHandler {
         allPlayables.removeAll(toDelete);
     }
 
-    public static void group(Pane notePane) {
-        HistoryManager.addEvent();
+    public static void group(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
+        HistoryManager.addEvent(undoButton, redoButton);
         Gesture gest = new Gesture();
         HashSet<Playable> temp = new HashSet<Playable>();
         NoteHandler.allPlayables.forEach((playable) -> {
@@ -84,8 +85,8 @@ public class NoteHandler {
         notePane.getChildren().add(gest.getOuterRectangle());
     }
 
-    public static void ungroup(Pane notePane) {
-        HistoryManager.addEvent();
+    public static void ungroup(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
+        HistoryManager.addEvent(undoButton, redoButton);
         HashSet<Playable> temp = new HashSet<Playable>();
         NoteHandler.allPlayables.forEach((playable) -> {
             if( playable.getSelected() && ( playable.getClass() == Gesture.class ) ) {
@@ -97,8 +98,8 @@ public class NoteHandler {
         });
     }
 
-    public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle) {
-        HistoryManager.addEvent();
+    public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle, MenuItem undoButton, MenuItem redoButton) {
+        HistoryManager.addEvent(undoButton, redoButton);
         if (! event.isControlDown()) {
             NoteHandler.selectAll(false);
         }

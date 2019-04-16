@@ -96,12 +96,19 @@ public class TuneComposer extends Application {
      */
     @FXML
     private MenuItem undoButton;
+    @FXML
     private MenuItem redoButton;
+    @FXML
     private MenuItem groupButton;
+    @FXML
     private MenuItem ungroupButton;
+    @FXML
     private MenuItem selectAllButton;
+    @FXML
     private MenuItem deleteButton; 
+    @FXML
     private MenuItem playButton;
+    @FXML
     private MenuItem stopButton; 
 
     /**
@@ -160,12 +167,12 @@ public class TuneComposer extends Application {
 
     @FXML
     protected void handleUndo(ActionEvent event) {
-        HistoryManager.undo(notePane);
+        HistoryManager.undo(notePane, undoButton, redoButton);
     }
 
     @FXML
     protected void handleRedo(ActionEvent event) {
-        HistoryManager.redo(notePane);
+        HistoryManager.redo(notePane, undoButton, redoButton);
     }
 
     /**
@@ -187,6 +194,9 @@ public class TuneComposer extends Application {
         playLinePane.setMouseTransparent(true);
 
         selection = new SelectionArea(selectRect);
+
+        undoButton.setDisable(true);
+        redoButton.setDisable(true);
     }
 
     /**
@@ -202,7 +212,7 @@ public class TuneComposer extends Application {
             // TODO: CHECK IF THIS IS NECESSARY
             SelectionArea.selectedNotes.clear();
         } else if (NoteHandler.clickInPane) {
-            NoteHandler.handleClick(event, notePane, instrumentToggle);
+            NoteHandler.handleClick(event, notePane, instrumentToggle, undoButton, redoButton);
         }
         NoteHandler.clickInPane = true;
     }
@@ -243,7 +253,7 @@ public class TuneComposer extends Application {
     */
     @FXML
     private void handleGroup(ActionEvent event) {
-        NoteHandler.group(notePane);
+        NoteHandler.group(notePane, undoButton, redoButton);
     }
 
     /**
@@ -252,7 +262,7 @@ public class TuneComposer extends Application {
     */
     @FXML
     private void handleUngroup(ActionEvent event) {
-        NoteHandler.ungroup(notePane);
+        NoteHandler.ungroup(notePane, undoButton, redoButton);
     }
     
     /**

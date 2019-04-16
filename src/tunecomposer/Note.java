@@ -107,6 +107,10 @@ public class Note implements Playable {
         arr.add(noteRect);
         return arr;
     }
+
+    public ArrayList<MoveableRect> getAllRectangles() {
+        return getRectangle();
+    }
     
     /**
      * Adds this Note to the MidiPlayer

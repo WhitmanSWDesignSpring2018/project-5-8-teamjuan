@@ -70,7 +70,7 @@ public class PlayLine {
         Duration duration = Duration.millis(endXCoordinate*10); 
         
         // when finsihed, playLine will disappear
-        EventHandler onFinished = (EventHandler<ActionEvent>) (ActionEvent t) -> 
+        EventHandler<ActionEvent> onFinished = (EventHandler<ActionEvent>) (ActionEvent t) -> 
         {
             movingLine.setVisible(false);
             playing = false;

@@ -71,31 +71,33 @@ public class NoteHandler {
     public static void group(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
         HistoryManager.addEvent(undoButton, redoButton);
         Gesture gest = new Gesture();
-        HashSet<Playable> temp = new HashSet<Playable>();
+        HashSet<Playable> toRemove = new HashSet<Playable>();
         NoteHandler.allPlayables.forEach((playable) -> {
             if (playable.getSelected()) {
                 gest.addPlayable(playable);
-                temp.add(playable);
+                toRemove.add(playable);
             }
         });
 
         NoteHandler.allPlayables.add(gest);
-        NoteHandler.allPlayables.removeAll(temp);
+        NoteHandler.allPlayables.removeAll(toRemove);
         gest.createRectangle();
         notePane.getChildren().add(gest.getOuterRectangle());
     }
 
     public static void ungroup(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
         HistoryManager.addEvent(undoButton, redoButton);
-        HashSet<Playable> temp = new HashSet<Playable>();
+        HashSet<Playable> toRemove = new HashSet<Playable>();
+        HashSet<Playable> toAdd = new HashSet<Playable>();
         NoteHandler.allPlayables.forEach((playable) -> {
             if( playable.getSelected() && ( playable.getClass() == Gesture.class ) ) {
-                NoteHandler.allPlayables.addAll(((Gesture)playable).getPlayables());
-                NoteHandler.allPlayables.remove(playable);
-                temp.addAll(((Gesture)playable).getPlayables());
+                toRemove.add(playable);
+                toAdd.addAll(((Gesture)playable).getPlayables());
                 notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
             }
         });
+        NoteHandler.allPlayables.addAll(toAdd);
+        NoteHandler.allPlayables.removeAll(toRemove);
     }
 
     public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle, MenuItem undoButton, MenuItem redoButton) {

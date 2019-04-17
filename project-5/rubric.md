@@ -23,7 +23,7 @@ Earned|Possible|Requirement | Comments
 ------|--------|------------|----------
 1|0| When the right edge of a gesture is grabbed and stretched left or right, the duration and offset of everything in the gesture should stretch proportionally. | _Duration stretches, while offset remains the same._
 
-### No regressions - 3.5/4 points
+### No regressions - 1.5/2 points
 
 Earned|Possible|Requirement | Comments
 ------|--------|------------|----------
@@ -35,27 +35,27 @@ Earned|Possible|Requirement | Comments
 ------|--------|------------|----------
 2|2| The release is tagged as project-5-release.
 
-## Reflection - 12/12 points
+## Reflection - 11.5/12 points
 
 For project 5 and beyond, I will expect your discussion of design and elegance to refer explicitly to design principles we have discussed in class.
 
 Earned|Possible|Requirement | Comments
 ------|--------|------------|----------
-3|3| UML 
+3|3| UML | _Thorough!_
 2|2| Design overview
 2|2| What is elegant?
 2|2| What is not elegant?
-1|1| Velocity
+0.5|1| Velocity | _I'm impressed that you completed the project requirements so quickly!_
 1|1| Collaboration statement
 1|1| Team retrospective
 
-## Elegance - 16/16 points
+## Elegance - 10/12 points
 
 I looked at your UML diagram to assess the elegance of your class design.  You will get a grade for class design starting with Project 6.
-I spot-checked a new class (Gesture) and a modified class (TuneComposer) to assess method-level design and self-explanatory code.
+I spot-checked a new class (MoveableRect) and a modified class (Note) to assess method-level design and self-explanatory code.
 
 Earned|Possible|Requirement | Comments
 ------|--------|------------|----------
-0|0| Class design 
-8|8| Method design
-8|8| Self-explanatory code
+0|0| Class design | _TuneComposer is the big issue. In ```MoveableRect``` and ```Note```, I like that you were careful to make fields private._
+8|8| Method design | _Nice short methods_
+2|4| Self-explanatory code | _Search for GitHub Issues containing the word "self-explanatory"_

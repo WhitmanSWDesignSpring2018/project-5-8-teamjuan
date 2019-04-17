@@ -1,4 +1,4 @@
-# GRADE: 64/64 
+# GRADE: 59/64 
 
 ## Functional and implementation requirements: 32/36 points total
 
@@ -49,13 +49,13 @@ Earned|Possible|Requirement | Comments
 1|1| Collaboration statement
 1|1| Team retrospective
 
-## Elegance - 10/12 points
+## Elegance - 11/12 points
 
 I looked at your UML diagram to assess the elegance of your class design.  You will get a grade for class design starting with Project 6.
 I spot-checked a new class (MoveableRect) and a modified class (Note) to assess method-level design and self-explanatory code.
 
 Earned|Possible|Requirement | Comments
 ------|--------|------------|----------
-0|0| Class design | _TuneComposer is the big issue. In ```MoveableRect``` and ```Note```, I like that you were careful to make fields private._
+0|0| Class design | _TuneComposer is the big issue. In ```MoveableRect``` and ```Note```, I like that you were careful to make fields private. See also (this issue)[https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan/issues/21#issue-434508787]_
 8|8| Method design | _Nice short methods_
-2|4| Self-explanatory code | _Search for GitHub Issues containing the word "self-explanatory"_
+3|4| Self-explanatory code | _Search for GitHub Issues containing the word "self-explanatory"_

@@ -2,8 +2,6 @@ package tunecomposer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -68,8 +66,8 @@ public class NoteHandler {
         allPlayables.removeAll(toDelete);
     }
 
-    public static void group(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
-        HistoryManager.addEvent(undoButton, redoButton);
+    public static void group(Pane notePane) {
+        HistoryManager.addEvent();
         Gesture gest = new Gesture();
         HashSet<Playable> toRemove = new HashSet<Playable>();
         NoteHandler.allPlayables.forEach((playable) -> {
@@ -85,8 +83,8 @@ public class NoteHandler {
         notePane.getChildren().add(gest.getOuterRectangle());
     }
 
-    public static void ungroup(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
-        HistoryManager.addEvent(undoButton, redoButton);
+    public static void ungroup(Pane notePane) {
+        HistoryManager.addEvent();
         HashSet<Playable> toRemove = new HashSet<Playable>();
         HashSet<Playable> toAdd = new HashSet<Playable>();
         NoteHandler.allPlayables.forEach((playable) -> {
@@ -100,8 +98,8 @@ public class NoteHandler {
         NoteHandler.allPlayables.removeAll(toRemove);
     }
 
-    public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle, MenuItem undoButton, MenuItem redoButton) {
-        HistoryManager.addEvent(undoButton, redoButton);
+    public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle) {
+        HistoryManager.addEvent();
         if (! event.isControlDown()) {
             NoteHandler.selectAll(false);
         }
@@ -124,6 +122,7 @@ public class NoteHandler {
      * @param note note Rectangle that was clicked
      */
     public static void handleNoteClick(MouseEvent event, Playable note) {
+        HistoryManager.addEvent();
         clickInPane = false;
         boolean control = event.isControlDown();
         boolean selected = note.getSelected();
@@ -144,6 +143,7 @@ public class NoteHandler {
      * @param note note Rectangle that was clicked
      */
     public static void handleNotePress(MouseEvent event, Playable note) {
+        HistoryManager.addEvent();
         changeDuration = note.inLastFive(event);
         NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
@@ -189,5 +189,6 @@ public class NoteHandler {
             }
         });
         changeDuration = false;
+        HistoryManager.addEvent();
     }
 }

@@ -26,7 +26,7 @@
             <items>
               <MenuItem onAction="#handleExitMenuItemAction" text="Exit">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
             </items>
@@ -71,12 +71,12 @@
               <items>
                 <MenuItem onAction="#handleStartPlaying" text="Play">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
                   <MenuItem onAction="#handleStopPlaying" text="Stop">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
               </items>

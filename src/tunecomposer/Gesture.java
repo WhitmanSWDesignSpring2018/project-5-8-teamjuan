@@ -30,21 +30,21 @@ public class Gesture implements Playable {
     private double margin;
 
     public Gesture(Gesture gest) {
+        upperXBound = 0;
+        upperYBound = 0;
+        lowerXBound = 3000;
+        lowerYBound = 3000;
+        margin = 5;
+        allPlayables = new HashSet<Playable>();
         gest.getPlayables().forEach((playable) -> {
             if (playable.getClass() == Gesture.class) {
-                allPlayables.add(new Gesture((Gesture) playable)); 
+                addPlayable(new Gesture((Gesture) playable)); 
             } else { 
-                allPlayables.add(new Note((Note) playable)); 
+                addPlayable(new Note((Note) playable)); 
             }
         });
-        isSelected = gest.getSelected();
-        outerRect = gest.getOuterRectangle();
-        ArrayList<Double> coords = gest.getCoords();
-        upperXBound = coords.get(0);
-        upperYBound = coords.get(1);
-        lowerXBound = coords.get(2);
-        lowerYBound = coords.get(3);
-        margin = gest.getMargin();
+        createRectangle();
+        setSelected(gest.getSelected());
     }
 
     /**
@@ -109,7 +109,7 @@ public class Gesture implements Playable {
         outerRect.setY(lowerYBound); 
         outerRect.setWidth(upperXBound - lowerXBound);
         outerRect.setHeight(upperYBound - lowerYBound);
-        outerRect.updateCoordinates();
+        outerRect.updateInnerFields();
         outerRect.getStyleClass().add("selected-gesture");
         outerRect.setMouseTransparent(false);
 
@@ -185,7 +185,10 @@ public class Gesture implements Playable {
     }
 
     public ArrayList<MoveableRect> getAllRectangles() {
-        ArrayList<MoveableRect> temp = new ArrayList<MoveableRect>(getRectangle());
+        ArrayList<MoveableRect> temp = new ArrayList<MoveableRect>();
+        allPlayables.forEach((n) -> {
+            temp.addAll(n.getAllRectangles());
+        });
         temp.add(outerRect);
         return temp;
     }
@@ -220,8 +223,8 @@ public class Gesture implements Playable {
     * Returns true/false within the last five of the rectangle.
     * @param event 
     */
-    public boolean inLastFive(MouseEvent event){
-        return outerRect.inLastFive(event);
+    public boolean clickedOnRightEdge(MouseEvent event){
+        return outerRect.clickedOnRightEdge(event);
     }
     
     /**
@@ -230,7 +233,7 @@ public class Gesture implements Playable {
     */
     public void onMousePressed(MouseEvent event){
 
-        outerRect.setMovingCoords(event);
+        outerRect.startLocationChange(event);
 
         allPlayables.forEach((n) -> {
             n.onMousePressed(event);
@@ -242,12 +245,12 @@ public class Gesture implements Playable {
     * the mouse press from the user.
     * @param event mouse press
     */
-    public void onMousePressedLastFive(MouseEvent event){
+    public void onMousePressedRightEdge(MouseEvent event){
         
-        outerRect.setMovingDuration(event); 
+        outerRect.startWidthChange(event); 
 
         allPlayables.forEach((n) -> {
-            n.onMousePressedLastFive(event);
+            n.onMousePressedRightEdge(event);
         });
     }
     
@@ -256,12 +259,12 @@ public class Gesture implements Playable {
     * the mouse drag from the user.
     * @param event mouse drag
     */
-    public void onMouseDraggedLastFive(MouseEvent event){
+    public void onMouseDraggedRightEdge(MouseEvent event){
 
-        outerRect.moveDuration(event, getMargin());
+        outerRect.changeWidth(event, getMargin());
 
         allPlayables.forEach((n) -> {
-            n.onMouseDraggedLastFive(event);
+            n.onMouseDraggedRightEdge(event);
         });
     }
 
@@ -272,7 +275,7 @@ public class Gesture implements Playable {
     */
     public void onMouseDragged(MouseEvent event){
         
-        outerRect.moveNote(event);
+        outerRect.changeLocation(event);
 
         allPlayables.forEach((n) -> {
             n.onMouseDragged(event);
@@ -286,7 +289,7 @@ public class Gesture implements Playable {
     */
     public void onMouseReleased(MouseEvent event){
         
-        outerRect.stopMoving(event);
+        outerRect.stopLocationChange(event);
 
         allPlayables.forEach((n) -> {
             n.onMouseReleased(event);
@@ -298,12 +301,12 @@ public class Gesture implements Playable {
     * the mouse release from the user.
     * @param event mouse drag
     */
-    public void onMouseReleasedLastFive(MouseEvent event){
+    public void onMouseReleasedRightEdge(MouseEvent event){
         
-        outerRect.stopDuration(event, getMargin());
+        outerRect.stopWidthChange(event, getMargin());
 
         allPlayables.forEach((n) -> {
-            n.onMouseReleasedLastFive(event);
+            n.onMouseReleasedRightEdge(event);
         });
     }
 }

@@ -12,8 +12,15 @@ class HistoryManager {
     public static void addEvent() {
         ButtonHandler.undoButton.setDisable(false);
         ButtonHandler.redoButton.setDisable(true);
-        HashSet<Playable> currentNotes = new HashSet<Playable>(NoteHandler.allPlayables);
-        undoStack.push(currentNotes);
+        HashSet<Playable> currentState = new HashSet<Playable>();
+        NoteHandler.allPlayables.forEach((playable) -> {
+            if (playable.getClass() == Gesture.class) {
+                currentState.add(new Gesture((Gesture) playable)); 
+            } else { 
+                currentState.add(new Note((Note) playable)); 
+            }
+        });
+        undoStack.push(currentState);
         redoStack.removeAllElements();
     }
 

@@ -10,8 +10,6 @@ class HistoryManager {
     private static Stack<HashSet<Playable>> redoStack = new Stack<HashSet<Playable>>();
 
     public static void addEvent() {
-        ButtonHandler.undoButton.setDisable(false);
-        ButtonHandler.redoButton.setDisable(true);
         HashSet<Playable> currentState = new HashSet<Playable>();
         NoteHandler.allPlayables.forEach((playable) -> {
             if (playable.getClass() == Gesture.class) {
@@ -28,6 +26,10 @@ class HistoryManager {
         return undoStack.empty();
     }
 
+    public static boolean redoEmpty() {
+        return redoStack.empty();
+    }
+
     public static void undo(Pane notePane) {
         HashSet<Playable> state = undoStack.pop();
         HashSet<Playable> currentState = new HashSet<Playable>();
@@ -40,10 +42,7 @@ class HistoryManager {
         });
         redoStack.push(currentState);
         restore(state, notePane);
-        if (undoStack.isEmpty()) {
-            ButtonHandler.undoButton.setDisable(true);
-        }
-        ButtonHandler.redoButton.setDisable(false);
+        ButtonHandler.updateAllButtons();
     }
 
     private static void restore(HashSet<Playable> state, Pane notePane) {
@@ -69,9 +68,6 @@ class HistoryManager {
         });
         undoStack.push(currentState);
         restore(state, notePane);
-        if (redoStack.isEmpty()) {
-            ButtonHandler.redoButton.setDisable(true);
-        }
-        ButtonHandler.undoButton.setDisable(false);
+        ButtonHandler.updateAllButtons();
     }
 }

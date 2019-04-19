@@ -69,12 +69,12 @@
             </Menu>
             <Menu text="Action">
               <items>
-                <MenuItem disable="true" onAction="#handleStartPlaying" text="Play">
+                <MenuItem fx:id="playButton" disable="true" onAction="#handleStartPlaying" text="Play">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="P" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem disable="true" onAction="#handleStopPlaying" text="Stop">
+                  <MenuItem fx:id="stopButton" disable="true" onAction="#handleStopPlaying" text="Stop">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>

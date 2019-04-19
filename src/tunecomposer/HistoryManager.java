@@ -2,8 +2,6 @@ package tunecomposer;
 
 import java.util.HashSet;
 import java.util.Stack;
-
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 
 class HistoryManager {
@@ -11,9 +9,9 @@ class HistoryManager {
     private static Stack<HashSet<Playable>> undoStack = new Stack<HashSet<Playable>>();
     private static Stack<HashSet<Playable>> redoStack = new Stack<HashSet<Playable>>();
 
-    public static void addEvent(MenuItem undoButton, MenuItem redoButton) {
-        undoButton.setDisable(false);
-        redoButton.setDisable(true);
+    public static void addEvent() {
+        ButtonHandler.undoButton.setDisable(false);
+        ButtonHandler.redoButton.setDisable(true);
         HashSet<Playable> currentNotes = new HashSet<Playable>(NoteHandler.allPlayables);
         undoStack.push(currentNotes);
         redoStack.removeAllElements();
@@ -23,14 +21,22 @@ class HistoryManager {
         return undoStack.empty();
     }
 
-    public static void undo(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
+    public static void undo(Pane notePane) {
         HashSet<Playable> state = undoStack.pop();
-        redoStack.push(new HashSet<Playable>(NoteHandler.allPlayables));
+        HashSet<Playable> currentState = new HashSet<Playable>();
+        NoteHandler.allPlayables.forEach((playable) -> {
+            if (playable.getClass() == Gesture.class) {
+                currentState.add(new Gesture((Gesture) playable)); 
+            } else { 
+                currentState.add(new Note((Note) playable)); 
+            }
+        });
+        redoStack.push(currentState);
         restore(state, notePane);
         if (undoStack.isEmpty()) {
-            undoButton.setDisable(true);
+            ButtonHandler.undoButton.setDisable(true);
         }
-        redoButton.setDisable(false);
+        ButtonHandler.redoButton.setDisable(false);
     }
 
     private static void restore(HashSet<Playable> state, Pane notePane) {
@@ -40,17 +46,25 @@ class HistoryManager {
         NoteHandler.allPlayables.clear();
         NoteHandler.allPlayables = new HashSet<Playable>(state);
         NoteHandler.allPlayables.forEach((playable) -> {
-            notePane.getChildren().addAll(playable.getRectangle());
+            notePane.getChildren().addAll(playable.getAllRectangles());
         });
     }
 
-    public static void redo(Pane notePane, MenuItem undoButton, MenuItem redoButton) {
+    public static void redo(Pane notePane) {
         HashSet<Playable> state = redoStack.pop();
-        undoStack.push(new HashSet<Playable>(NoteHandler.allPlayables));
+        HashSet<Playable> currentState = new HashSet<Playable>();
+        NoteHandler.allPlayables.forEach((playable) -> {
+            if (playable.getClass() == Gesture.class) {
+                currentState.add(new Gesture((Gesture) playable)); 
+            } else { 
+                currentState.add(new Note((Note) playable)); 
+            }
+        });
+        undoStack.push(currentState);
         restore(state, notePane);
         if (redoStack.isEmpty()) {
-            redoButton.setDisable(true);
+            ButtonHandler.redoButton.setDisable(true);
         }
-        undoButton.setDisable(false);
+        ButtonHandler.undoButton.setDisable(false);
     }
 }

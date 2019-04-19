@@ -167,12 +167,12 @@ public class TuneComposer extends Application {
 
     @FXML
     protected void handleUndo(ActionEvent event) {
-        HistoryManager.undo(notePane, undoButton, redoButton);
+        HistoryManager.undo(notePane);
     }
 
     @FXML
     protected void handleRedo(ActionEvent event) {
-        HistoryManager.redo(notePane, undoButton, redoButton);
+        HistoryManager.redo(notePane);
     }
 
     /**
@@ -195,8 +195,10 @@ public class TuneComposer extends Application {
 
         selection = new SelectionArea(selectRect);
 
-        undoButton.setDisable(true);
-        redoButton.setDisable(true);
+        ButtonHandler.setButtons(undoButton, redoButton, 
+                                groupButton, ungroupButton, 
+                                selectAllButton, deleteButton, 
+                                playButton, stopButton);
     }
 
     /**
@@ -212,7 +214,7 @@ public class TuneComposer extends Application {
             // TODO: CHECK IF THIS IS NECESSARY
             SelectionArea.selectedNotes.clear();
         } else if (NoteHandler.clickInPane) {
-            NoteHandler.handleClick(event, notePane, instrumentToggle, undoButton, redoButton);
+            NoteHandler.handleClick(event, notePane, instrumentToggle);
         }
         NoteHandler.clickInPane = true;
     }
@@ -253,7 +255,7 @@ public class TuneComposer extends Application {
     */
     @FXML
     private void handleGroup(ActionEvent event) {
-        NoteHandler.group(notePane, undoButton, redoButton);
+        NoteHandler.group(notePane);
     }
 
     /**
@@ -262,7 +264,7 @@ public class TuneComposer extends Application {
     */
     @FXML
     private void handleUngroup(ActionEvent event) {
-        NoteHandler.ungroup(notePane, undoButton, redoButton);
+        NoteHandler.ungroup(notePane);
     }
     
     /**

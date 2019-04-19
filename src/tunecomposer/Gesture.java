@@ -29,6 +29,24 @@ public class Gesture implements Playable {
 
     private double margin;
 
+    public Gesture(Gesture gest) {
+        gest.getPlayables().forEach((playable) -> {
+            if (playable.getClass() == Gesture.class) {
+                allPlayables.add(new Gesture((Gesture) playable)); 
+            } else { 
+                allPlayables.add(new Note((Note) playable)); 
+            }
+        });
+        isSelected = gest.getSelected();
+        outerRect = gest.getOuterRectangle();
+        ArrayList<Double> coords = gest.getCoords();
+        upperXBound = coords.get(0);
+        upperYBound = coords.get(1);
+        lowerXBound = coords.get(2);
+        lowerYBound = coords.get(3);
+        margin = gest.getMargin();
+    }
+
     /**
     * Constructs a Gesture.
     */
@@ -40,6 +58,15 @@ public class Gesture implements Playable {
         margin = 5;
         allPlayables = new HashSet<Playable>();
         isSelected = true;
+    }
+
+    public ArrayList<Double> getCoords() {
+        ArrayList<Double> arr = new ArrayList<Double>();
+        arr.add(upperXBound);
+        arr.add(upperYBound);
+        arr.add(lowerXBound);
+        arr.add(lowerYBound);
+        return arr;
     }
 
     /**

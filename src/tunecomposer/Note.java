@@ -35,6 +35,36 @@ public class Note implements Playable {
      */
     private boolean isSelected;
 
+    public Note(Note note) {
+        isSelected = note.getSelected();
+        noteRect = note.getRectangle().get(0);
+        ArrayList<Double> coords = note.getCoords();
+        x_coord = coords.get(0);
+        y_coord = coords.get(1);
+        ArrayList<Integer> noteInfo = note.getNoteInfo();
+        startTime = noteInfo.get(0);
+        pitch = noteInfo.get(1);
+        instrument = note.getInstrument();
+    }
+
+    public ArrayList<Double> getCoords() {
+        ArrayList<Double> arr = new ArrayList<Double>();
+        arr.add(x_coord);
+        arr.add(y_coord);
+        return arr;
+    }
+
+    public ArrayList<Integer> getNoteInfo() {
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        arr.add(startTime);
+        arr.add(pitch);
+        return arr;
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
+
     /**
      * Creates new selected Rectangle at given coordinates with a default width
      * of 100 pixels and creates a note of the given instrument at the 

@@ -8,7 +8,7 @@ Some of our original implementation has changed. We spent our first time meeting
 
 Our strategy to add a HistoryManager class, as noted above, was so that we did not have to modify anything; rather, we extended functionality through the addition of this class, which does adhere to SOLID programming principles. However, in practice, this has issues. In fact, the actuality, there is some pretty ugly code. There is a lot of cross-class dependency, and we are not keeping track of the changes - we are deleting and re-creating things as we go along. We looked ahead at Project 7 and realized that some of our strategies regarding Project 6 will have to completely change. 
 
-As for Planning Poker, we tried. We estimated 60 story points from breaking down the expectations for the project into 6 stories, which meant an estimated velocity of 2 for about 10 hours of work. In actuality, the project took about 12 hours. We did not anticipate undo/redo being so complicated when it came to tracking where they are on the Pane. Since we did not do planning poker for the previous project, we can't really compare what we estimated. 
+As for Planning Poker, we tried. We estimated 60 story points from breaking down the expectations for the project into 6 stories, which meant an estimated velocity of 2 for about 10 hours of work. In actuality, the project took about 16 hours. We did not anticipate undo/redo being so complicated when it came to tracking where they are on the Pane. Since we did not do planning poker for the previous project, we can't really compare what we estimated. 
 
 Below are our planning poker breakdowns: 
 

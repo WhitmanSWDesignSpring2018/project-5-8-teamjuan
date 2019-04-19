@@ -1,3 +1,7 @@
+Project 6 Reflection 
+
+Madi Crowley, Melissa Kohl, Michelle Zhang, and Sage Levin 
+
 For project 6, we decided to add a HistoryManager class so that we could track each action - that is, adding a note, moving them on the Pane, and grouping them, etc.. In doing so, we used a stack to store all the actions so that we can easily undo and redo actions, and the creation of this class makes it so that we do not have to modify any of our other classes to deal with modifying other classes. 
 
 Some of our original implementation has changed. We spent our first time meeting refactoring what we had after we submitted Project 5; we made NoteHandler so that we could move all the handler methods into static NoteHandler. Sage notably removed the TuneComposer's dependency NoteHandler's variables, following the Law of Demeter. After doing our code review, we resolved a majority of the issues noted on GitHub: keyboard shortcuts being platform-independent, grouping behavior of gestures, refactoring, renaming methods and variables, dealing with the the Gesture rectangle getting out-of-synce, and the issues relating to KeyFrame upon launching the program.

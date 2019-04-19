@@ -18,10 +18,19 @@ public class MoveableRect extends Rectangle {
     private double y_coord;
     private double rectWidth;
 
+    public MoveableRect(MoveableRect rect) {
+        super(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        updateInnerFields();
+    }
+
+    public MoveableRect() {
+        super();
+    }
+
     /**
      * Sets the fields to the current coordinates.
      */
-    public void updateCoordinates() {
+    public void updateInnerFields() {
         x_coord = getX();
         y_coord = getY();
         rectWidth = getWidth();
@@ -33,7 +42,7 @@ public class MoveableRect extends Rectangle {
      * in the Rectangle
      * @param event mouse click
      */
-    public void setMovingCoords(MouseEvent event) {
+    public void startLocationChange(MouseEvent event) {
         xOffset = event.getX() - x_coord;
         yOffset = event.getY() - y_coord;
     }
@@ -42,7 +51,7 @@ public class MoveableRect extends Rectangle {
      * While the user is dragging the mouse, move the Rectangle with it
      * @param event mouse drag
      */
-    public void moveNote(MouseEvent event) {
+    public void changeLocation(MouseEvent event) {
         setX(event.getX() - xOffset);
         setY(event.getY() - yOffset );
     }
@@ -52,7 +61,7 @@ public class MoveableRect extends Rectangle {
      * Rectangle's current location
      * @param event mouse click
      */
-    public void stopMoving(MouseEvent event) {
+    public void stopLocationChange(MouseEvent event) {
         double x = event.getX() - xOffset;
         double y = event.getY() - yOffset;
         x_coord = x;
@@ -68,7 +77,7 @@ public class MoveableRect extends Rectangle {
      * @param event mouse click
      * @return true if mouse is within the last 5 pixels of the Rectangle
      */
-    public boolean inLastFive(MouseEvent event) {
+    public boolean clickedOnRightEdge(MouseEvent event) {
         return (event.getX() > x_coord + rectWidth - MARGIN);
     }
     
@@ -78,7 +87,7 @@ public class MoveableRect extends Rectangle {
      * is in the Rectangle 
      * @param event mouse click
      */
-    public void setMovingDuration(MouseEvent event) {
+    public void startWidthChange(MouseEvent event) {
         widthOffset = x_coord + rectWidth - event.getX();
     }
     
@@ -87,7 +96,7 @@ public class MoveableRect extends Rectangle {
      * @param event mouse drag
      * @param margin the minimum width
      */
-    public void moveDuration(MouseEvent event, double margin) {
+    public void changeWidth(MouseEvent event, double margin) {
         double tempWidth = event.getX() - x_coord + widthOffset;
         if (tempWidth < margin) tempWidth = margin;
         setWidth(tempWidth);
@@ -99,7 +108,7 @@ public class MoveableRect extends Rectangle {
      * @param event 
      * @param margin is minimum width
      */
-    public void stopDuration(MouseEvent event, double margin) {
+    public void stopWidthChange(MouseEvent event, double margin) {
         rectWidth = event.getX() - x_coord + widthOffset;
         if (rectWidth < margin) rectWidth = margin;
         

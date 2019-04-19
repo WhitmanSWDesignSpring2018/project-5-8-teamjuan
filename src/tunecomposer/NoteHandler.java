@@ -58,9 +58,7 @@ public class NoteHandler {
         allPlayables.forEach((playable) -> {
             if (playable.getSelected()) {
                 toDelete.add(playable);
-                if( playable.getClass() == Gesture.class )
-                    notePane.getChildren().remove(((Gesture)playable).getOuterRectangle());
-                notePane.getChildren().removeAll(playable.getRectangle());
+                notePane.getChildren().removeAll(playable.getAllRectangles());
             }
         });
         allPlayables.removeAll(toDelete);
@@ -143,12 +141,11 @@ public class NoteHandler {
      * @param note note Rectangle that was clicked
      */
     public static void handleNotePress(MouseEvent event, Playable note) {
-        HistoryManager.addEvent();
-        changeDuration = note.inLastFive(event);
+        changeDuration = note.clickedOnRightEdge(event);
         NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.onMousePressedLastFive(event);
+                    n.onMousePressedRightEdge(event);
                 } else {
                     n.onMousePressed(event);
                 }
@@ -165,7 +162,7 @@ public class NoteHandler {
         NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.onMouseDraggedLastFive(event);
+                    n.onMouseDraggedRightEdge(event);
                 } else {
                     n.onMouseDragged(event);
                 }
@@ -182,13 +179,12 @@ public class NoteHandler {
         NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
                 if (changeDuration) {
-                    n.onMouseReleasedLastFive(event);
+                    n.onMouseReleasedRightEdge(event);
                 } else {
                     n.onMouseReleased(event);
                 }
             }
         });
         changeDuration = false;
-        HistoryManager.addEvent();
     }
 }

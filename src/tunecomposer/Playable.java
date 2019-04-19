@@ -18,16 +18,16 @@ public interface Playable {
     public boolean getSelected();
     public void setSelected(boolean selected);
 
-    public boolean inLastFive(MouseEvent event);
+    public boolean clickedOnRightEdge(MouseEvent event);
 
     public void onMousePressed(MouseEvent event);
-    public void onMousePressedLastFive(MouseEvent event);
+    public void onMousePressedRightEdge(MouseEvent event);
     
     public void onMouseDragged(MouseEvent event);
-    public void onMouseDraggedLastFive(MouseEvent event);
+    public void onMouseDraggedRightEdge(MouseEvent event);
 
     public void onMouseReleased(MouseEvent event);
-    public void onMouseReleasedLastFive(MouseEvent event);
+    public void onMouseReleasedRightEdge(MouseEvent event);
 
 	public ArrayList<MoveableRect> getAllRectangles();
 

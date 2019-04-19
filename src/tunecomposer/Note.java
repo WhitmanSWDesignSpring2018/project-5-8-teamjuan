@@ -36,33 +36,17 @@ public class Note implements Playable {
     private boolean isSelected;
 
     public Note(Note note) {
-        isSelected = note.getSelected();
-        noteRect = note.getRectangle().get(0);
         ArrayList<Double> coords = note.getCoords();
         x_coord = coords.get(0);
         y_coord = coords.get(1);
+        rectWidth = coords.get(2);
         ArrayList<Integer> noteInfo = note.getNoteInfo();
         startTime = noteInfo.get(0);
         pitch = noteInfo.get(1);
         instrument = note.getInstrument();
-    }
-
-    public ArrayList<Double> getCoords() {
-        ArrayList<Double> arr = new ArrayList<Double>();
-        arr.add(x_coord);
-        arr.add(y_coord);
-        return arr;
-    }
-
-    public ArrayList<Integer> getNoteInfo() {
-        ArrayList<Integer> arr = new ArrayList<Integer>();
-        arr.add(startTime);
-        arr.add(pitch);
-        return arr;
-    }
-
-    public Instrument getInstrument() {
-        return instrument;
+        noteRect = new MoveableRect();
+        createRect();
+        setSelected(note.getSelected());
     }
 
     /**
@@ -83,14 +67,36 @@ public class Note implements Playable {
         
         instrument = inst;
         rectWidth = NoteHandler.DEFAULT_DURATION;
-        
         noteRect = new MoveableRect();
+        createRect();
+        setSelected(true);
+    }
+
+    public ArrayList<Double> getCoords() {
+        ArrayList<Double> arr = new ArrayList<Double>();
+        arr.add(x_coord);
+        arr.add(y_coord);
+        arr.add(rectWidth);
+        return arr;
+    }
+
+    public ArrayList<Integer> getNoteInfo() {
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        arr.add(startTime);
+        arr.add(pitch);
+        return arr;
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
+
+    public void createRect() {
         noteRect.setX(x_coord);
         noteRect.setY(y_coord);
         noteRect.setWidth(rectWidth);
         noteRect.setHeight(NoteHandler.RECTHEIGHT);
-        noteRect.updateCoordinates();
-        noteRect.getStyleClass().addAll("selected", instrument.toString());
+        noteRect.updateInnerFields();
         noteRect.setMouseTransparent(false);
 
         noteRect.setOnMousePressed((MouseEvent pressedEvent) -> {
@@ -105,8 +111,6 @@ public class Note implements Playable {
         noteRect.setOnMouseReleased((MouseEvent releaseEvent) -> {
             NoteHandler.handleNoteStopDragging(releaseEvent);
         });
-        
-        isSelected = true;
     }
 
 
@@ -183,7 +187,7 @@ public class Note implements Playable {
      * @param event mouse click
      */
     public void onMousePressed(MouseEvent event) {
-        noteRect.setMovingCoords(event);
+        noteRect.startLocationChange(event);
     }
     
     /**
@@ -191,7 +195,7 @@ public class Note implements Playable {
      * @param event mouse drag
      */
     public void onMouseDragged(MouseEvent event) {
-        noteRect.moveNote(event);
+        noteRect.changeLocation(event);
     }
     
     /**
@@ -200,7 +204,7 @@ public class Note implements Playable {
      * @param event mouse click
      */
     public void onMouseReleased(MouseEvent event) {
-        noteRect.stopMoving(event);
+        noteRect.stopLocationChange(event);
         
         startTime = (int) noteRect.getX();
         pitch = NoteHandler.MAX_PITCH - (int) noteRect.getY() / NoteHandler.RECTHEIGHT;
@@ -216,8 +220,8 @@ public class Note implements Playable {
      * @param event mouse click
      * @return true if mouse is within the last 5 pixels of the Rectangle
      */
-    public boolean inLastFive(MouseEvent event) {
-        return noteRect.inLastFive(event);
+    public boolean clickedOnRightEdge(MouseEvent event) {
+        return noteRect.clickedOnRightEdge(event);
     }
     
     /**
@@ -226,16 +230,16 @@ public class Note implements Playable {
      * is in the Rectangle 
      * @param event mouse click
      */
-    public void onMousePressedLastFive(MouseEvent event) {
-        noteRect.setMovingDuration(event);
+    public void onMousePressedRightEdge(MouseEvent event) {
+        noteRect.startWidthChange(event);
     }
     
     /**
      * While the user is dragging the mouse, change the width of the Rectangle
      * @param event mouse drag
      */
-    public void onMouseDraggedLastFive(MouseEvent event) {
-        noteRect.moveDuration(event, NoteHandler.MARGIN);
+    public void onMouseDraggedRightEdge(MouseEvent event) {
+        noteRect.changeWidth(event, NoteHandler.MARGIN);
     }
     
     /**
@@ -243,8 +247,9 @@ public class Note implements Playable {
      * to final width
      * @param event 
      */
-    public void onMouseReleasedLastFive(MouseEvent event) {
-        noteRect.stopDuration(event, NoteHandler.MARGIN);
+    public void onMouseReleasedRightEdge(MouseEvent event) {
+        noteRect.stopWidthChange(event, NoteHandler.MARGIN);
+        rectWidth = noteRect.getWidth();
     }
     
 }

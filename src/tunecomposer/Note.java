@@ -21,7 +21,6 @@ public class Note implements Playable {
     /**
      * Note fields for creating rectangle and playing note
      */
-
     private final MoveableRect noteRect;
     private double x_coord;
     private double y_coord;
@@ -35,6 +34,10 @@ public class Note implements Playable {
      */
     private boolean isSelected;
 
+    /**
+     * Creates a new rectangle that is the clone of a given note.
+     * @param note the note to be cloned
+     */
     public Note(Note note) {
         ArrayList<Double> coords = note.getCoords();
         x_coord = coords.get(0);
@@ -72,6 +75,10 @@ public class Note implements Playable {
         setSelected(true);
     }
 
+    /**
+     * Gets coordinates of the note in the form of an arraylist
+     * @return arraylist of coordinates and rectangle width
+     */
     public ArrayList<Double> getCoords() {
         ArrayList<Double> arr = new ArrayList<Double>();
         arr.add(x_coord);
@@ -80,6 +87,10 @@ public class Note implements Playable {
         return arr;
     }
 
+    /**
+     * Gets startTime and pitch of the note.
+     * @return startTime and pitch
+     */
     public ArrayList<Integer> getNoteInfo() {
         ArrayList<Integer> arr = new ArrayList<Integer>();
         arr.add(startTime);
@@ -87,10 +98,17 @@ public class Note implements Playable {
         return arr;
     }
 
+    /**
+     * Gets the instrument type of the note.
+     * @return instrument type
+     */
     public Instrument getInstrument() {
         return instrument;
     }
 
+    /**
+     * Sets the attributes and behaviors of the rectangle.
+     */
     public void createRect() {
         noteRect.setX(x_coord);
         noteRect.setY(y_coord);
@@ -142,6 +160,10 @@ public class Note implements Playable {
         return arr;
     }
 
+    /**
+     * Gets the note's rectangle using getRectangle() method.
+     * @return this Note's rectangle
+     */
     public ArrayList<MoveableRect> getAllRectangles() {
         return getRectangle();
     }
@@ -245,7 +267,7 @@ public class Note implements Playable {
     /**
      * When the user stops dragging the mouse, set Rectangle width
      * to final width
-     * @param event 
+     * @param event mouse release
      */
     public void onMouseReleasedRightEdge(MouseEvent event) {
         noteRect.stopWidthChange(event, NoteHandler.MARGIN);

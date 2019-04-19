@@ -31,6 +31,10 @@ public class NoteHandler {
      */
     public static double lastNote = 0;
 
+
+    /**
+     * Hashset that stores all playables.
+     */
     protected static HashSet<Playable> allPlayables = new HashSet<Playable>();
 
     /**
@@ -54,6 +58,10 @@ public class NoteHandler {
         });
     }
 
+    /**
+     * Deletes selected playables.
+     * @param notePane the pane
+     */
     public static void delete(Pane notePane) {
         ArrayList<Playable> toDelete = new ArrayList<Playable>();
         allPlayables.forEach((playable) -> {
@@ -66,6 +74,10 @@ public class NoteHandler {
         ButtonHandler.updateAllButtons();
     }
 
+    /**
+     * Groups selected playables into a gesture.
+     * @param notePane the pane
+     */
     public static void group(Pane notePane) {
         HistoryManager.addEvent();
         Gesture gest = new Gesture();
@@ -84,6 +96,10 @@ public class NoteHandler {
         ButtonHandler.updateAllButtons();
     }
 
+    /**
+     * Ungroups selected gestures.
+     * @param notePane the pane
+     */
     public static void ungroup(Pane notePane) {
         HistoryManager.addEvent();
         HashSet<Playable> toRemove = new HashSet<Playable>();
@@ -100,6 +116,12 @@ public class NoteHandler {
         ButtonHandler.updateAllButtons();
     }
 
+    /**
+     * When a user clicks in the pane, creates a note.
+     * @param event mouse click
+     * @param notePane the pane 
+     * @param instrumentToggle ToggleGroup that sets instrument type
+     */
     public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle) {
         HistoryManager.addEvent();
         if (! event.isControlDown()) {
@@ -118,7 +140,7 @@ public class NoteHandler {
         ButtonHandler.updateAllButtons();
     }
 
-            /**
+    /**
      * When user presses on a note, set the notes to be selected or 
      * unselected accordingly.
      * @param event mouse click

@@ -167,11 +167,19 @@ public class TuneComposer extends Application {
         System.exit(0);
     }
 
+    /**
+     * Un-does the last action when the user selects "Undo".
+     * @param event the menu selection event
+     */
     @FXML
     protected void handleUndo(ActionEvent event) {
         HistoryManager.undo(notePane);
     }
 
+    /**
+     * Re-does the last action when the user selects "Redo".
+     * @param event the menu selection event
+     */
     @FXML
     protected void handleRedo(ActionEvent event) {
         HistoryManager.redo(notePane);
@@ -252,8 +260,8 @@ public class TuneComposer extends Application {
     }
 
     /**
-    * Handles all the notes grouped together as a Gesture.
-    * @param event
+    * Groups playables together as a gesture.  Called from FXML.
+    * @param event the menu selection event
     */
     @FXML
     private void handleGroup(ActionEvent event) {
@@ -261,8 +269,8 @@ public class TuneComposer extends Application {
     }
 
     /**
-    * Removes all playable Gestures as a group.
-    * @param event
+    * Ungroups playables.  Called from FXML.
+    * @param event the menu selection event
     */
     @FXML
     private void handleUngroup(ActionEvent event) {
@@ -270,8 +278,8 @@ public class TuneComposer extends Application {
     }
     
     /**
-     * Delete all selected notes. Called from FXML
-     * @param event unused
+     * Delete all selected notes. Called from FXML.
+     * @param event the menu selection event
      */
     @FXML
     private void handleDelete(ActionEvent event) {
@@ -281,17 +289,15 @@ public class TuneComposer extends Application {
     }
     
     /**
-     * Select all notes. Called from FXML
-     * @param event unused
+     * Select all notes. Called from FXML.
+     * @param event the menu selection event
      */
     @FXML
     private void handleSelectAll(ActionEvent event) {
         HistoryManager.addEvent();
         NoteHandler.selectAll(true);
         ButtonHandler.updateAllButtons();
-    }
-    
-    
+    } 
 
     /**
      * Construct the scene and start the application.

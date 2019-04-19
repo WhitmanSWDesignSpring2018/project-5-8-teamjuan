@@ -18,11 +18,18 @@ public class MoveableRect extends Rectangle {
     private double y_coord;
     private double rectWidth;
 
+    /**
+     * Creates a MoveableRect with attributes of given rect.
+     * @param rect MoveableRect to be copied
+     */
     public MoveableRect(MoveableRect rect) {
         super(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         updateInnerFields();
     }
 
+    /**
+     * Constructs a MoveableRect using Rectangle class.
+     */
     public MoveableRect() {
         super();
     }

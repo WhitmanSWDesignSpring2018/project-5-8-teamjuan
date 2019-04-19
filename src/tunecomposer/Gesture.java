@@ -29,6 +29,10 @@ public class Gesture implements Playable {
 
     private double margin;
 
+    /**
+     * Creates a clone of the given gesture.
+     * @param gest gesture to be cloned
+     */
     public Gesture(Gesture gest) {
         upperXBound = 0;
         upperYBound = 0;
@@ -60,6 +64,10 @@ public class Gesture implements Playable {
         isSelected = true;
     }
 
+    /**
+     * Gets the coordinates of the gesture.
+     * @return arraylist of all four coordinate bounds
+     */
     public ArrayList<Double> getCoords() {
         ArrayList<Double> arr = new ArrayList<Double>();
         arr.add(upperXBound);
@@ -184,6 +192,10 @@ public class Gesture implements Playable {
         return arr;
     }
 
+    /**
+     * Adds all gesture and note rectangles to arraylist.
+     * @return arraylist of playables
+     */
     public ArrayList<MoveableRect> getAllRectangles() {
         ArrayList<MoveableRect> temp = new ArrayList<MoveableRect>();
         allPlayables.forEach((n) -> {
@@ -203,6 +215,7 @@ public class Gesture implements Playable {
 
     /**
     * Selects gestures.
+    @param selected boolean representing selection
     */
     public void setSelected(boolean selected){
         isSelected = selected;

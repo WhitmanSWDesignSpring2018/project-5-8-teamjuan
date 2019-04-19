@@ -1,4 +1,5 @@
 PROJECT SIX RELFECTION 
+
 Madi Crowley, Melissa Kohl, Michelle Zhang, and Sage Levin
 
 For project 6, we decided to add a HistoryManager class so that we could track each action - that is, adding a note, moving them on the Pane, and grouping them, etc.. In doing so, we used a stack to store all the actions so that we can easily undo and redo actions, and the creation of this class makes it so that we do not have to modify any of our other classes to deal with modifying other classes. 

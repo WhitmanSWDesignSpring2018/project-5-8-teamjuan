@@ -134,6 +134,7 @@ public class TuneComposer extends Application {
     @FXML
     public void handleStartPlaying(ActionEvent ignored) {
         startPlaying();
+        ButtonHandler.updateAllButtons();
     }
 
     /**
@@ -154,6 +155,7 @@ public class TuneComposer extends Application {
     @FXML
     protected void handleStopPlaying(ActionEvent ignored) {
         stopPlaying();
+        ButtonHandler.updateAllButtons();
     }
 
     /**
@@ -198,7 +200,8 @@ public class TuneComposer extends Application {
         ButtonHandler.setButtons(undoButton, redoButton, 
                                 groupButton, ungroupButton, 
                                 selectAllButton, deleteButton, 
-                                playButton, stopButton);
+                                playButton, stopButton,
+                                playLine);
     }
 
     /**
@@ -211,12 +214,11 @@ public class TuneComposer extends Application {
         } else if (isDragSelecting){
             isDragSelecting = false;
             selection.endRectangle();
-            // TODO: CHECK IF THIS IS NECESSARY
-            SelectionArea.selectedNotes.clear();
         } else if (NoteHandler.clickInPane) {
             NoteHandler.handleClick(event, notePane, instrumentToggle);
         }
         NoteHandler.clickInPane = true;
+        ButtonHandler.updateAllButtons();
     }
 
     /**
@@ -273,8 +275,9 @@ public class TuneComposer extends Application {
      */
     @FXML
     private void handleDelete(ActionEvent event) {
+        HistoryManager.addEvent();
         NoteHandler.delete(notePane); 
-        // check if pane is empty, or it it's the hashset
+        ButtonHandler.updateAllButtons();
     }
     
     /**
@@ -283,7 +286,9 @@ public class TuneComposer extends Application {
      */
     @FXML
     private void handleSelectAll(ActionEvent event) {
+        HistoryManager.addEvent();
         NoteHandler.selectAll(true);
+        ButtonHandler.updateAllButtons();
     }
     
     

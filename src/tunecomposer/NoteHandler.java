@@ -41,6 +41,7 @@ public class NoteHandler {
         allPlayables.forEach((note) -> {
             note.setSelected(selected);
         });
+        ButtonHandler.updateAllButtons();
     }
 
     /**
@@ -62,6 +63,7 @@ public class NoteHandler {
             }
         });
         allPlayables.removeAll(toDelete);
+        ButtonHandler.updateAllButtons();
     }
 
     public static void group(Pane notePane) {
@@ -79,6 +81,7 @@ public class NoteHandler {
         NoteHandler.allPlayables.removeAll(toRemove);
         gest.createRectangle();
         notePane.getChildren().add(gest.getOuterRectangle());
+        ButtonHandler.updateAllButtons();
     }
 
     public static void ungroup(Pane notePane) {
@@ -94,6 +97,7 @@ public class NoteHandler {
         });
         NoteHandler.allPlayables.addAll(toAdd);
         NoteHandler.allPlayables.removeAll(toRemove);
+        ButtonHandler.updateAllButtons();
     }
 
     public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle) {
@@ -111,6 +115,7 @@ public class NoteHandler {
         note.getRectangle().forEach((n) -> {
             notePane.getChildren().add(n);
         });
+        ButtonHandler.updateAllButtons();
     }
 
             /**
@@ -132,6 +137,7 @@ public class NoteHandler {
         } else if (control && selected) {
             note.setSelected(false);
         }
+        ButtonHandler.updateAllButtons();
     }
     
     /**
@@ -186,5 +192,6 @@ public class NoteHandler {
             }
         });
         changeDuration = false;
+        ButtonHandler.updateAllButtons();
     }
 }

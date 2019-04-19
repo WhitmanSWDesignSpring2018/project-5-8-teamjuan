@@ -36,6 +36,8 @@ public class PlayLine {
      * @param line a layout pane, now implemented with AnchorPane
      */
     public PlayLine(Line line) {
+
+        playing = false;
         
         // initialize Timeline
         timeline = new Timeline();
@@ -53,6 +55,7 @@ public class PlayLine {
      *                       the composition
      */
     public void play(double endXCoordinate) {
+        ButtonHandler.updateAllButtons();
         timeline.getKeyFrames().clear();
         movingLine.setEndX(0); // place playLine back at the beginning 
         movingLine.setStartX(0);
@@ -74,6 +77,7 @@ public class PlayLine {
         {
             movingLine.setVisible(false);
             playing = false;
+            ButtonHandler.updateAllButtons();
         };
  
         KeyFrame keyFrameEnd = new KeyFrame(duration, onFinished, keyValueXEnd);

@@ -6,6 +6,7 @@
 package tunecomposer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
@@ -39,11 +40,11 @@ public class Note implements Playable {
      * @param note the note to be cloned
      */
     public Note(Note note) {
-        ArrayList<Double> coords = note.getCoords();
+        List<Double> coords = note.getCoords();
         x_coord = coords.get(0);
         y_coord = coords.get(1);
         rectWidth = coords.get(2);
-        ArrayList<Integer> noteInfo = note.getNoteInfo();
+        List<Integer> noteInfo = note.getNoteInfo();
         startTime = noteInfo.get(0);
         pitch = noteInfo.get(1);
         instrument = note.getInstrument();
@@ -79,8 +80,8 @@ public class Note implements Playable {
      * Gets coordinates of the note in the form of an arraylist
      * @return arraylist of coordinates and rectangle width
      */
-    public ArrayList<Double> getCoords() {
-        ArrayList<Double> arr = new ArrayList<Double>();
+    public List<Double> getCoords() {
+        List<Double> arr = new ArrayList<Double>();
         arr.add(x_coord);
         arr.add(y_coord);
         arr.add(rectWidth);
@@ -91,8 +92,8 @@ public class Note implements Playable {
      * Gets startTime and pitch of the note.
      * @return startTime and pitch
      */
-    public ArrayList<Integer> getNoteInfo() {
-        ArrayList<Integer> arr = new ArrayList<Integer>();
+    public List<Integer> getNoteInfo() {
+        List<Integer> arr = new ArrayList<Integer>();
         arr.add(startTime);
         arr.add(pitch);
         return arr;
@@ -118,16 +119,16 @@ public class Note implements Playable {
         noteRect.setMouseTransparent(false);
 
         noteRect.setOnMousePressed((MouseEvent pressedEvent) -> {
-            NoteHandler.handleNoteClick(pressedEvent, this);
-            NoteHandler.handleNotePress(pressedEvent, this);
+            ClickHandler.handleNoteClick(pressedEvent, this);
+            ClickHandler.handleNotePress(pressedEvent, this);
         }); 
 
         noteRect.setOnMouseDragged((MouseEvent dragEvent) -> {
-            NoteHandler.handleNoteDrag(dragEvent);
+            ClickHandler.handleNoteDrag(dragEvent);
         }); 
 
         noteRect.setOnMouseReleased((MouseEvent releaseEvent) -> {
-            NoteHandler.handleNoteStopDragging(releaseEvent);
+            ClickHandler.handleNoteStopDragging(releaseEvent);
         });
     }
 
@@ -154,8 +155,8 @@ public class Note implements Playable {
      * Get this Note's Rectangle object
      * @return this Note's Rectangle
      */
-    public ArrayList<MoveableRect> getRectangle() {
-        ArrayList<MoveableRect> arr = new ArrayList<MoveableRect>();
+    public List<MoveableRect> getRectangle() {
+        List<MoveableRect> arr = new ArrayList<MoveableRect>();
         arr.add(noteRect);
         return arr;
     }
@@ -164,7 +165,7 @@ public class Note implements Playable {
      * Gets the note's rectangle using getRectangle() method.
      * @return this Note's rectangle
      */
-    public ArrayList<MoveableRect> getAllRectangles() {
+    public List<MoveableRect> getAllRectangles() {
         return getRectangle();
     }
     

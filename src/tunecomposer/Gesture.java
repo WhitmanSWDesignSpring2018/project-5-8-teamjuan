@@ -3,6 +3,8 @@ package tunecomposer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
@@ -68,8 +70,8 @@ public class Gesture implements Playable {
      * Gets the coordinates of the gesture.
      * @return arraylist of all four coordinate bounds
      */
-    public ArrayList<Double> getCoords() {
-        ArrayList<Double> arr = new ArrayList<Double>();
+    public List<Double> getCoords() {
+        List<Double> arr = new ArrayList<Double>();
         arr.add(upperXBound);
         arr.add(upperYBound);
         arr.add(lowerXBound);
@@ -122,16 +124,16 @@ public class Gesture implements Playable {
         outerRect.setMouseTransparent(false);
 
         outerRect.setOnMousePressed((MouseEvent pressedEvent) -> {
-            NoteHandler.handleNoteClick(pressedEvent, this);
-            NoteHandler.handleNotePress(pressedEvent, this);
+            ClickHandler.handleNoteClick(pressedEvent, this);
+            ClickHandler.handleNotePress(pressedEvent, this);
         }); 
 
         outerRect.setOnMouseDragged((MouseEvent dragEvent) -> {
-            NoteHandler.handleNoteDrag(dragEvent);
+            ClickHandler.handleNoteDrag(dragEvent);
         }); 
 
         outerRect.setOnMouseReleased((MouseEvent releaseEvent) -> {
-            NoteHandler.handleNoteStopDragging(releaseEvent);
+            ClickHandler.handleNoteStopDragging(releaseEvent);
         });
 
         setMargin();
@@ -146,10 +148,10 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Gets all the Playale values from the HashSet.
+    * Gets all the Playable values from the HashSet.
     * @return all playables
     */
-    public HashSet<Playable> getPlayables() {
+    public Set<Playable> getPlayables() {
         return allPlayables; 
     }
 
@@ -184,8 +186,8 @@ public class Gesture implements Playable {
     * Adds each playable into an array.
     * @return array
     */
-    public ArrayList<MoveableRect> getRectangle(){
-        ArrayList<MoveableRect> arr = new ArrayList<MoveableRect>();
+    public List<MoveableRect> getRectangle(){
+        List<MoveableRect> arr = new ArrayList<MoveableRect>();
         allPlayables.forEach((n) -> {
             arr.addAll(n.getRectangle());
         });
@@ -196,8 +198,8 @@ public class Gesture implements Playable {
      * Adds all gesture and note rectangles to arraylist.
      * @return arraylist of playables
      */
-    public ArrayList<MoveableRect> getAllRectangles() {
-        ArrayList<MoveableRect> temp = new ArrayList<MoveableRect>();
+    public List<MoveableRect> getAllRectangles() {
+        List<MoveableRect> temp = new ArrayList<MoveableRect>();
         allPlayables.forEach((n) -> {
             temp.addAll(n.getAllRectangles());
         });

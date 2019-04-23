@@ -1,6 +1,6 @@
 package tunecomposer;
 
-import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 import javafx.scene.layout.Pane;
 
@@ -9,22 +9,14 @@ class HistoryManager {
     /**
      * Stacks holding different states should the user undo/redo.
      */
-    private static Stack<HashSet<Playable>> undoStack = new Stack<HashSet<Playable>>();
-    private static Stack<HashSet<Playable>> redoStack = new Stack<HashSet<Playable>>();
+    private static Stack<Set<Playable>> undoStack = new Stack<Set<Playable>>();
+    private static Stack<Set<Playable>> redoStack = new Stack<Set<Playable>>();
 
     /**
      * Adds current state to the undo stack and removes all states from redo.
      */
     public static void addEvent() {
-        HashSet<Playable> currentState = new HashSet<Playable>();
-        NoteHandler.allPlayables.forEach((playable) -> {
-            if (playable.getClass() == Gesture.class) {
-                currentState.add(new Gesture((Gesture) playable)); 
-            } else { 
-                currentState.add(new Note((Note) playable)); 
-            }
-        });
-        undoStack.push(currentState);
+        undoStack.push(NoteHandler.copyCurrentState());
         redoStack.removeAllElements();
     }
 
@@ -49,35 +41,10 @@ class HistoryManager {
      * @param notePane the pane
      */
     public static void undo(Pane notePane) {
-        HashSet<Playable> state = undoStack.pop();
-        HashSet<Playable> currentState = new HashSet<Playable>();
-        NoteHandler.allPlayables.forEach((playable) -> {
-            if (playable.getClass() == Gesture.class) {
-                currentState.add(new Gesture((Gesture) playable)); 
-            } else { 
-                currentState.add(new Note((Note) playable)); 
-            }
-        });
-        redoStack.push(currentState);
-        restore(state, notePane);
+        Set<Playable> state = undoStack.pop();
+        redoStack.push(NoteHandler.copyCurrentState());
+        NoteHandler.restore(state, notePane);
         ButtonHandler.updateAllButtons();
-    }
-
-    /**
-     * Resets the state of the pane(playables) back to the given state.
-     * @param state the state to be restored
-     * @param notePane the pane
-     * 
-     */
-    private static void restore(HashSet<Playable> state, Pane notePane) {
-        NoteHandler.allPlayables.forEach((playable) -> {
-            notePane.getChildren().removeAll(playable.getAllRectangles());
-        });
-        NoteHandler.allPlayables.clear();
-        NoteHandler.allPlayables = new HashSet<Playable>(state);
-        NoteHandler.allPlayables.forEach((playable) -> {
-            notePane.getChildren().addAll(playable.getAllRectangles());
-        });
     }
 
     /**
@@ -85,17 +52,9 @@ class HistoryManager {
      * @param notePane the pane
      */
     public static void redo(Pane notePane) {
-        HashSet<Playable> state = redoStack.pop();
-        HashSet<Playable> currentState = new HashSet<Playable>();
-        NoteHandler.allPlayables.forEach((playable) -> {
-            if (playable.getClass() == Gesture.class) {
-                currentState.add(new Gesture((Gesture) playable)); 
-            } else { 
-                currentState.add(new Note((Note) playable)); 
-            }
-        });
-        undoStack.push(currentState);
-        restore(state, notePane);
+        Set<Playable> state = redoStack.pop();
+        undoStack.push(NoteHandler.copyCurrentState());
+        NoteHandler.restore(state, notePane);
         ButtonHandler.updateAllButtons();
     }
 }

@@ -2,9 +2,9 @@ package tunecomposer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.MouseEvent;
+import java.util.List;
+import java.util.Set;
+
 import javafx.scene.layout.Pane;
 
 public class NoteHandler {
@@ -23,8 +23,6 @@ public class NoteHandler {
     public static final int RECTHEIGHT = 10;
     public static final int MARGIN = 5;
 
-    public static boolean clickInPane = true;
-    private static boolean changeDuration = false;
 
     /**
      * End time for MidiPlayer
@@ -35,7 +33,40 @@ public class NoteHandler {
     /**
      * Hashset that stores all playables.
      */
-    protected static HashSet<Playable> allPlayables = new HashSet<Playable>();
+    protected static Set<Playable> allPlayables = new HashSet<Playable>();
+
+    /**
+     * Duplicates current state of notes
+     * @return HashSet of current Playables
+     */
+    public static Set<Playable> copyCurrentState() {
+        Set<Playable> currentState = new HashSet<Playable>();
+        allPlayables.forEach((playable) -> {
+            if (playable.getClass() == Gesture.class) {
+                currentState.add(new Gesture((Gesture) playable)); 
+            } else { 
+                currentState.add(new Note((Note) playable)); 
+            }
+        });
+        return currentState;
+    }
+
+    /**
+     * Resets the state of the pane(playables) back to the given state.
+     * @param state the state to be restored
+     * @param notePane the pane
+     * 
+     */
+    public static void restore(Set<Playable> state, Pane notePane) {
+        allPlayables.forEach((playable) -> {
+            notePane.getChildren().removeAll(playable.getAllRectangles());
+        });
+        allPlayables.clear();
+        allPlayables = new HashSet<Playable>(state);
+        allPlayables.forEach((playable) -> {
+            notePane.getChildren().addAll(playable.getAllRectangles());
+        });
+    }
 
     /**
      * Sets selection values for all of the notes
@@ -63,7 +94,7 @@ public class NoteHandler {
      * @param notePane the pane
      */
     public static void delete(Pane notePane) {
-        ArrayList<Playable> toDelete = new ArrayList<Playable>();
+        List<Playable> toDelete = new ArrayList<Playable>();
         allPlayables.forEach((playable) -> {
             if (playable.getSelected()) {
                 toDelete.add(playable);
@@ -113,107 +144,6 @@ public class NoteHandler {
         });
         NoteHandler.allPlayables.addAll(toAdd);
         NoteHandler.allPlayables.removeAll(toRemove);
-        ButtonHandler.updateAllButtons();
-    }
-
-    /**
-     * When a user clicks in the pane, creates a note.
-     * @param event mouse click
-     * @param notePane the pane 
-     * @param instrumentToggle ToggleGroup that sets instrument type
-     */
-    public static void handleClick(MouseEvent event, Pane notePane, ToggleGroup instrumentToggle) {
-        HistoryManager.addEvent();
-        if (! event.isControlDown()) {
-            NoteHandler.selectAll(false);
-        }
-        RadioButton selectedButton = (RadioButton)instrumentToggle.getSelectedToggle();
-
-        Instrument instrument = Instrument.getInstrument(selectedButton);
-        Note note = new Note(event.getX(), event.getY(), instrument);
-        
-        NoteHandler.allPlayables.add(note);
-        
-        note.getRectangle().forEach((n) -> {
-            notePane.getChildren().add(n);
-        });
-        ButtonHandler.updateAllButtons();
-    }
-
-    /**
-     * When user presses on a note, set the notes to be selected or 
-     * unselected accordingly.
-     * @param event mouse click
-     * @param note note Rectangle that was clicked
-     */
-    public static void handleNoteClick(MouseEvent event, Playable note) {
-        HistoryManager.addEvent();
-        clickInPane = false;
-        boolean control = event.isControlDown();
-        boolean selected = note.getSelected();
-        if (! control && ! selected) {
-            NoteHandler.selectAll(false);
-            note.setSelected(true);
-        } else if ( control && ! selected) {
-            note.setSelected(true);
-        } else if (control && selected) {
-            note.setSelected(false);
-        }
-        ButtonHandler.updateAllButtons();
-    }
-    
-    /**
-     * When user presses on a note, set offsets in each Note in case the user
-     * drags the mouse.
-     * @param event mouse click
-     * @param note note Rectangle that was clicked
-     */
-    public static void handleNotePress(MouseEvent event, Playable note) {
-        changeDuration = note.clickedOnRightEdge(event);
-        NoteHandler.allPlayables.forEach((n) -> {
-            if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMousePressedRightEdge(event);
-                } else {
-                    n.onMousePressed(event);
-                }
-            }
-        });
-    }
-    
-    /**
-     * When the user drags the mouse on a note Rectangle, move all selected
-     * notes
-     * @param event mouse drag
-     */
-    public static void handleNoteDrag(MouseEvent event) {
-        NoteHandler.allPlayables.forEach((n) -> {
-            if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMouseDraggedRightEdge(event);
-                } else {
-                    n.onMouseDragged(event);
-                }
-            }
-        });
-    }
-    
-    /**
-     * When the user stops dragging the mouse, stop moving the selected notes
-     * @param event mouse click
-     */
-    public static void handleNoteStopDragging(MouseEvent event) {
-        clickInPane = false;
-        NoteHandler.allPlayables.forEach((n) -> {
-            if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMouseReleasedRightEdge(event);
-                } else {
-                    n.onMouseReleased(event);
-                }
-            }
-        });
-        changeDuration = false;
         ButtonHandler.updateAllButtons();
     }
 }

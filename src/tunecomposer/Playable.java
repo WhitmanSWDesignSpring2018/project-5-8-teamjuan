@@ -1,6 +1,6 @@
 package tunecomposer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
@@ -13,7 +13,7 @@ public interface Playable {
 
     public void updateLastNote();
 
-    public ArrayList<MoveableRect> getRectangle();
+    public List<MoveableRect> getRectangle();
 
     public boolean getSelected();
     public void setSelected(boolean selected);
@@ -29,6 +29,6 @@ public interface Playable {
     public void onMouseReleased(MouseEvent event);
     public void onMouseReleasedRightEdge(MouseEvent event);
 
-	public ArrayList<MoveableRect> getAllRectangles();
+	public List<MoveableRect> getAllRectangles();
 
 }

@@ -222,10 +222,10 @@ public class TuneComposer extends Application {
         } else if (isDragSelecting){
             isDragSelecting = false;
             selection.endRectangle();
-        } else if (NoteHandler.clickInPane) {
-            NoteHandler.handleClick(event, notePane, instrumentToggle);
+        } else if (ClickHandler.clickInPane) {
+            ClickHandler.handleClick(event, notePane, instrumentToggle);
         }
-        NoteHandler.clickInPane = true;
+        ClickHandler.clickInPane = true;
         ButtonHandler.updateAllButtons();
     }
 
@@ -239,7 +239,7 @@ public class TuneComposer extends Application {
         if (playLine.isPlaying()) {
             stopPlaying();
             playButton.setDisable(true);
-        } else if (NoteHandler.clickInPane) {
+        } else if (ClickHandler.clickInPane) {
             selection.handleSelectionStartDrag(event);
             isDragSelecting = true;
         }
@@ -254,7 +254,7 @@ public class TuneComposer extends Application {
     public void continueDrag(MouseEvent event) {
         if (playLine.isPlaying()) {
             stopPlaying();
-        } else if (NoteHandler.clickInPane) {
+        } else if (ClickHandler.clickInPane) {
             selection.handleSelectionContinueDrag(event);
         }
     }

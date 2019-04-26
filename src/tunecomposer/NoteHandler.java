@@ -146,4 +146,33 @@ public class NoteHandler {
         NoteHandler.allPlayables.removeAll(toRemove);
         ButtonHandler.updateAllButtons();
     }
+
+    /**
+     * Converts composition into XML string
+     * @return composition in XML format
+     */
+    public String createXMLDocString() {
+        String newString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+        newString += "<Composition>";
+        for (Playable playable : NoteHandler.allPlayables) {
+            newString += playable.toString();
+        }
+        newString += "</Composition>";
+        return newString;
+    }
+
+    /**
+     * Converts selected playables in composition into XML string
+     * @return selected playables in XML format
+     */
+    public String createXMLClipboardString() {
+        String newString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+        for (Playable playable : NoteHandler.allPlayables) {
+            if (playable.getSelected()) {
+                newString += playable.toString();
+            }
+        }
+        return newString;
+    }
+
 }

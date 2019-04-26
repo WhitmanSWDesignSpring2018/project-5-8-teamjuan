@@ -35,6 +35,16 @@ public class MoveableRect extends Rectangle {
     }
 
     /**
+     * Converts MoveableRect info into XML string
+     * @return MoveableRect in XML format
+     */
+    public String toString() {
+        return "<MoveableRect x_coord= " + getX()
+                + "y_coord = " + getY() + "rectWidth = " + getWidth()
+                + "rectHeight = " + getHeight() + "/>";
+    }
+
+    /**
      * Sets the fields to the current coordinates.
      */
     public void updateInnerFields() {

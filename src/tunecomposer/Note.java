@@ -77,6 +77,17 @@ public class Note implements Playable {
     }
 
     /**
+     * Converts Note info into XML string
+     * @return note in XML format
+     */
+    public String toString() {
+        return "<Note pitch = " + pitch + " startTime =" + startTime
+                        + "instrument = " + instrument + "isSelected = "  
+                        + isSelected + ">" + noteRect.toString() + "</Note>";
+    }
+
+
+    /**
      * Gets coordinates of the note in the form of an arraylist
      * @return arraylist of coordinates and rectangle width
      */

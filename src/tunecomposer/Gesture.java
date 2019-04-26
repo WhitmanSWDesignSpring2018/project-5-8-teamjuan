@@ -67,6 +67,20 @@ public class Gesture implements Playable {
     }
 
     /**
+     * Converts Gesture info into XML string
+     * @return gesture in XML format
+     */
+    public String toString() {
+        String newString = "<Gesture isSelected =" + isSelected
+                         + "margin = " + margin + ">" + outerRect.toString();
+        for (Playable playable : NoteHandler.allPlayables) {
+            newString += playable.toString();
+        }
+        newString += "</Gesture>";
+        return newString;
+    }
+
+    /**
      * Gets the coordinates of the gesture.
      * @return arraylist of all four coordinate bounds
      */

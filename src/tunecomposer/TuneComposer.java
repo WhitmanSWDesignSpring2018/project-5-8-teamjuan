@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.sound.midi.ShortMessage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * This JavaFX app lets the user play scales.
@@ -298,6 +300,19 @@ public class TuneComposer extends Application {
         NoteHandler.selectAll(true);
         ButtonHandler.updateAllButtons();
     } 
+    
+    /**
+     * Launches the about dialog box. Called from FXML.
+     * @param event the menu selection event 
+     */
+    @FXML
+    private void launchAbout(ActionEvent event) {
+        Alert about = new Alert(AlertType.INFORMATION);
+        about.setTitle("About");
+        about.setHeaderText("Welcome to TuneComposer!");
+        about.setContentText("To make music with me, simply click on the lined pane to add notes. You can change the duration of the notes by dragging them horizontally and change the pitch by dragging them vertically.\n\nIf you want to group notes together, click on them and hit the Group option to group them into a Gesture.\n\nDon't worry if you make mistakes -- I have undo/redo options and am keeping track of everything that you do. I also have cut/copy/paste functionality so editing your tunes is easy!\n\nIf you want to take a stroll down memory lane with me, you can load in old songs you've written with me. You can also save whatever songs you write as we go along!\n\nOne last thing: if you hate pushing my buttons, you can also control me through key presses. When you look through the menu options, you'll also see how to tell me what to do through the keyboard.\n\nLove,\nMadi Crowley, Melissa Kohl, Michelle Zhang, and Sage Levin\na.k.a Team Juan <3");
+        about.showAndWait();
+    }
 
     /**
      * Construct the scene and start the application.

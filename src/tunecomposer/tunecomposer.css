@@ -1,0 +1,88 @@
+/*
+ * TuneComposer Stylesheet file.
+ */
+
+#root-pane {
+    -fx-pref-width: 2000;
+    -fx-pref-height: 1280;
+}
+
+.row-divider {
+    -fx-stroke: #e8e8e8;
+}
+
+.play-line {
+    -fx-stroke: #E81A0B;
+}
+
+.selected {
+    -fx-stroke: #E81A0B;
+    -fx-stroke-width: 3px;
+}
+
+.unselected {
+    -fx-stroke: #000000;
+}
+
+.selected-gesture {
+    -fx-stroke: #E81A0B;
+    -fx-border-style: dashed; 
+    -fx-stroke-dash-array: 5 5 5 5;
+    -fx-fill: transparent;
+}
+
+.unselected-gesture {
+    -fx-stroke: #000000;
+    -fx-border-style: dashed; 
+    -fx-stroke-dash-array: 5 5 5 5;
+    -fx-fill: transparent;
+}
+
+.spacing {
+    -fx-max-width: 161px;
+}
+
+.selection-rect {
+    -fx-fill: transparent;
+    -fx-stroke: #f2c500;
+}
+
+.piano {
+    -fx-background-color: lightgray;
+    -fx-fill: lightgray;
+}
+
+.harpsichord {
+    -fx-background-color: beige;
+    -fx-fill: beige;
+}
+
+.marimba {
+    -fx-background-color: lightsalmon;
+    -fx-fill: lightsalmon;
+}
+
+.church-organ {
+    -fx-background-color: lightblue;
+    -fx-fill: lightblue;
+}
+
+.accordion {
+    -fx-background-color: orange;
+    -fx-fill: orange;
+}
+
+.guitar {
+    -fx-background-color: lightgreen;
+    -fx-fill: lightgreen;
+}
+
+.violin {
+    -fx-background-color: rosybrown;
+    -fx-fill: rosybrown;
+}
+
+.french-horn {
+    -fx-background-color: gold;
+    -fx-fill: gold;
+}

@@ -15,7 +15,7 @@ public class Gesture implements Playable {
     /**
     * Fields for the Gesture class.
     */
-    private HashSet<Playable> allPlayables;
+    private Set<Playable> allPlayables;
 
     private boolean isSelected;
 
@@ -64,6 +64,13 @@ public class Gesture implements Playable {
         margin = 5;
         allPlayables = new HashSet<Playable>();
         isSelected = true;
+    }
+
+    public Gesture(boolean isSelected, double margin, Set<Playable> allPlayables, MoveableRect outerRect) {
+        this.isSelected = isSelected;
+        this.margin = margin;
+        this.allPlayables = allPlayables;
+        this.outerRect = outerRect;
     }
 
     /**

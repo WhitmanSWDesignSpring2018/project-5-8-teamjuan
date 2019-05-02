@@ -35,6 +35,16 @@ public class MoveableRect extends Rectangle {
     }
 
     /**
+     * Constructs a MoveableRect using Rectangle class.
+     */
+    public MoveableRect(double x, double y, double w, double h) {
+        super(x, y, w, h);
+        x_coord = getX();
+        y_coord = getY();
+        rectWidth = getWidth();
+    }
+
+    /**
      * Converts MoveableRect info into XML string
      * @return MoveableRect in XML format
      */

@@ -76,13 +76,23 @@ public class Note implements Playable {
         setSelected(true);
     }
 
+    public Note(int pitch, int startTime, Instrument instrument, boolean isSelected, MoveableRect noteRect) {
+        this.pitch = pitch;
+        this.startTime = startTime;
+        this.instrument = instrument;
+        this.isSelected = isSelected;
+        this.noteRect = noteRect;
+        x_coord = noteRect.getX();
+        y_coord = noteRect.getY();
+    }
+
     /**
      * Converts Note info into XML string
      * @return note in XML format
      */
     public String toString() {
         return "<Note pitch = " + pitch + " startTime =" + startTime
-                        + "instrument = " + instrument + "isSelected = "  
+                        + "instrument = " + instrument.toString() + "isSelected = "  
                         + isSelected + ">" + noteRect.toString() + "</Note>";
     }
 

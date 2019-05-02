@@ -26,26 +26,27 @@ import javafx.scene.control.Alert.AlertType;
 
 /**
  * This JavaFX app lets the user play scales.
+ * 
  * @author Ian Stewart, Ian Hawkins, Angie Mead, Melissa Kohl
  */
 public class TuneComposer extends Application {
 
-     /**
+    /**
      * A MidiPlayer for all notes to use.
      */
-    public static final MidiPlayer PLAYER = new MidiPlayer(100,60);
+    public static final MidiPlayer PLAYER = new MidiPlayer(100, 60);
 
     /**
      * A list of instrument values to associate with MidiPlayer channels
      */
-    private final int[] timbreList = new int[] {0, 6, 12, 19, 21, 24, 40, 60};
+    private final int[] timbreList = new int[] { 0, 6, 12, 19, 21, 24, 40, 60 };
 
     /**
-     * A line moves from left to right across the main pane. It crosses each
-     * note as that note is played.
+     * A line moves from left to right across the main pane. It crosses each note as
+     * that note is played.
      */
     private static PlayLine playLine;
-    
+
     /**
      * Boolean flags to control flow when user clicks in composition panel
      */
@@ -91,10 +92,10 @@ public class TuneComposer extends Application {
      */
     @FXML
     private ToggleGroup instrumentToggle;
-    
+
     /**
-     * A group of menu buttons that can be enabled/disabled
-     * depending on what is present in the Pane.
+     * A group of menu buttons that can be enabled/disabled depending on what is
+     * present in the Pane.
      */
     @FXML
     private MenuItem undoButton;
@@ -107,11 +108,11 @@ public class TuneComposer extends Application {
     @FXML
     private MenuItem selectAllButton;
     @FXML
-    private MenuItem deleteButton; 
+    private MenuItem deleteButton;
     @FXML
     private MenuItem playButton;
     @FXML
-    private MenuItem stopButton; 
+    private MenuItem stopButton;
     @FXML
     private MenuItem newButton;
     @FXML
@@ -128,13 +129,12 @@ public class TuneComposer extends Application {
     private MenuItem pasteButton;
 
     /**
-     * Plays notes that have been added.
-     * Called when the Play button is clicked.
+     * Plays notes that have been added. Called when the Play button is clicked.
      */
     public void startPlaying() {
         PLAYER.stop();
         PLAYER.clear();
-        for(int i=0; i<8; i++){
+        for (int i = 0; i < 8; i++) {
             PLAYER.addMidiEvent(ShortMessage.PROGRAM_CHANGE + i, timbreList[i], 0, 0, 0);
         }
         NoteHandler.schedule();
@@ -145,6 +145,7 @@ public class TuneComposer extends Application {
 
     /**
      * When user selects "Start" menu item, start playing composition
+     * 
      * @param ignored not used
      */
     @FXML
@@ -154,9 +155,8 @@ public class TuneComposer extends Application {
     }
 
     /**
-     * Stops playing composition.
-     * Called when the Stop button is clicked. Does not remove notes from the
-     * screen or from allNotes.
+     * Stops playing composition. Called when the Stop button is clicked. Does not
+     * remove notes from the screen or from allNotes.
      */
     public void stopPlaying() {
         PLAYER.stop();
@@ -166,6 +166,7 @@ public class TuneComposer extends Application {
 
     /**
      * When the user selects "Stop" menu item, stop playing composition
+     * 
      * @param ignored not used
      */
     @FXML
@@ -176,6 +177,7 @@ public class TuneComposer extends Application {
 
     /**
      * When the user selects the "Exit" menu item, exit the program.
+     * 
      * @param event the menu selection event
      */
     @FXML
@@ -185,6 +187,7 @@ public class TuneComposer extends Application {
 
     /**
      * Un-does the last action when the user selects "Undo".
+     * 
      * @param event the menu selection event
      */
     @FXML
@@ -194,6 +197,7 @@ public class TuneComposer extends Application {
 
     /**
      * Re-does the last action when the user selects "Redo".
+     * 
      * @param event the menu selection event
      */
     @FXML
@@ -202,8 +206,7 @@ public class TuneComposer extends Application {
     }
 
     /**
-     * Initializes FXML. Called automatically.
-     * (1) adds 127 gray lines to background
+     * Initializes FXML. Called automatically. (1) adds 127 gray lines to background
      * (2) initializes the playLine(set to invisible)
      */
     public void initialize() {
@@ -221,24 +224,20 @@ public class TuneComposer extends Application {
 
         selection = new SelectionArea(selectRect);
 
-        ButtonHandler.setButtons(undoButton, redoButton, 
-                                groupButton, ungroupButton, 
-                                selectAllButton, deleteButton, 
-                                playButton, stopButton,
-                                newButton, openButton,
-                                saveButton, saveAsButton,
-                                cutButton, copyButton, pasteButton,                                
-                                playLine);
+        ButtonHandler.setButtons(undoButton, redoButton, groupButton, ungroupButton, selectAllButton, deleteButton,
+                playButton, stopButton, newButton, openButton, saveButton, saveAsButton, cutButton, copyButton,
+                pasteButton, playLine);
     }
 
     /**
      * Construct a note from a click. Called via FXML.
+     * 
      * @param event a mouse click
      */
     public void handleClick(MouseEvent event) {
         if (playLine.isPlaying()) {
             stopPlaying();
-        } else if (isDragSelecting){
+        } else if (isDragSelecting) {
             isDragSelecting = false;
             selection.endRectangle();
         } else if (ClickHandler.clickInPane) {
@@ -249,9 +248,10 @@ public class TuneComposer extends Application {
     }
 
     /**
-     * Automatically-called when user drags mouse. Stops playing if composition
-     * is playing, and starts dragging selection rectangle if mouse click is
-     * not on a Playable note.
+     * Automatically-called when user drags mouse. Stops playing if composition is
+     * playing, and starts dragging selection rectangle if mouse click is not on a
+     * Playable note.
+     * 
      * @param event mouse click
      */
     public void startDrag(MouseEvent event) {
@@ -265,9 +265,10 @@ public class TuneComposer extends Application {
     }
 
     /**
-     * Automatically-called when user drags mouse. Stops playing if composition
-     * is playing, and continues to drag selection rectangle if initial mouse 
-     * click was not on a Playable note.
+     * Automatically-called when user drags mouse. Stops playing if composition is
+     * playing, and continues to drag selection rectangle if initial mouse click was
+     * not on a Playable note.
+     * 
      * @param event mouse click
      */
     public void continueDrag(MouseEvent event) {
@@ -279,36 +280,40 @@ public class TuneComposer extends Application {
     }
 
     /**
-    * Groups playables together as a gesture.  Called from FXML.
-    * @param event the menu selection event
-    */
+     * Groups playables together as a gesture. Called from FXML.
+     * 
+     * @param event the menu selection event
+     */
     @FXML
     private void handleGroup(ActionEvent event) {
         NoteHandler.group(notePane);
     }
 
     /**
-    * Ungroups playables.  Called from FXML.
-    * @param event the menu selection event
-    */
+     * Ungroups playables. Called from FXML.
+     * 
+     * @param event the menu selection event
+     */
     @FXML
     private void handleUngroup(ActionEvent event) {
         NoteHandler.ungroup(notePane);
     }
-    
+
     /**
      * Delete all selected notes. Called from FXML.
+     * 
      * @param event the menu selection event
      */
     @FXML
     private void handleDelete(ActionEvent event) {
         HistoryManager.addEvent();
-        NoteHandler.delete(notePane); 
+        NoteHandler.delete(notePane);
         ButtonHandler.updateAllButtons();
     }
-    
+
     /**
      * Select all notes. Called from FXML.
+     * 
      * @param event the menu selection event
      */
     @FXML
@@ -316,32 +321,63 @@ public class TuneComposer extends Application {
         HistoryManager.addEvent();
         NoteHandler.selectAll(true);
         ButtonHandler.updateAllButtons();
-    } 
+    }
 
     /**
      * Save the document. Called from FXML.
+     * 
      * @param event the menu selection event
      */
     @FXML
-    private void handleSaveAs(ActionEvent event){
+    private void handleSaveAs(ActionEvent event) {
         // TODO
     }
-    
+
+    /**
+     * 
+     * @param event
+     */
+    @FXML
+    private void handleCut(ActionEvent event) {
+        ClipboardManager.cut(notePane);
+    }
+
+    /**
+     * 
+     * @param event
+     */
+    @FXML
+    private void handleCopy(ActionEvent event) {
+        ClipboardManager.copy(notePane);
+    }
+
+    /**
+     * 
+     * @param event
+     */
+    @FXML
+    private void handlePaste(ActionEvent event) {
+        ClipboardManager.paste(notePane);
+    }
+
     /**
      * Launches the about dialog box. Called from FXML.
-     * @param event the menu selection event 
+     * 
+     * @param event the menu selection event
      */
     @FXML
     private void launchAbout(ActionEvent event) {
         Alert about = new Alert(AlertType.INFORMATION);
         about.setTitle("About");
         about.setHeaderText("Welcome to TuneComposer!");
-        about.setContentText("To make music with me, simply click on the lined pane to add notes. You can change the duration of the notes by dragging them horizontally and change the pitch by dragging them vertically.\n\nIf you want to group notes together, click on them and hit the Group option to group them into a Gesture.\n\nDon't worry if you make mistakes -- I have undo/redo options and am keeping track of everything that you do. I also have cut/copy/paste functionality so editing your tunes is easy!\n\nIf you want to take a stroll down memory lane with me, you can load in old songs you've written with me. You can also save whatever songs you write as we go along!\n\nOne last thing: if you hate pushing my buttons, you can also control me through key presses. When you look through the menu options, you'll also see how to tell me what to do through the keyboard.\n\nLove,\nMadi Crowley, Melissa Kohl, Michelle Zhang, and Sage Levin\na.k.a Team Juan <3");
+        about.setContentText(
+                "To make music with me, simply click on the lined pane to add notes. You can change the duration of the notes by dragging them horizontally and change the pitch by dragging them vertically.\n\nIf you want to group notes together, click on them and hit the Group option to group them into a Gesture.\n\nDon't worry if you make mistakes -- I have undo/redo options and am keeping track of everything that you do. I also have cut/copy/paste functionality so editing your tunes is easy!\n\nIf you want to take a stroll down memory lane with me, you can load in old songs you've written with me. You can also save whatever songs you write as we go along!\n\nOne last thing: if you hate pushing my buttons, you can also control me through key presses. When you look through the menu options, you'll also see how to tell me what to do through the keyboard.\n\nLove,\nMadi Crowley, Melissa Kohl, Michelle Zhang, and Sage Levin\na.k.a Team Juan <3");
         about.showAndWait();
     }
 
     /**
      * Construct the scene and start the application.
+     * 
      * @param primaryStage the stage for the main window
      * @throws java.io.IOException
      */
@@ -355,13 +391,13 @@ public class TuneComposer extends Application {
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
             System.exit(0);
         });
-        
+
         primaryStage.show();
     }
 
-
     /**
      * Launch the application.
+     * 
      * @param args the command line arguments are ignored
      */
     public static void main(String[] args) {

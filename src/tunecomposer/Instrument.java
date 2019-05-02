@@ -47,6 +47,14 @@ public enum Instrument {
          */
         public static Instrument getInstrument(RadioButton selectedButton) {
             String instrument = selectedButton.getText();
+            return getInstrument(instrument);
+        }
+
+        /**
+         * Get the instrument from its name.
+         * @return the selected instrument
+         */
+        public static Instrument getInstrument(String instrument) {
             switch(instrument) {
                 case "Piano":           return Instrument.PIANO;
                 case "Harpsichord":     return Instrument.HARPSICHORD;

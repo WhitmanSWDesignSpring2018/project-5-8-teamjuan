@@ -24,7 +24,7 @@
         <menus>
           <Menu text="File">
             <items>
-                  <MenuItem fx:id="aboutButton" mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="aboutButton" mnemonicParsing="false" onAction="#launchAbout" text="About" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="newButton" mnemonicParsing="false" text="New">
                      <accelerator>

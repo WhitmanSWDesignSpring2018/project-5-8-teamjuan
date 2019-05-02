@@ -1,6 +1,5 @@
 package tunecomposer;
 
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;

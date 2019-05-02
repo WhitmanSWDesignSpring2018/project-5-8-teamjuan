@@ -112,6 +112,20 @@ public class TuneComposer extends Application {
     private MenuItem playButton;
     @FXML
     private MenuItem stopButton; 
+    @FXML
+    private MenuItem newButton;
+    @FXML
+    private MenuItem openButton;
+    @FXML
+    private MenuItem saveButton;
+    @FXML
+    private MenuItem saveAsButton;
+    @FXML
+    private MenuItem cutButton;
+    @FXML
+    private MenuItem copyButton;
+    @FXML
+    private MenuItem pasteButton;
 
     /**
      * Plays notes that have been added.
@@ -211,6 +225,9 @@ public class TuneComposer extends Application {
                                 groupButton, ungroupButton, 
                                 selectAllButton, deleteButton, 
                                 playButton, stopButton,
+                                newButton, openButton,
+                                saveButton, saveAsButton,
+                                cutButton, copyButton, pasteButton,                                
                                 playLine);
     }
 
@@ -300,6 +317,15 @@ public class TuneComposer extends Application {
         NoteHandler.selectAll(true);
         ButtonHandler.updateAllButtons();
     } 
+
+    /**
+     * Save the document. Called from FXML.
+     * @param event the menu selection event
+     */
+    @FXML
+    private void handleSaveAs(ActionEvent event){
+        // TODO
+    }
     
     /**
      * Launches the about dialog box. Called from FXML.

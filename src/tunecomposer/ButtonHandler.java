@@ -13,6 +13,13 @@ class ButtonHandler {
     private static MenuItem deleteButton; 
     private static MenuItem playButton;
     private static MenuItem stopButton;
+    private static MenuItem newButton;
+    private static MenuItem openButton;
+    private static MenuItem saveButton;
+    private static MenuItem saveAsButton;
+    private static MenuItem cutButton;
+    private static MenuItem copyButton;
+    private static MenuItem pasteButton;
 
     private static PlayLine playline;
 
@@ -22,6 +29,10 @@ class ButtonHandler {
                                   MenuItem group, MenuItem ungroup, 
                                   MenuItem selectAll, MenuItem delete, 
                                   MenuItem play, MenuItem stop,
+                                  MenuItem newB, MenuItem open,
+                                  MenuItem save, MenuItem saveAs,
+                                  MenuItem cut, MenuItem copy,
+                                  MenuItem paste,
                                   PlayLine line) {
         undoButton = undo;
         redoButton = redo;
@@ -31,6 +42,13 @@ class ButtonHandler {
         deleteButton = delete;
         playButton = play;
         stopButton = stop;
+        newButton = newB;
+        openButton = open;
+        stopButton = stop;
+        saveButton = save;
+        saveAsButton = saveAs;
+        cutButton = cut;
+        pasteButton = paste;
 
         playline = line;
     }

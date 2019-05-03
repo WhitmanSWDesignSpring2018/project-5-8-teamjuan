@@ -9,12 +9,11 @@ import java.util.Set;
 import javafx.geometry.Bounds;
 import javafx.scene.input.MouseEvent;
 
-
 public class Gesture implements Playable {
 
     /**
-    * Fields for the Gesture class.
-    */
+     * Fields for the Gesture class.
+     */
     private Set<Playable> allPlayables;
 
     private boolean isSelected;
@@ -33,6 +32,7 @@ public class Gesture implements Playable {
 
     /**
      * Creates a clone of the given gesture.
+     * 
      * @param gest gesture to be cloned
      */
     public Gesture(Gesture gest) {
@@ -44,9 +44,9 @@ public class Gesture implements Playable {
         allPlayables = new HashSet<Playable>();
         gest.getPlayables().forEach((playable) -> {
             if (playable.getClass() == Gesture.class) {
-                addPlayable(new Gesture((Gesture) playable)); 
-            } else { 
-                addPlayable(new Note((Note) playable)); 
+                addPlayable(new Gesture((Gesture) playable));
+            } else {
+                addPlayable(new Note((Note) playable));
             }
         });
         createRectangle();
@@ -54,8 +54,8 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Constructs a Gesture.
-    */
+     * Constructs a Gesture.
+     */
     public Gesture() {
         upperXBound = 0;
         upperYBound = 0;
@@ -75,11 +75,12 @@ public class Gesture implements Playable {
 
     /**
      * Converts Gesture info into XML string
+     * 
      * @return gesture in XML format
      */
     public String toString() {
-        String newString = "<Gesture isSelected =" + isSelected
-                         + "margin = " + margin + ">" + outerRect.toString();
+        String newString = "<Gesture isSelected=\"" + isSelected + "\" margin=\"" + margin + "\">"
+                + outerRect.toString();
         for (Playable playable : NoteHandler.allPlayables) {
             newString += playable.toString();
         }
@@ -89,6 +90,7 @@ public class Gesture implements Playable {
 
     /**
      * Gets the coordinates of the gesture.
+     * 
      * @return arraylist of all four coordinate bounds
      */
     public List<Double> getCoords() {
@@ -101,8 +103,8 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Sets the margin for the Gesture.
-    */
+     * Sets the margin for the Gesture.
+     */
     private void setMargin() {
         double max = 0;
         for (Playable play : allPlayables) {
@@ -112,16 +114,17 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Gets the margin value.
-    * @return margin 
-    */
+     * Gets the margin value.
+     * 
+     * @return margin
+     */
     private double getMargin() {
         return margin;
     }
 
     /**
-    * Gets bounds and adds to Playable.
-    */
+     * Gets bounds and adds to Playable.
+     */
     public void addPlayable(Playable play) {
         allPlayables.add(play);
         upperXBound = Math.max(play.getBounds().getMaxX(), upperXBound);
@@ -131,13 +134,13 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Creates the rectangle that groups the Gesture. 
-    */
+     * Creates the rectangle that groups the Gesture.
+     */
     public void createRectangle() {
         outerRect = new MoveableRect();
 
         outerRect.setX(lowerXBound);
-        outerRect.setY(lowerYBound); 
+        outerRect.setY(lowerYBound);
         outerRect.setWidth(upperXBound - lowerXBound);
         outerRect.setHeight(upperYBound - lowerYBound);
         outerRect.updateInnerFields();
@@ -147,11 +150,11 @@ public class Gesture implements Playable {
         outerRect.setOnMousePressed((MouseEvent pressedEvent) -> {
             ClickHandler.handleNoteClick(pressedEvent, this);
             ClickHandler.handleNotePress(pressedEvent, this);
-        }); 
+        });
 
         outerRect.setOnMouseDragged((MouseEvent dragEvent) -> {
             ClickHandler.handleNoteDrag(dragEvent);
-        }); 
+        });
 
         outerRect.setOnMouseReleased((MouseEvent releaseEvent) -> {
             ClickHandler.handleNoteStopDragging(releaseEvent);
@@ -161,33 +164,35 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Gets the outer rectangle for the moveable rectangle.
-    * @return outer rectanlge 
-    */
+     * Gets the outer rectangle for the moveable rectangle.
+     * 
+     * @return outer rectanlge
+     */
     public MoveableRect getOuterRectangle() {
         return outerRect;
     }
 
     /**
-    * Gets all the Playable values from the HashSet.
-    * @return all playables
-    */
+     * Gets all the Playable values from the HashSet.
+     * 
+     * @return all playables
+     */
     public Set<Playable> getPlayables() {
-        return allPlayables; 
+        return allPlayables;
     }
 
     /**
-    * Gets bounds from the outer rectangle.
-    * @return outer rectangle bounds
-    */
+     * Gets bounds from the outer rectangle.
+     * 
+     * @return outer rectangle bounds
+     */
     public Bounds getBounds() {
         return outerRect.getLayoutBounds();
     }
 
     /**
-    * Passes all playables into the schedule method
-    * so that they can play.
-    */
+     * Passes all playables into the schedule method so that they can play.
+     */
     public void schedule() {
         allPlayables.forEach((n) -> {
             n.schedule();
@@ -195,19 +200,20 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Updates each note.
-    */ 
-    public void updateLastNote(){
+     * Updates each note.
+     */
+    public void updateLastNote() {
         allPlayables.forEach((n) -> {
             n.updateLastNote();
         });
     }
 
     /**
-    * Adds each playable into an array.
-    * @return array
-    */
-    public List<MoveableRect> getRectangle(){
+     * Adds each playable into an array.
+     * 
+     * @return array
+     */
+    public List<MoveableRect> getRectangle() {
         List<MoveableRect> arr = new ArrayList<MoveableRect>();
         allPlayables.forEach((n) -> {
             arr.addAll(n.getRectangle());
@@ -217,6 +223,7 @@ public class Gesture implements Playable {
 
     /**
      * Adds all gesture and note rectangles to arraylist.
+     * 
      * @return arraylist of playables
      */
     public List<MoveableRect> getAllRectangles() {
@@ -229,18 +236,20 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Checks if playable is selected.
-    * @return boolean 
-    */
-    public boolean getSelected(){
+     * Checks if playable is selected.
+     * 
+     * @return boolean
+     */
+    public boolean getSelected() {
         return isSelected;
     }
 
     /**
-    * Selects gestures.
-    @param selected boolean representing selection
-    */
-    public void setSelected(boolean selected){
+     * Selects gestures.
+     * 
+     * @param selected boolean representing selection
+     */
+    public void setSelected(boolean selected) {
         isSelected = selected;
         if (selected) {
             outerRect.getStyleClass().clear();
@@ -256,18 +265,20 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Returns true/false within the last five of the rectangle.
-    * @param event 
-    */
-    public boolean clickedOnRightEdge(MouseEvent event){
+     * Returns true/false within the last five of the rectangle.
+     * 
+     * @param event
+     */
+    public boolean clickedOnRightEdge(MouseEvent event) {
         return outerRect.clickedOnRightEdge(event);
     }
-    
+
     /**
-    * Sets the outer rectangle in relationship to the mouse press from user.
-    * @param event mouse press
-    */
-    public void onMousePressed(MouseEvent event){
+     * Sets the outer rectangle in relationship to the mouse press from user.
+     * 
+     * @param event mouse press
+     */
+    public void onMousePressed(MouseEvent event) {
 
         outerRect.startLocationChange(event);
 
@@ -277,25 +288,27 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Sets the rectangle around the gesture in relationship to
-    * the mouse press from the user.
-    * @param event mouse press
-    */
-    public void onMousePressedRightEdge(MouseEvent event){
-        
-        outerRect.startWidthChange(event); 
+     * Sets the rectangle around the gesture in relationship to the mouse press from
+     * the user.
+     * 
+     * @param event mouse press
+     */
+    public void onMousePressedRightEdge(MouseEvent event) {
+
+        outerRect.startWidthChange(event);
 
         allPlayables.forEach((n) -> {
             n.onMousePressedRightEdge(event);
         });
     }
-    
+
     /**
-    * Sets the rectangle around the gesture in relationship to
-    * the mouse drag from the user.
-    * @param event mouse drag
-    */
-    public void onMouseDraggedRightEdge(MouseEvent event){
+     * Sets the rectangle around the gesture in relationship to the mouse drag from
+     * the user.
+     * 
+     * @param event mouse drag
+     */
+    public void onMouseDraggedRightEdge(MouseEvent event) {
 
         outerRect.changeWidth(event, getMargin());
 
@@ -305,40 +318,41 @@ public class Gesture implements Playable {
     }
 
     /**
-    * Sets the rectangle in relationship to
-    * the mouse drag from the user.
-    * @param event mouse drag
-    */
-    public void onMouseDragged(MouseEvent event){
-        
+     * Sets the rectangle in relationship to the mouse drag from the user.
+     * 
+     * @param event mouse drag
+     */
+    public void onMouseDragged(MouseEvent event) {
+
         outerRect.changeLocation(event);
 
         allPlayables.forEach((n) -> {
             n.onMouseDragged(event);
         });
     }
-    
+
     /**
-    * Sets the rectangle in relationship to
-    * the mouse release from the user.
-    * @param event mouse drag
-    */
-    public void onMouseReleased(MouseEvent event){
-        
+     * Sets the rectangle in relationship to the mouse release from the user.
+     * 
+     * @param event mouse drag
+     */
+    public void onMouseReleased(MouseEvent event) {
+
         outerRect.stopLocationChange(event);
 
         allPlayables.forEach((n) -> {
             n.onMouseReleased(event);
         });
     }
-    
+
     /**
-    * Sets the rectangle to a gesture in relationship to
-    * the mouse release from the user.
-    * @param event mouse drag
-    */
-    public void onMouseReleasedRightEdge(MouseEvent event){
-        
+     * Sets the rectangle to a gesture in relationship to the mouse release from the
+     * user.
+     * 
+     * @param event mouse drag
+     */
+    public void onMouseReleasedRightEdge(MouseEvent event) {
+
         outerRect.stopWidthChange(event, getMargin());
 
         allPlayables.forEach((n) -> {

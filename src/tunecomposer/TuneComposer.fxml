@@ -89,17 +89,17 @@
                      </accelerator>
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="cutButton" mnemonicParsing="false" text="Cut">
+                  <MenuItem fx:id="cutButton" mnemonicParsing="false" onAction="#handleCut" text="Cut">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="X" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="copyButton" mnemonicParsing="false" text="Copy">
+                  <MenuItem fx:id="copyButton" mnemonicParsing="false" onAction="#handleCopy" text="Copy">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="C" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="pasteButton" mnemonicParsing="false" text="Paste">
+                  <MenuItem fx:id="pasteButton" mnemonicParsing="false" onAction="#handlePaste" text="Paste">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="V" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>

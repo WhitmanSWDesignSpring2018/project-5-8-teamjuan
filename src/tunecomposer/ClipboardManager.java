@@ -16,7 +16,6 @@ public class ClipboardManager {
         HistoryManager.addEvent();
         copy(notePane);
         NoteHandler.delete(notePane);
-
     }
 
     public static void copy(Pane notePane) {

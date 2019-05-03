@@ -23,6 +23,12 @@ import javafx.stage.WindowEvent;
 import javax.sound.midi.ShortMessage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import java.io.File;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+import java.io.IOException;
 
 /**
  * This JavaFX app lets the user play scales.
@@ -93,6 +99,16 @@ public class TuneComposer extends Application {
     @FXML
     private ToggleGroup instrumentToggle;
 
+    /**
+     * The primary stage.
+     */
+    private Stage tuneStage;
+
+    /**
+     * The filechooser.
+     */
+    private FileChooser tuneChooser;
+    
     /**
      * A group of menu buttons that can be enabled/disabled depending on what is
      * present in the Pane.
@@ -329,8 +345,21 @@ public class TuneComposer extends Application {
      * @param event the menu selection event
      */
     @FXML
-    private void handleSaveAs(ActionEvent event) {
-        // TODO
+    private void handleSaveAs(ActionEvent event){
+        tuneChooser.setTitle("Name Composition File");
+        File saveFile = tuneChooser.showSaveDialog(tuneStage);
+    }
+
+    /**
+     * Open a document. Called from FXML.
+     * @param event the menu selection event
+     */
+    @FXML
+    private void handleOpen(ActionEvent event) throws ParserConfigurationException, IOException, SAXException{
+        tuneChooser.setTitle("Open Composition File");
+        tuneChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
+        File selectedFile = tuneChooser.showOpenDialog(tuneStage);
+        TuneParser.parseFile(selectedFile);
     }
 
     /**
@@ -393,6 +422,8 @@ public class TuneComposer extends Application {
         });
 
         primaryStage.show();
+        tuneStage = primaryStage;
+        tuneChooser = new FileChooser();
     }
 
     /**

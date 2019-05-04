@@ -26,6 +26,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import java.io.File;
+import java.io.FileWriter;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import java.io.IOException;
@@ -103,11 +105,6 @@ public class TuneComposer extends Application {
      * The primary stage.
      */
     private Stage tuneStage;
-
-    /**
-     * The filechooser.
-     */
-    private FileChooser tuneChooser = new FileChooser();;
     
     /**
      * A group of menu buttons that can be enabled/disabled depending on what is
@@ -340,14 +337,41 @@ public class TuneComposer extends Application {
     }
 
     /**
-     * Save the document. Called from FXML.
+     * Save the document as a new file. Called from FXML.
      * 
      * @param event the menu selection event
      */
     @FXML
     private void handleSaveAs(ActionEvent event){
+        FileChooser tuneChooser = new FileChooser();
         tuneChooser.setTitle("Name Composition File");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        tuneChooser.getExtensionFilters().add(extFilter);
         File saveFile = tuneChooser.showSaveDialog(tuneStage);
+        saveFile(NoteHandler.createXMLClipboardString(), saveFile);
+    }
+
+    /**
+     * Save the document. Called from FXML.
+     * 
+     * @param event the menu selection event
+     */
+    @FXML
+    private void handleSave(ActionEvent event){
+        
+    }
+
+    private void saveFile(String content, File file){
+        try {
+            FileWriter fileWriter = null;
+             
+            fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        } catch (IOException ex) {
+            System.out.println("error during save");
+        }
+         
     }
 
     /**
@@ -356,10 +380,12 @@ public class TuneComposer extends Application {
      */
     @FXML
     private void handleOpen(ActionEvent event) throws ParserConfigurationException, IOException, SAXException{
+        FileChooser tuneChooser = new FileChooser();
         tuneChooser.setTitle("Open Composition File");
         tuneChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
         File selectedFile = tuneChooser.showOpenDialog(tuneStage);
         TuneParser.parseFile(selectedFile);
+        NoteHandler.restore(notePane);
     }
 
     /**

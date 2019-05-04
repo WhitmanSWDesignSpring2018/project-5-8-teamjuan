@@ -68,6 +68,15 @@ public class NoteHandler {
         });
     }
 
+    public static void restore(Pane notePane) {
+        allPlayables.forEach((playable) -> {
+            notePane.getChildren().removeAll(playable.getAllRectangles());
+        });
+        allPlayables.forEach((playable) -> {
+            notePane.getChildren().addAll(playable.getAllRectangles());
+        });
+    }
+
     /**
      * Sets selection values for all of the notes
      * 

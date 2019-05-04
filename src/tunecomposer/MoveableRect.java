@@ -39,7 +39,11 @@ public class MoveableRect extends Rectangle {
      * Constructs a MoveableRect using Rectangle class.
      */
     public MoveableRect(double x, double y, double w, double h) {
-        super(x, y, w, h);
+        // super(x, y, w, h);
+        setX(x);
+        setY(y);
+        setWidth(w);
+        setHeight(h);
         x_coord = getX();
         y_coord = getY();
         rectWidth = getWidth();

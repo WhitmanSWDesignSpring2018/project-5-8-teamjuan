@@ -85,6 +85,9 @@ public class Note implements Playable {
         this.noteRect = noteRect;
         x_coord = noteRect.getX();
         y_coord = noteRect.getY();
+        rectWidth = noteRect.getWidth();
+        setMouseHandlers();
+        setSelected(isSelected);
     }
 
     /**
@@ -142,6 +145,10 @@ public class Note implements Playable {
         noteRect.updateInnerFields();
         noteRect.setMouseTransparent(false);
 
+        setMouseHandlers();
+    }
+
+    public void setMouseHandlers() {
         noteRect.setOnMousePressed((MouseEvent pressedEvent) -> {
             ClickHandler.handleNoteClick(pressedEvent, this);
             ClickHandler.handleNotePress(pressedEvent, this);

@@ -71,6 +71,8 @@ public class Gesture implements Playable {
         this.margin = margin;
         this.allPlayables = allPlayables;
         this.outerRect = outerRect;
+        setMouseHandlers();
+        setSelected(isSelected);
     }
 
     /**
@@ -81,7 +83,7 @@ public class Gesture implements Playable {
     public String toString() {
         String newString = "<Gesture isSelected=\"" + isSelected + "\" margin=\"" + margin + "\">"
                 + outerRect.toString();
-        for (Playable playable : NoteHandler.allPlayables) {
+        for (Playable playable : allPlayables) {
             newString += playable.toString();
         }
         newString += "</Gesture>";
@@ -147,6 +149,12 @@ public class Gesture implements Playable {
         outerRect.getStyleClass().add("selected-gesture");
         outerRect.setMouseTransparent(false);
 
+        setMouseHandlers();
+
+        setMargin();
+    }
+
+    private void setMouseHandlers() {
         outerRect.setOnMousePressed((MouseEvent pressedEvent) -> {
             ClickHandler.handleNoteClick(pressedEvent, this);
             ClickHandler.handleNotePress(pressedEvent, this);
@@ -159,8 +167,6 @@ public class Gesture implements Playable {
         outerRect.setOnMouseReleased((MouseEvent releaseEvent) -> {
             ClickHandler.handleNoteStopDragging(releaseEvent);
         });
-
-        setMargin();
     }
 
     /**

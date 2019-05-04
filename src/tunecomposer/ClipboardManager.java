@@ -29,7 +29,7 @@ public class ClipboardManager {
         // get from clipboard and add to pane
         HistoryManager.addEvent();
         TuneParser.parseString(clippy.getString());
-
+        NoteHandler.restore(notePane);
     }
 
 }

@@ -36,12 +36,12 @@
                         <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="saveButton" mnemonicParsing="false" text="Save">
+                  <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Save">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="saveAsButton" mnemonicParsing="false" text="Save As">
+                  <MenuItem fx:id="saveAsButton" mnemonicParsing="false" onAction="#handleSaveAs" text="Save As">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                      </accelerator>

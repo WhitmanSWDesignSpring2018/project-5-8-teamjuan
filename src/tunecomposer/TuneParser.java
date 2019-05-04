@@ -12,7 +12,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,17 +31,35 @@ public class TuneParser {
      * @throws SAXException
      * @throws IOException
      */
-    public static void parseFile(File file) throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(file);
+    public static void parseFile(File file) {
+        parseString(readFile(file));
+    }
 
-        Element root = doc.getDocumentElement();
-        // TODO: make sure root has tagname "Composition"
-
-        NodeList allChildren = root.getChildNodes();
-
-        buildPlayables(allChildren);
+    private static String readFile(File file){
+        StringBuilder stringBuffer = new StringBuilder();
+        BufferedReader bufferedReader = null;
+         
+        try {
+ 
+            bufferedReader = new BufferedReader(new FileReader(file));
+             
+            String text;
+            while ((text = bufferedReader.readLine()) != null) {
+                stringBuffer.append(text);
+            }
+ 
+        } catch (FileNotFoundException ex) {
+            
+        } catch (IOException ex) {
+            
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException ex) {
+                
+            }
+        }
+        return stringBuffer.toString();
     }
 
     /**

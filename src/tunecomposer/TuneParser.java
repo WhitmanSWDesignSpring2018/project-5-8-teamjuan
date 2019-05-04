@@ -19,6 +19,15 @@ import java.util.Set;
 
 public class TuneParser {
 
+    /**
+     * Takes in file and reads from it; gets all children and adds to
+     * BuildPlayables.
+     * 
+     * @param file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     public static void parseFile(File file) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -32,6 +41,11 @@ public class TuneParser {
         buildPlayables(allChildren);
     }
 
+    /**
+     * Parses string input, adds to buildPlayables.
+     * 
+     * @param str
+     */
     public static void parseString(String str) {
         Document doc = StringToXMLConverter.convertStringToDocument(str);
 
@@ -43,13 +57,18 @@ public class TuneParser {
         buildPlayables(allChildren);
     }
 
+    /**
+     * Takes in a NodeList of all nodes and adds to allPlayables.
+     * 
+     * @param children
+     */
     private static void buildPlayables(NodeList children) {
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             String name = child.getNodeName();
             NamedNodeMap attributes = child.getAttributes();
             NodeList innerChildren = child.getChildNodes();
-            
+
             if (name == "Gesture") {
                 NoteHandler.allPlayables.add(addGesture(attributes, innerChildren));
             } else if (name == "Note") {
@@ -66,7 +85,7 @@ public class TuneParser {
             String name = child.getNodeName();
             NamedNodeMap attr = child.getAttributes();
             NodeList innerChildren = child.getChildNodes();
-            
+
             if (name == "Gesture") {
                 gesturePlayables.add(addGesture(attr, innerChildren));
             } else if (name == "Note") {
@@ -76,24 +95,22 @@ public class TuneParser {
             }
         }
         return new Gesture(Boolean.parseBoolean(attributes.getNamedItem("isSelected").getNodeValue()),
-                           Double.parseDouble(attributes.getNamedItem("margin").getNodeValue()),
-                           gesturePlayables,
-                           outerRect);
+                Double.parseDouble(attributes.getNamedItem("margin").getNodeValue()), gesturePlayables, outerRect);
     }
 
     private static Note addNote(NamedNodeMap attributes, NodeList children) {
         return new Note(Integer.parseInt(attributes.getNamedItem("pitch").getNodeValue()),
-                    Integer.parseInt(attributes.getNamedItem("startTime").getNodeValue()),
-                    Instrument.getInstrument(attributes.getNamedItem("instrument").getNodeValue()),
-                    Boolean.parseBoolean(attributes.getNamedItem("isSelected").getNodeValue()),
-                    createRect(children.item(0)));
+                Integer.parseInt(attributes.getNamedItem("startTime").getNodeValue()),
+                Instrument.getInstrument(attributes.getNamedItem("instrument").getNodeValue()),
+                Boolean.parseBoolean(attributes.getNamedItem("isSelected").getNodeValue()),
+                createRect(children.item(0)));
     }
 
     private static MoveableRect createRect(Node node) {
         NamedNodeMap attributes = node.getAttributes();
         return new MoveableRect(Double.parseDouble(attributes.getNamedItem("x_coord").getNodeValue()),
-                                Double.parseDouble(attributes.getNamedItem("y_coord").getNodeValue()),
-                                Double.parseDouble(attributes.getNamedItem("rectWidth").getNodeValue()),
-                                Double.parseDouble(attributes.getNamedItem("rectHeight").getNodeValue()));
+                Double.parseDouble(attributes.getNamedItem("y_coord").getNodeValue()),
+                Double.parseDouble(attributes.getNamedItem("rectWidth").getNodeValue()),
+                Double.parseDouble(attributes.getNamedItem("rectHeight").getNodeValue()));
     }
 }

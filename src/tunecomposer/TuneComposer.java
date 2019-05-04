@@ -107,7 +107,7 @@ public class TuneComposer extends Application {
     /**
      * The filechooser.
      */
-    private FileChooser tuneChooser;
+    private FileChooser tuneChooser = new FileChooser();;
     
     /**
      * A group of menu buttons that can be enabled/disabled depending on what is
@@ -423,7 +423,6 @@ public class TuneComposer extends Application {
 
         primaryStage.show();
         tuneStage = primaryStage;
-        tuneChooser = new FileChooser();
     }
 
     /**

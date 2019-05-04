@@ -57,13 +57,21 @@ public enum Instrument {
         public static Instrument getInstrument(String instrument) {
             switch(instrument) {
                 case "Piano":           return Instrument.PIANO;
+                case "piano":           return Instrument.PIANO;
                 case "Harpsichord":     return Instrument.HARPSICHORD;
+                case "harpsichord":     return Instrument.HARPSICHORD;
                 case "Marimba":         return Instrument.MARIMBA;
+                case "marimba":         return Instrument.MARIMBA;
                 case "Church Organ":    return Instrument.CHURCH_ORGAN;
+                case "church-organ":    return Instrument.CHURCH_ORGAN;
                 case "Accordion":       return Instrument.ACCORDION;
+                case "accordion":       return Instrument.ACCORDION;
                 case "Guitar":          return Instrument.GUITAR;
+                case "guitar":          return Instrument.GUITAR;
                 case "Violin":          return Instrument.VIOLIN;
+                case "violin":          return Instrument.VIOLIN;
                 case "French Horn":     return Instrument.FRENCH_HORN;
+                case "french-horn":     return Instrument.FRENCH_HORN;
                 default:
                     throw new IllegalArgumentException("Unrecognized Instrument");
             }

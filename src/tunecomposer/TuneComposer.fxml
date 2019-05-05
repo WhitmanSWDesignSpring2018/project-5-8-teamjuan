@@ -26,7 +26,7 @@
             <items>
                   <MenuItem fx:id="aboutButton" mnemonicParsing="false" onAction="#launchAbout" text="About" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="newButton" mnemonicParsing="false" text="New">
+                  <MenuItem fx:id="newButton" mnemonicParsing="false" onAction="#handleNew" text="New">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
@@ -115,7 +115,7 @@
                   </MenuItem>
                   <MenuItem fx:id="stopButton" disable="true" onAction="#handleStopPlaying" text="Stop">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                        <KeyCodeCombination alt="UP" code="P" control="UP" meta="UP" shift="DOWN" shortcut="DOWN"  />
                      </accelerator>
                   </MenuItem>
               </items>

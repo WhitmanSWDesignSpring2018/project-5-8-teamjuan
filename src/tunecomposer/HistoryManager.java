@@ -16,6 +16,7 @@ class HistoryManager {
      * Adds current state to the undo stack and removes all states from redo.
      */
     public static void addEvent() {
+        FileManager.setUnsaved(true);
         undoStack.push(NoteHandler.copyCurrentState());
         redoStack.removeAllElements();
     }
@@ -45,6 +46,7 @@ class HistoryManager {
         redoStack.push(NoteHandler.copyCurrentState());
         NoteHandler.restore(state, notePane);
         ButtonHandler.updateAllButtons();
+        FileManager.setUnsaved(true);
     }
 
     /**
@@ -55,6 +57,13 @@ class HistoryManager {
         Set<Playable> state = redoStack.pop();
         undoStack.push(NoteHandler.copyCurrentState());
         NoteHandler.restore(state, notePane);
+        ButtonHandler.updateAllButtons();
+        FileManager.setUnsaved(true);
+    }
+
+    public static void clearHistory() {
+        undoStack.clear();
+        redoStack.clear();
         ButtonHandler.updateAllButtons();
     }
 }

@@ -195,7 +195,7 @@ public class TuneComposer extends Application {
      */
     @FXML
     protected void handleExitMenuItemAction(ActionEvent event) {
-        System.exit(0);
+        FileManager.exit(tuneStage, notePane);
     }
 
     /**
@@ -343,12 +343,7 @@ public class TuneComposer extends Application {
      */
     @FXML
     private void handleSaveAs(ActionEvent event){
-        FileChooser tuneChooser = new FileChooser();
-        tuneChooser.setTitle("Name Composition File");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        tuneChooser.getExtensionFilters().add(extFilter);
-        File saveFile = tuneChooser.showSaveDialog(tuneStage);
-        saveFile(NoteHandler.createXMLClipboardString(), saveFile);
+        FileManager.saveAs(tuneStage);
     }
 
     /**
@@ -358,20 +353,7 @@ public class TuneComposer extends Application {
      */
     @FXML
     private void handleSave(ActionEvent event){
-        
-    }
-
-    private void saveFile(String content, File file){
-        try {
-            FileWriter fileWriter = null;
-             
-            fileWriter = new FileWriter(file);
-            fileWriter.write(content);
-            fileWriter.close();
-        } catch (IOException ex) {
-            System.out.println("error during save");
-        }
-         
+        FileManager.save(tuneStage);
     }
 
     /**
@@ -379,13 +361,13 @@ public class TuneComposer extends Application {
      * @param event the menu selection event
      */
     @FXML
-    private void handleOpen(ActionEvent event) throws ParserConfigurationException, IOException, SAXException{
-        FileChooser tuneChooser = new FileChooser();
-        tuneChooser.setTitle("Open Composition File");
-        tuneChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
-        File selectedFile = tuneChooser.showOpenDialog(tuneStage);
-        TuneParser.parseFile(selectedFile);
-        NoteHandler.restore(notePane);
+    private void handleOpen(ActionEvent event) {
+        FileManager.open(tuneStage, notePane);
+    }
+
+    @FXML
+    private void handleNew(ActionEvent event) {
+        FileManager.newFile(tuneStage, notePane);
     }
 
     /**

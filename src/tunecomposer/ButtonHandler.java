@@ -58,6 +58,7 @@ class ButtonHandler {
         updateExistenceButtons();
         updatePlayingButtons();
         updateUndoingButtons();
+        updateSavingButtons();
     }
 
     private static void updateUndoingButtons() {
@@ -114,6 +115,10 @@ class ButtonHandler {
             playButton.setDisable(true);
         }
         stopButton.setDisable(! playline.isPlaying());
+    }
+
+    private static void updateSavingButtons() {
+        saveButton.setDisable(FileManager.getUnsaved());
     }
 
 }

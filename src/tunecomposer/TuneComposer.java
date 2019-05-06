@@ -105,7 +105,7 @@ public class TuneComposer extends Application {
      * The primary stage.
      */
     private Stage tuneStage;
-    
+
     /**
      * A group of menu buttons that can be enabled/disabled depending on what is
      * present in the Pane.
@@ -342,7 +342,7 @@ public class TuneComposer extends Application {
      * @param event the menu selection event
      */
     @FXML
-    private void handleSaveAs(ActionEvent event){
+    private void handleSaveAs(ActionEvent event) {
         FileManager.saveAs(tuneStage);
     }
 
@@ -352,12 +352,13 @@ public class TuneComposer extends Application {
      * @param event the menu selection event
      */
     @FXML
-    private void handleSave(ActionEvent event){
+    private void handleSave(ActionEvent event) {
         FileManager.save(tuneStage);
     }
 
     /**
      * Open a document. Called from FXML.
+     * 
      * @param event the menu selection event
      */
     @FXML
@@ -365,12 +366,18 @@ public class TuneComposer extends Application {
         FileManager.open(tuneStage, notePane);
     }
 
+    /**
+     * Handles the creation of a new file.
+     * 
+     * @param event
+     */
     @FXML
     private void handleNew(ActionEvent event) {
         FileManager.newFile(tuneStage, notePane);
     }
 
     /**
+     * Handles the cutting of selected items on the Pane.
      * 
      * @param event
      */
@@ -380,6 +387,7 @@ public class TuneComposer extends Application {
     }
 
     /**
+     * Handles the copying of the selected items onto the clipboard.
      * 
      * @param event
      */
@@ -389,6 +397,7 @@ public class TuneComposer extends Application {
     }
 
     /**
+     * Pastes information on the clipboard onto the Pane.
      * 
      * @param event
      */

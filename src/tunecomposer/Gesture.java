@@ -66,6 +66,9 @@ public class Gesture implements Playable {
         isSelected = true;
     }
 
+    /**
+     * Gets information relevant to a Gesture.
+     */
     public Gesture(boolean isSelected, double margin, Set<Playable> allPlayables, MoveableRect outerRect) {
         this.isSelected = isSelected;
         this.margin = margin;
@@ -154,6 +157,9 @@ public class Gesture implements Playable {
         setMargin();
     }
 
+    /**
+     * Sets the mouse handlers for mouse presses, drags, and releases.
+     */
     private void setMouseHandlers() {
         outerRect.setOnMousePressed((MouseEvent pressedEvent) -> {
             ClickHandler.handleNoteClick(pressedEvent, this);

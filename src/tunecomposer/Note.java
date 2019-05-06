@@ -77,6 +77,15 @@ public class Note implements Playable {
         setSelected(true);
     }
 
+    /**
+     * Gets all relevant information for a Note.
+     * 
+     * @param pitch
+     * @param startTime
+     * @param instrument
+     * @param isSelected
+     * @param noteRect
+     */
     public Note(int pitch, int startTime, Instrument instrument, boolean isSelected, MoveableRect noteRect) {
         this.pitch = pitch;
         this.startTime = startTime;
@@ -148,6 +157,9 @@ public class Note implements Playable {
         setMouseHandlers();
     }
 
+    /**
+     * Sets all mouse handlers for mouse presses, drags, and releases.
+     */
     public void setMouseHandlers() {
         noteRect.setOnMousePressed((MouseEvent pressedEvent) -> {
             ClickHandler.handleNoteClick(pressedEvent, this);

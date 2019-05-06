@@ -5,7 +5,7 @@ import java.util.Stack;
 import javafx.scene.layout.Pane;
 
 class HistoryManager {
-    
+
     /**
      * Stacks holding different states should the user undo/redo.
      */
@@ -23,6 +23,7 @@ class HistoryManager {
 
     /**
      * Tells whether or not the undoStack is empty
+     * 
      * @return boolean empty or not empty
      */
     public static boolean undoEmpty() {
@@ -31,6 +32,7 @@ class HistoryManager {
 
     /**
      * Tells whether or not the redoStack is empty
+     * 
      * @return boolean empty or not empty
      */
     public static boolean redoEmpty() {
@@ -39,6 +41,7 @@ class HistoryManager {
 
     /**
      * Un-does the most recent change in the pane.
+     * 
      * @param notePane the pane
      */
     public static void undo(Pane notePane) {
@@ -51,6 +54,7 @@ class HistoryManager {
 
     /**
      * Re-does the most recently un-done change.
+     * 
      * @param notePane the pane
      */
     public static void redo(Pane notePane) {
@@ -61,6 +65,10 @@ class HistoryManager {
         FileManager.setUnsaved(true);
     }
 
+    /**
+     * Clears the history on the stacks, updates the state of the undo/redo menu
+     * buttons.
+     */
     public static void clearHistory() {
         undoStack.clear();
         redoStack.clear();

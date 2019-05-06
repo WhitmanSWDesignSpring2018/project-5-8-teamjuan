@@ -68,6 +68,9 @@ public class NoteHandler {
         });
     }
 
+    /**
+     * Restores the state of the Pane.
+     */
     public static void restore(Pane notePane) {
         allPlayables.forEach((playable) -> {
             notePane.getChildren().removeAll(playable.getAllRectangles());

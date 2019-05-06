@@ -35,28 +35,34 @@ public class TuneParser {
         parseString(readFile(file));
     }
 
-    private static String readFile(File file){
+    /**
+     * Reads given file and passes it into a toString() method.
+     * 
+     * @param file
+     * @return
+     */
+    private static String readFile(File file) {
         StringBuilder stringBuffer = new StringBuilder();
         BufferedReader bufferedReader = null;
-         
+
         try {
- 
+
             bufferedReader = new BufferedReader(new FileReader(file));
-             
+
             String text;
             while ((text = bufferedReader.readLine()) != null) {
                 stringBuffer.append(text);
             }
- 
+
         } catch (FileNotFoundException ex) {
-            
+
         } catch (IOException ex) {
-            
+
         } finally {
             try {
                 bufferedReader.close();
             } catch (IOException ex) {
-                
+
             }
         }
         return stringBuffer.toString();
@@ -98,6 +104,13 @@ public class TuneParser {
         }
     }
 
+    /**
+     * Gets information from a Gesture to parse.
+     * 
+     * @param attributes
+     * @param children
+     * @return Gesture
+     */
     private static Gesture addGesture(NamedNodeMap attributes, NodeList children) {
         Set<Playable> gesturePlayables = new HashSet<Playable>();
         MoveableRect outerRect = null;
@@ -119,6 +132,13 @@ public class TuneParser {
                 Double.parseDouble(attributes.getNamedItem("margin").getNodeValue()), gesturePlayables, outerRect);
     }
 
+    /**
+     * Gets information from a Note to parse.
+     * 
+     * @param attributes
+     * @param children
+     * @return Note
+     */
     private static Note addNote(NamedNodeMap attributes, NodeList children) {
         return new Note(Integer.parseInt(attributes.getNamedItem("pitch").getNodeValue()),
                 Integer.parseInt(attributes.getNamedItem("startTime").getNodeValue()),
@@ -127,6 +147,12 @@ public class TuneParser {
                 createRect(children.item(0)));
     }
 
+    /**
+     * Gets attributes from as Rectangle and parses it.
+     * 
+     * @param node
+     * @return
+     */
     private static MoveableRect createRect(Node node) {
         NamedNodeMap attributes = node.getAttributes();
         return new MoveableRect(Double.parseDouble(attributes.getNamedItem("x_coord").getNodeValue()),

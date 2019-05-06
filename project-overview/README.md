@@ -1,41 +1,42 @@
-PROJECT SIX RELFECTION 
+PROJECT 7 REFLECTION
 
-Madi Crowley, Melissa Kohl, Michelle Zhang, and Sage Levin
+For project 7, we added TuneParser, StringToXMLConverter, and ClipboardManager as classes to implement the cut/copy/paste behavior and the open/save file functionality. 
 
-For project 6, we decided to add a HistoryManager class so that we could track each action - that is, adding a note, moving them on the Pane, and grouping them, etc.. In doing so, we used a stack to store all the actions so that we can easily undo and redo actions, and the creation of this class makes it so that we do not have to modify any of our other classes to deal with modifying other classes. We also added a ButtonHandler class so that we could deal with the menu items being enabled/disabled when appropriate. 
+Seeing that we did not get project 6 feedback, we spent some time addressing the issues noted in our respository. Also, like previous projects, our first meeting session consisted of refactoring. This time around, we added a ClickHandler class to deal with all mouse events to reduce the cross-class dependencies and to minimize coupling. Notably, promptUnsaved() in the FileManager class was pretty complicated as well when it came to some of our new implementation. 
 
-Some of our original implementation has changed. We spent our first time meeting refactoring what we had after we submitted Project 5; we made NoteHandler so that we could move all the handler methods into static NoteHandler. Sage notably removed the TuneComposer's dependency NoteHandler's variables, following the Law of Demeter. After doing our code review, we resolved a majority of the issues noted on GitHub: keyboard shortcuts being platform-independent, grouping behavior of gestures, refactoring, renaming methods and variables, dealing with the the Gesture rectangle getting out-of-synce, and the issues relating to KeyFrame upon launching the program.
+As for elegance, we believe that our TuneParser is particuarly elegant since it deals with all the parsing in a single class, rather than interspering the responsibilites throughout all the other classes. This follows the Single Responsibility Principle. By thinking ahead in prior projects, we also benefitted partially from actively trying to adhere to the Open-Closed Principle -- some of our classes did not have an additional modifications in the methods, but rather, extensions, so that we could implement what was needed. Technical debt is still very real, and we did run into issues. With a lot of various adjustments, we were able to implement the new features. While coding, we also made sure to consistently name classes in a style that mirrored our previous projects; we also double checked all the parameters and their order. 
 
-Our strategy to add a HistoryManager class, as noted above, was so that we did not have to modify anything; rather, we extended functionality through the addition of this class, which does adhere to SOLID programming principles. However, in practice, this has issues. In fact, the actuality, there is some pretty ugly code. There is a lot of cross-class dependency, and we are not keeping track of the changes - we are deleting and re-creating things as we go along. We looked ahead at Project 7 and realized that some of our strategies regarding Project 6 will have to completely change. 
+As for planning poker -- we estimated 72 story points. This again meant an average velocity of 2 for an estimated 10.1 hours of work. This project took around 16 hours. Cut/copy/paste had various small bugs that we didn't anticipate which added some time, and we did except file handling to take up a lot of our time. Thankfully, our parser was functioning properly from the get go and we were able to allocate our time to implementing the rest of the expected functionality without too many time constraints. 
 
-As for Planning Poker, we tried. We estimated 60 story points from breaking down the expectations for the project into 6 stories, which meant an estimated velocity of 2 for about 10 hours of work. In actuality, the project took about 16 hours. We did not anticipate undo/redo being so complicated when it came to tracking where they are on the Pane. Since we did not do planning poker for the previous project, we can't really compare what we estimated. 
+Below are our planning poker breakdowns:
 
-Below are our planning poker breakdowns: 
-
-        1. Updating the menu
-        0 0 0 0
-        J J J J
-
-        2. Undo single action 
-        1.5 hours 1.5 hours 13 hours 2.5 hours
-        3 3 K 5
-
-        3. Repeated undo 
-        1.5 hours 1.5 hours 1 hour 30 minutes
-        3 3 2 A 
-
-        4. Redo
-        1 hour 1 hour 30 minutes 30 minutes
-        2 2 A A 
-
-        5. Disable when appropriate
-        30 minutes 30 minutes 1.5 hours 2.5 hours 
-        A A 3 5
-
-        6. Disabling other menu items when appropriate 
-        1.5 1.5 1.5 30 
-        3 3 3 A
-
-As a team, we spent the first time re-factoring with Melissa at the computer. The next time we met, Michelle and Madi worked on figuring out how to implement enabling/disabling menu item options as well as updating the menu in SceneBuilder as well as dealing with fx:ids in FXML so that menu items could be accessed and enabled/disabled, and Sage and Melissa worked on writing HistoryManager.java so that undo/redo could be later implemented. After that, we worked together at a single computer, working to merge the ideas and make sure that undo/redo could account for all actions on the Pane. 
-
-For the next time, we'd like to improve the elegance and quality of the code we wrote for Project 6, as well as resolve some other issues. Refactoring is definitely in the plan. Next time we also hope to benefit more from Planning Poker. We aim to also continue meeting on Tuesdays and Thursdays 4-6. 
+    1. Menu changes
+    J J J J 
+    0 0 0 0 
+    
+    2. Cut/Copy
+    2 2 3 2 
+    1 hour 1 hour 1 hour 1.5 hours 1 hour
+    
+    3 Paste
+    3 3 3 3
+    1.5 hours 1.5 hours 1.5 hours 1.5 hours
+    
+    4. About dialog box
+    A A 2 A
+    .5 hours .5 hours 1 hour .5 hours
+    
+    5. File open/save/save as
+    5 5 5 5 
+    2.5 hours 2.5 hours 2.5 hours 2.5 hours
+    
+    6. Release preparataion
+    2 2 2 2
+    1 hour 1 hour 1 hour 1 hour
+    
+    7. Refactoring
+    3 5 5 5 
+    1.5 hours 2.5 hours 2.5 hours 2.5 hours
+    
+As for working as team, we followed what worked: refactoring first, and then working as a group to talk through concepts and plans. We programmed like we usually did for the most part -- that is, huddled around one main computer and one main typer/programmer. We worked through a rota of who typed, and those who were not on typing duty were on other computers searching and trying things as we worked on the project. 
+We're excited to finish working on TuneComposer next time -- all of our team strategies have worked well so far so we are hoping to keep with it for just a few more days! 

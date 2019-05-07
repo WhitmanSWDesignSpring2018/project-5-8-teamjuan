@@ -135,7 +135,7 @@ class ButtonHandler {
      * Updates the state of the save button.
      */
     private static void updateSavingButtons() {
-        saveButton.setDisable(FileManager.getUnsaved());
+        saveButton.setDisable(!FileManager.getUnsaved());
     }
 
 }

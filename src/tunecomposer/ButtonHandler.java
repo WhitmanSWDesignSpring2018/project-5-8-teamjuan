@@ -22,7 +22,7 @@ class ButtonHandler {
 
     private static PlayLine playline;
 
-    private static int numCurrentlySelected;
+    private static int numCurrentlySelected = 0;
 
     /**
      * Getter method for all MenuItem buttons.
@@ -47,6 +47,7 @@ class ButtonHandler {
         saveButton = save;
         saveAsButton = saveAs;
         cutButton = cut;
+        copyButton = copy;
         pasteButton = paste;
 
         playline = line;
@@ -60,6 +61,7 @@ class ButtonHandler {
         updateExistenceButtons();
         updatePlayingButtons();
         updateUndoingButtons();
+        updateCopyingButtons();
         updateSavingButtons();
     }
 
@@ -85,9 +87,11 @@ class ButtonHandler {
     private static void updateGroupingButtons() {
         numCurrentlySelected = 0;
         ungroupButton.setDisable(true);
+        deleteButton.setDisable(true);
         NoteHandler.allPlayables.forEach((playable) -> {
             if (playable.getSelected()) {
                 numCurrentlySelected++;
+                deleteButton.setDisable(false);
                 if (playable.getClass() == Gesture.class) {
                     ungroupButton.setDisable(false);
                 }
@@ -104,14 +108,6 @@ class ButtonHandler {
      * Updates the state of buttons.
      */
     private static void updateExistenceButtons() {
-        numCurrentlySelected = 0;
-        deleteButton.setDisable(true);
-        NoteHandler.allPlayables.forEach((playable) -> {
-            if (playable.getSelected()) {
-                numCurrentlySelected++;
-                deleteButton.setDisable(false);
-            }
-        });
         if (numCurrentlySelected == NoteHandler.allPlayables.size()) {
             selectAllButton.setDisable(true);
         } else {
@@ -129,6 +125,21 @@ class ButtonHandler {
             playButton.setDisable(true);
         }
         stopButton.setDisable(!playline.isPlaying());
+    }
+
+    /**
+     * Updates the states of the cut, copy, paste buttons
+     */
+    private static void updateCopyingButtons() {
+        if (numCurrentlySelected > 0) {
+            cutButton.setDisable(false);
+            copyButton.setDisable(false);
+        } else {
+            cutButton.setDisable(true);
+            copyButton.setDisable(true);
+        }
+
+        pasteButton.setDisable(ClipboardManager.isClipboardEmpty());
     }
 
     /**

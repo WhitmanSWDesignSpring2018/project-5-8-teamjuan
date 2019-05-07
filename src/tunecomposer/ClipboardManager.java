@@ -8,6 +8,7 @@ public class ClipboardManager {
 
     private static final Clipboard clippy = Clipboard.getSystemClipboard();
     private static final ClipboardContent content = new ClipboardContent();
+    private static boolean clipboardEmpty = true;
 
     /**
      * Takes whatver is copied on the clipboard and removes from the Pane to "cut.""
@@ -15,12 +16,11 @@ public class ClipboardManager {
      * @param notePane
      */
     public static void cut(Pane notePane) {
-        // add undo/redo event
-        // put currently selected notes in clipboard
-        // delete currently selected notes from pane
+        clipboardEmpty = false;
         HistoryManager.addEvent();
         copy(notePane);
         NoteHandler.delete(notePane);
+        ButtonHandler.updateAllButtons();
     }
 
     /**
@@ -30,9 +30,11 @@ public class ClipboardManager {
      * @param notePane
      */
     public static void copy(Pane notePane) {
+        clipboardEmpty = false;
         String str = NoteHandler.createXMLClipboardString();
         content.putString(str);
         clippy.setContent(content);
+        ButtonHandler.updateAllButtons();
     }
 
     /**
@@ -42,6 +44,14 @@ public class ClipboardManager {
         HistoryManager.addEvent();
         TuneParser.parseString(clippy.getString());
         NoteHandler.restore(notePane);
+        ButtonHandler.updateAllButtons();
     }
 
+    /**
+     * Returns whether the clipboard is empty
+     * @return true if clipboard is empty, false otherwise
+     */
+    public static boolean isClipboardEmpty() {
+        return clipboardEmpty;
+    }
 }

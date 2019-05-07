@@ -96,6 +96,7 @@ public class NoteHandler {
      * Schedules the set of notes for playing with the midiplayer.
      */
     public static void schedule() {
+        lastNote = 0;
         allPlayables.forEach((note) -> {
             note.schedule();
             note.updateLastNote();

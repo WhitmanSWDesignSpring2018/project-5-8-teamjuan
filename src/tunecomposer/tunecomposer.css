@@ -53,8 +53,8 @@
 }
 
 .harpsichord {
-    -fx-background-color: beige;
-    -fx-fill: beige;
+    -fx-background-color: tomato;
+    -fx-fill: tomato;
 }
 
 .marimba {
@@ -63,26 +63,26 @@
 }
 
 .church-organ {
-    -fx-background-color: lightblue;
-    -fx-fill: lightblue;
+    -fx-background-color: khaki;
+    -fx-fill: khaki;
 }
 
 .accordion {
-    -fx-background-color: orange;
-    -fx-fill: orange;
-}
-
-.guitar {
     -fx-background-color: lightgreen;
     -fx-fill: lightgreen;
 }
 
+.guitar {
+    -fx-background-color: lightblue;
+    -fx-fill: lightblue;
+}
+
 .violin {
-    -fx-background-color: rosybrown;
-    -fx-fill: rosybrown;
+    -fx-background-color: thistle;
+    -fx-fill: thistle;
 }
 
 .french-horn {
-    -fx-background-color: gold;
-    -fx-fill: gold;
+    -fx-background-color: violet;
+    -fx-fill: violet;
 }

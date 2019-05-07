@@ -66,7 +66,7 @@ public class FileManager {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         tuneChooser.getExtensionFilters().add(extFilter);
         File saveFile = tuneChooser.showSaveDialog(tuneStage);
-        saveFile(NoteHandler.createXMLClipboardString(), saveFile);
+        saveFile(NoteHandler.createXMLDocString(), saveFile);
         current = saveFile;
         unsaved = false;
         ButtonHandler.updateAllButtons();
@@ -100,7 +100,7 @@ public class FileManager {
         if (current == null) {
             saveAs(tuneStage);
         } else {
-            saveFile(NoteHandler.createXMLClipboardString(), current);
+            saveFile(NoteHandler.createXMLDocString(), current);
         }
         ButtonHandler.updateAllButtons();
     }

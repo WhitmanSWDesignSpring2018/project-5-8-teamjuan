@@ -50,7 +50,7 @@
 
 | Pts Earned | Pts Possible | Requirement | Comments
 |-----------:|-------------:|-------------|---------
-| 1 | 2 |  Saved files include complete information about all notes and gestures (ideally in plain text so it can be verified - if not this will be assessed based on the point below). | See (https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan/issues/51)
+| 1 | 2 |  Saved files include complete information about all notes and gestures (ideally in plain text so it can be verified - if not this will be assessed based on the point below). | _See (https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan/issues/51)_
 | 4 | 4 | Opening a saved file restores all notes and gestures from the saved composition.
 | 2 | 2 |  Starting a new composition or opening a file should cause all undo/redo state to be cleared. You cannot undo the saving or loading of a file or a new composition.
 
@@ -68,6 +68,19 @@
 | 2 | 4 | All prior requirements are met, unless they have been superseded by new requirements or are documented by the team as known bugs for this iteration. | _See (https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan/issues/49), (https://github.com/WhitmanSWDesignSpring2018/project-5-8-teamjuan/issues/54)_
 
 ## Release - 1/2 points
+
+| Pts Earned | Pts Possible | Requirement | Comments
+|-----------:|-------------:|-------------|---------
+| 2 | 0 | For better usability, pasted elements are slightly offset from their original location (down and to the right).
+| 2 | 0 | The clipboard content is restored to its previous value when undoing a **Cut** operation.
+
+### No regressions - 4/4 points
+
+| Pts Earned | Pts Possible | Requirement | Comments
+|-----------:|-------------:|-------------|---------
+| 4 | 4 | All prior requirements are met, unless they have been superseded by new requirements or are documented by the team as known bugs for this iteration.
+
+## Release - 2/2 points
 
 | Pts Earned | Pts Possible | Requirement | Comments
 |-----------:|-------------:|-------------|---------

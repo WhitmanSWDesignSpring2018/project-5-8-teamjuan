@@ -225,7 +225,7 @@ public class TuneComposer extends Application {
 
         double octave = 12.0;
         for (int j = 8; j < 128; j += octave) {
-            Rectangle cNote = new Rectangle(0.0, (double) (10 * j), 2000.0, 10.0);
+            Rectangle cNote = new Rectangle(0.0, (double) (10 * j), 10000.0, 10.0);
             cNote.getStyleClass().add("octave");
             // cNote.setFill(Color.GRAY);
             background.getChildren().add(cNote);
@@ -451,8 +451,7 @@ public class TuneComposer extends Application {
         primaryStage.setTitle("Scale Player");
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
-            we.consume();
-            FileManager.exit(tuneStage, notePane);
+            System.exit(0);
         });
 
         primaryStage.show();

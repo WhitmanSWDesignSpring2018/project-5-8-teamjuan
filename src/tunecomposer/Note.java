@@ -90,6 +90,7 @@ public class Note implements Playable {
     public Note(double x, double y, Instrument inst, double width) {
         this(x, y, inst);
         setWidth(width);
+        noteRect.updateInnerFields();
     }
 
     /**

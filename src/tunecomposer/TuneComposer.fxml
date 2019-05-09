@@ -36,7 +36,7 @@
                         <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="saveButton" mnemonicParsing="false" disable="true" onAction="#handleSave" text="Save">
+                  <MenuItem fx:id="saveButton" disable="true" mnemonicParsing="false" onAction="#handleSave" text="Save">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
@@ -89,17 +89,17 @@
                      </accelerator>
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="cutButton" mnemonicParsing="false" disable="true" onAction="#handleCut" text="Cut">
+                  <MenuItem fx:id="cutButton" disable="true" mnemonicParsing="false" onAction="#handleCut" text="Cut">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="X" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="copyButton" mnemonicParsing="false" disable="true" onAction="#handleCopy" text="Copy">
+                  <MenuItem fx:id="copyButton" disable="true" mnemonicParsing="false" onAction="#handleCopy" text="Copy">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="C" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="pasteButton" mnemonicParsing="false" disable="true" onAction="#handlePaste" text="Paste">
+                  <MenuItem fx:id="pasteButton" disable="true" mnemonicParsing="false" onAction="#handlePaste" text="Paste">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="V" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator>
@@ -115,21 +115,26 @@
                   </MenuItem>
                   <MenuItem fx:id="stopButton" disable="true" onAction="#handleStopPlaying" text="Stop">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="P" control="UP" meta="UP" shift="DOWN" shortcut="DOWN"  />
+                        <KeyCodeCombination alt="UP" code="P" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                      </accelerator>
                   </MenuItem>
               </items>
            </Menu>
+            <Menu mnemonicParsing="false" text="Fun">
+              <items>
+                <MenuItem fx:id="randomComp" mnemonicParsing="false" onAction="#handleRandomComp" text="Random Composition" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
    </top>
    <center>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <content>
-            <StackPane alignment="CENTER_LEFT" prefHeight="1280.0" prefWidth="2000.0">
+            <StackPane alignment="CENTER_LEFT" prefHeight="1280.0" prefWidth="10000.0">
                <children>
                   <Group fx:id="background" />
-                  <Pane fx:id="notePane" minHeight="1280.0" minWidth="2000.0" onDragDetected="#startDrag" onMouseClicked="#handleClick" onMouseDragged="#continueDrag" />
+                  <Pane fx:id="notePane" minHeight="1280.0" minWidth="10000.0" onDragDetected="#startDrag" onMouseClicked="#handleClick" onMouseDragged="#continueDrag" />
                   <AnchorPane fx:id="playLinePane" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <Line fx:id="movingLine" endY="1280.0" styleClass="play-line" visible="false" />

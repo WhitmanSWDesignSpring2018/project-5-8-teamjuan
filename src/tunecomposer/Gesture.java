@@ -38,8 +38,8 @@ public class Gesture implements Playable {
     public Gesture(Gesture gest) {
         upperXBound = 0;
         upperYBound = 0;
-        lowerXBound = 3000;
-        lowerYBound = 3000;
+        lowerXBound = 10001;
+        lowerYBound = 10001;
         margin = 5;
         allPlayables = new HashSet<Playable>();
         gest.getPlayables().forEach((playable) -> {
@@ -59,8 +59,8 @@ public class Gesture implements Playable {
     public Gesture() {
         upperXBound = 0;
         upperYBound = 0;
-        lowerXBound = 3000;
-        lowerYBound = 3000;
+        lowerXBound = 10001;
+        lowerYBound = 10001;
         margin = 5;
         allPlayables = new HashSet<Playable>();
         isSelected = true;
@@ -144,8 +144,8 @@ public class Gesture implements Playable {
     private void updateOuterRectBounds() {
         upperXBound = 0;
         upperYBound = 0;
-        lowerXBound = 3000;
-        lowerYBound = 3000;
+        lowerXBound = 10001;
+        lowerYBound = 10001;
         allPlayables.forEach((play) -> {
             upperXBound = Math.max(play.getBounds().getMaxX(), upperXBound);
             upperYBound = Math.max(play.getBounds().getMaxY(), upperYBound);

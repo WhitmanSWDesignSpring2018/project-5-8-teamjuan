@@ -5,6 +5,8 @@
  */
 package tunecomposer;
 
+import java.util.Random;
+
 import javafx.scene.control.RadioButton;
 
 /**
@@ -48,6 +50,27 @@ public enum Instrument {
         public static Instrument getInstrument(RadioButton selectedButton) {
             String instrument = selectedButton.getText();
             return getInstrument(instrument);
+        }
+
+        /**
+         * Generates a random instrument.
+         * @return the random instrument
+         */
+        public static Instrument getRandomInst() {
+            Random rand = new Random();
+            int inst = rand.nextInt(8);
+            switch(inst) {
+                case 0:     return Instrument.PIANO;
+                case 1:     return Instrument.HARPSICHORD;
+                case 2:     return Instrument.MARIMBA;
+                case 3:     return Instrument.CHURCH_ORGAN;
+                case 4:     return Instrument.ACCORDION;
+                case 5:     return Instrument.GUITAR;
+                case 6:     return Instrument.VIOLIN;
+                case 7:     return Instrument.FRENCH_HORN;
+                default:
+                    return Instrument.PIANO;
+            }
         }
 
         /**

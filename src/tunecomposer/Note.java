@@ -78,6 +78,21 @@ public class Note implements Playable {
     }
 
     /**
+     * Creates new selected Rectangle at given coordinates with given width 
+     * and creates a note of the given instrument at the calculated start
+     * time and pitch.
+     * 
+     * @param x     x-coordinate of new rectangle and starting time for note
+     * @param y     y-coordinate of new rectangle and pitch of note
+     * @param inst  instrument that the note should be played
+     * @param width width of rectangle
+     */
+    public Note(double x, double y, Instrument inst, double width) {
+        this(x, y, inst);
+        setWidth(width);
+    }
+
+    /**
      * Gets all relevant information for a Note.
      * 
      * @param pitch
@@ -107,6 +122,14 @@ public class Note implements Playable {
     public String toString() {
         return "<Note pitch=\"" + pitch + "\" startTime=\"" + startTime + "\" instrument=\"" + instrument.toString()
                 + "\" isSelected=\"" + isSelected + "\">" + noteRect.toString() + "</Note>";
+    }
+
+    /**
+     * Sets the width to a value during construction.
+     */
+    private void setWidth(double width) {
+        rectWidth = width;
+        noteRect.setWidth(width);
     }
 
     /**

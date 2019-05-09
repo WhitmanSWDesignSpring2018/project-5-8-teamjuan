@@ -217,7 +217,7 @@ public class TuneComposer extends Application {
     public void initialize() {
         // Add gray lines to background
         for (int i = 1; i < 128; i++) {
-            Line row = new Line(0, 10 * i, 2000, 10 * i);
+            Line row = new Line(0, 10 * i, 10000, 10 * i);
             row.getStyleClass().add("row-divider");
             background.getChildren().add(row);
         }
@@ -361,7 +361,7 @@ public class TuneComposer extends Application {
     /**
      * Handles the creation of a new file.
      * 
-     * @param event
+     * @param event the menu selection event
      */
     @FXML
     private void handleNew(ActionEvent event) {
@@ -371,7 +371,7 @@ public class TuneComposer extends Application {
     /**
      * Handles the cutting of selected items on the Pane.
      * 
-     * @param event
+     * @param event the menu selection event
      */
     @FXML
     private void handleCut(ActionEvent event) {
@@ -381,7 +381,7 @@ public class TuneComposer extends Application {
     /**
      * Handles the copying of the selected items onto the clipboard.
      * 
-     * @param event
+     * @param event the menu selection event
      */
     @FXML
     private void handleCopy(ActionEvent event) {
@@ -391,11 +391,26 @@ public class TuneComposer extends Application {
     /**
      * Pastes information on the clipboard onto the Pane.
      * 
-     * @param event
+     * @param event the menu selection event
      */
     @FXML
     private void handlePaste(ActionEvent event) {
         ClipboardManager.paste(notePane);
+    }
+
+    /**
+     * Generates a new random composition.
+     * 
+     * @param event the menu selection event
+     */
+    @FXML
+    private void handleRandomComp(ActionEvent event) {
+        FileManager.newFile(tuneStage, notePane);
+        if(NoteHandler.allPlayables.size() == 0) {
+            HistoryManager.addEvent();
+            RandomComposition.createRand(notePane);
+            ButtonHandler.updateAllButtons();
+        }
     }
 
     /**

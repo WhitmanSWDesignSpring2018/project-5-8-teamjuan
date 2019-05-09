@@ -17,6 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -220,6 +221,14 @@ public class TuneComposer extends Application {
             Line row = new Line(0, 10 * i, 10000, 10 * i);
             row.getStyleClass().add("row-divider");
             background.getChildren().add(row);
+        }
+
+        double octave = 12.0;
+        for (int j = 8; j < 128; j += octave) {
+            Rectangle cNote = new Rectangle(0.0, (double) (10 * j), 2000.0, 10.0);
+            cNote.getStyleClass().add("octave");
+            // cNote.setFill(Color.GRAY);
+            background.getChildren().add(cNote);
         }
 
         playLine = new PlayLine(movingLine);
@@ -442,6 +451,7 @@ public class TuneComposer extends Application {
         primaryStage.setTitle("Scale Player");
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
+            we.consume();
             FileManager.exit(tuneStage, notePane);
         });
 

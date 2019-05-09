@@ -139,15 +139,40 @@ public class Gesture implements Playable {
     }
 
     /**
+     * Updates location of outer rectangle based on contained playables.
+     */
+    private void updateOuterRectBounds() {
+        upperXBound = 0;
+        upperYBound = 0;
+        lowerXBound = 3000;
+        lowerYBound = 3000;
+        allPlayables.forEach((play) -> {
+            upperXBound = Math.max(play.getBounds().getMaxX(), upperXBound);
+            upperYBound = Math.max(play.getBounds().getMaxY(), upperYBound);
+            lowerXBound = Math.min(play.getBounds().getMinX(), lowerXBound);
+            lowerYBound = Math.min(play.getBounds().getMinY(), lowerYBound);
+        });
+        setOuterRectBounds();
+        outerRect.updateInnerFields();
+    }
+
+    /**
+     * Sets bounds of outer rectangle to calculated bound fields.
+     */
+    private void setOuterRectBounds() {
+        outerRect.setX(lowerXBound);
+        outerRect.setY(lowerYBound);
+        outerRect.setWidth(upperXBound - lowerXBound);
+        outerRect.setHeight(upperYBound - lowerYBound);
+    }
+
+    /**
      * Creates the rectangle that groups the Gesture.
      */
     public void createRectangle() {
         outerRect = new MoveableRect();
 
-        outerRect.setX(lowerXBound);
-        outerRect.setY(lowerYBound);
-        outerRect.setWidth(upperXBound - lowerXBound);
-        outerRect.setHeight(upperYBound - lowerYBound);
+        setOuterRectBounds();
         outerRect.updateInnerFields();
         outerRect.getStyleClass().add("selected-gesture");
         outerRect.setMouseTransparent(false);
@@ -350,11 +375,11 @@ public class Gesture implements Playable {
      */
     public void onMouseReleased(MouseEvent event) {
 
-        outerRect.stopLocationChange(event);
-
         allPlayables.forEach((n) -> {
             n.onMouseReleased(event);
         });
+
+        updateOuterRectBounds();
     }
 
     /**

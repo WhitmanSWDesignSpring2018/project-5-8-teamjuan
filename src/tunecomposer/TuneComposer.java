@@ -230,12 +230,12 @@ public class TuneComposer extends Application {
             row.getStyleClass().add("row-divider");
             background.getChildren().add(row);
         }
-        
-        double octave = 11.0;
-        for (int j = 7; j < 128; j += octave) {
-            Rectangle cNote = new Rectangle(0.0, (double)(10*j), 2000.0, 10.0);
+
+        double octave = 12.0;
+        for (int j = 8; j < 128; j += octave) {
+            Rectangle cNote = new Rectangle(0.0, (double) (10 * j), 2000.0, 10.0);
             cNote.getStyleClass().add("octave");
-            //cNote.setFill(Color.GRAY);
+            // cNote.setFill(Color.GRAY);
             background.getChildren().add(cNote);
         }
 

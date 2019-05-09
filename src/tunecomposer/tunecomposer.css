@@ -11,6 +11,10 @@
     -fx-stroke: #e8e8e8;
 }
 
+.octave {
+    -fx-fill:  #e8e8e8;
+}
+
 .play-line {
     -fx-stroke: #E81A0B;
 }

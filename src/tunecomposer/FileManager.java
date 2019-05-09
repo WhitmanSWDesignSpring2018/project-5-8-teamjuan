@@ -66,9 +66,11 @@ public class FileManager {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         tuneChooser.getExtensionFilters().add(extFilter);
         File saveFile = tuneChooser.showSaveDialog(tuneStage);
-        saveFile(NoteHandler.createXMLDocString(), saveFile);
-        current = saveFile;
-        unsaved = false;
+        if(current != null) {
+            saveFile(NoteHandler.createXMLDocString(), saveFile);
+            current = saveFile;
+            unsaved = false;
+        }
         ButtonHandler.updateAllButtons();
     }
 
@@ -96,11 +98,11 @@ public class FileManager {
      * @param tuneStage
      */
     public static void save(Stage tuneStage) {
-        setUnsaved(false);
         if (current == null) {
             saveAs(tuneStage);
         } else {
             saveFile(NoteHandler.createXMLDocString(), current);
+            setUnsaved(false);
         }
         ButtonHandler.updateAllButtons();
     }
@@ -178,7 +180,8 @@ public class FileManager {
         alert.showAndWait().ifPresent(type -> {
             if (type == yesButton) {
                 save(tuneStage);
-                clearComposition(notePane);
+                if(!unsaved)
+                    clearComposition(notePane);
             } else if (type == noButton) {
                 clearComposition(notePane);
             }

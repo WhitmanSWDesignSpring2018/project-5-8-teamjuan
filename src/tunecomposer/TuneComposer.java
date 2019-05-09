@@ -435,6 +435,7 @@ public class TuneComposer extends Application {
         primaryStage.setTitle("Scale Player");
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
+            we.consume();
             FileManager.exit(tuneStage, notePane);
         });
 

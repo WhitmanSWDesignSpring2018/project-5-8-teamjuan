@@ -51,8 +51,17 @@ public class TuneComposer extends Application {
     private final int[] timbreList = new int[] { 0, 6, 12, 19, 21, 24, 40, 60 };
 
     /**
-     * A line moves from left to right across the main pane. It crosses each note as
-     * that note is played.
+     * Positions of the first Sharp/Flat keys on the Pane.
+     */
+    private static int cSharp = 9;
+    private static int dSharp = 11;
+    private static int fSharp = 14;
+    private static int gSharp = 16;
+    private static int aSharp = 18;
+
+    /**
+     * /** A line moves from left to right across the main pane. It crosses each
+     * note as that note is played.
      */
     private static PlayLine playLine;
 
@@ -232,12 +241,17 @@ public class TuneComposer extends Application {
         }
 
         double octave = 12.0;
-        for (int j = 8; j < 128; j += octave) {
-            Rectangle cNote = new Rectangle(0.0, (double) (10 * j), 2000.0, 10.0);
-            cNote.getStyleClass().add("octave");
-            // cNote.setFill(Color.GRAY);
-            background.getChildren().add(cNote);
-        }
+        // for (int j = 8; j < 128; j += octave) {
+        // Rectangle cNote = new Rectangle(0.0, (double) (10 * j), 2000.0, 10.0);
+        // cNote.getStyleClass().add("octave");
+        // // cNote.setFill(Color.GRAY);
+        // background.getChildren().add(cNote);
+        // }
+        sharpKeys(cSharp);
+        sharpKeys(dSharp);
+        sharpKeys(fSharp);
+        sharpKeys(gSharp);
+        sharpKeys(aSharp);
 
         playLine = new PlayLine(movingLine);
 
@@ -249,6 +263,15 @@ public class TuneComposer extends Application {
         ButtonHandler.setButtons(undoButton, redoButton, groupButton, ungroupButton, selectAllButton, deleteButton,
                 playButton, stopButton, newButton, openButton, saveButton, saveAsButton, cutButton, copyButton,
                 pasteButton, playLine);
+    }
+
+    public void sharpKeys(int key) {
+        double octave = 12.0;
+        for (int j = key; j < 128; j += octave) {
+            Rectangle sharp = new Rectangle(0.0, (double) (10 * j), 2000.0, 10.0);
+            sharp.getStyleClass().add("sharp");
+            background.getChildren().add(sharp);
+        }
     }
 
     /**

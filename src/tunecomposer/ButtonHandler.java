@@ -19,6 +19,7 @@ class ButtonHandler {
     private static MenuItem cutButton;
     private static MenuItem copyButton;
     private static MenuItem pasteButton;
+    private static MenuItem informationButton;
 
     private static PlayLine playline;
 
@@ -28,11 +29,11 @@ class ButtonHandler {
      * Getter method for all MenuItem buttons.
      * 
      * @param MenuItem undo, redo, group ungroup, selectAll, delete, play stop,
-     *                 newB, open, save, saveAs, cut, copy, paste, line
+     *                 newB, open, save, saveAs, cut, copy, paste, line, information
      */
     public static void setButtons(MenuItem undo, MenuItem redo, MenuItem group, MenuItem ungroup, MenuItem selectAll,
             MenuItem delete, MenuItem play, MenuItem stop, MenuItem newB, MenuItem open, MenuItem save, MenuItem saveAs,
-            MenuItem cut, MenuItem copy, MenuItem paste, PlayLine line) {
+            MenuItem cut, MenuItem copy, MenuItem paste, PlayLine line, MenuItem informationButton) {
         undoButton = undo;
         redoButton = redo;
         groupButton = group;
@@ -51,6 +52,8 @@ class ButtonHandler {
         pasteButton = paste;
 
         playline = line;
+
+        informationButton = information;
     }
 
     /**

@@ -133,6 +133,8 @@ public class TuneComposer extends Application {
     private MenuItem copyButton;
     @FXML
     private MenuItem pasteButton;
+    @FXML
+    private MenuItem informationButton;
 
     /**
      * Plays notes that have been added. Called when the Play button is clicked.
@@ -240,7 +242,7 @@ public class TuneComposer extends Application {
 
         ButtonHandler.setButtons(undoButton, redoButton, groupButton, ungroupButton, selectAllButton, deleteButton,
                 playButton, stopButton, newButton, openButton, saveButton, saveAsButton, cutButton, copyButton,
-                pasteButton, playLine);
+                pasteButton, playLine, information);
     }
 
     /**

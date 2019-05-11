@@ -17,6 +17,7 @@ public class MoveableRect extends Rectangle {
     private double x_coord;
     private double y_coord;
     private double rectWidth;
+    private double margin = MARGIN;
 
     /**
      * Creates a MoveableRect with attributes of given rect.
@@ -69,6 +70,14 @@ public class MoveableRect extends Rectangle {
     }
 
     /**
+     * Sets the margin for dragging purposes.
+     * @param margin double the necessary margin
+     */
+    public void setMargin(double margin) {
+        this.margin = margin;
+    }
+
+    /**
      * When the user presses the mouse to start dragging, calculate the offset
      * between the upper-left corner of the Rectangle and where the mouse is in the
      * Rectangle
@@ -113,7 +122,8 @@ public class MoveableRect extends Rectangle {
      * @return true if mouse is within the last 5 pixels of the Rectangle
      */
     public boolean clickedOnRightEdge(MouseEvent event) {
-        return (event.getX() > x_coord + rectWidth - MARGIN);
+        return (event.getX() > x_coord + rectWidth - MARGIN) 
+            && (event.getX() < x_coord + rectWidth);
     }
 
     /**
@@ -133,7 +143,7 @@ public class MoveableRect extends Rectangle {
      * @param event  mouse drag
      * @param margin the minimum width
      */
-    public void changeWidth(MouseEvent event, double margin) {
+    public void changeWidth(MouseEvent event) {
         double tempWidth = event.getX() - x_coord + widthOffset;
         if (tempWidth < margin)
             tempWidth = margin;
@@ -146,7 +156,7 @@ public class MoveableRect extends Rectangle {
      * @param event
      * @param margin is minimum width
      */
-    public void stopWidthChange(MouseEvent event, double margin) {
+    public void stopWidthChange(MouseEvent event) {
         rectWidth = event.getX() - x_coord + widthOffset;
         if (rectWidth < margin)
             rectWidth = margin;

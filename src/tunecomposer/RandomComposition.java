@@ -39,7 +39,7 @@ public class RandomComposition {
     private static void placeNote(Note note, Pane notePane) {
         NoteHandler.allPlayables.add(note);
         
-        note.getRectangle().forEach((n) -> {
+        note.getAllRectangles().forEach((n) -> {
             notePane.getChildren().add(n);
         });
     }

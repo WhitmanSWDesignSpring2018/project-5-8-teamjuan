@@ -1,5 +1,6 @@
 package tunecomposer;
 
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
 
 class ButtonHandler {
@@ -19,6 +20,7 @@ class ButtonHandler {
     private static MenuItem cutButton;
     private static MenuItem copyButton;
     private static MenuItem pasteButton;
+    private static CheckMenuItem cSharpButton;
 
     private static PlayLine playline;
 
@@ -32,7 +34,7 @@ class ButtonHandler {
      */
     public static void setButtons(MenuItem undo, MenuItem redo, MenuItem group, MenuItem ungroup, MenuItem selectAll,
             MenuItem delete, MenuItem play, MenuItem stop, MenuItem newB, MenuItem open, MenuItem save, MenuItem saveAs,
-            MenuItem cut, MenuItem copy, MenuItem paste, PlayLine line) {
+            MenuItem cut, MenuItem copy, MenuItem paste, CheckMenuItem cSharp, PlayLine line) {
         undoButton = undo;
         redoButton = redo;
         groupButton = group;
@@ -49,8 +51,16 @@ class ButtonHandler {
         cutButton = cut;
         copyButton = copy;
         pasteButton = paste;
+        cSharpButton = cSharp;
 
         playline = line;
+    }
+
+    /**
+     * Returns if the c sharp button is selected.
+     */
+    public static boolean getCSharp() {
+        return cSharpButton.isSelected();
     }
 
     /**

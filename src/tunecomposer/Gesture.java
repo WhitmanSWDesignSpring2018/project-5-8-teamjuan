@@ -115,6 +115,7 @@ public class Gesture implements Playable {
         lowerXBound = 10001;
         lowerYBound = 10001;
         allPlayables.forEach((play) -> {
+            play.updateRectangle();
             updateBounds(play);
         });
         setOuterRectBounds();

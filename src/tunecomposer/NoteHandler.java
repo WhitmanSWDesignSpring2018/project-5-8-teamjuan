@@ -31,7 +31,7 @@ public class NoteHandler {
     public static double lastNote = 0;
 
     /**
-     * Y value to change octaves
+     * Offset value to change octaves
      */
     public static double changeOctave = 0;
     /**

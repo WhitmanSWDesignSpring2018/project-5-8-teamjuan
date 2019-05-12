@@ -20,6 +20,8 @@ class ButtonHandler {
     private static MenuItem cutButton;
     private static MenuItem copyButton;
     private static MenuItem pasteButton;
+    private static MenuItem upOctave;
+    private static MenuItem downOctave;
     private static CheckMenuItem cSharpButton;
 
     private static PlayLine playline;
@@ -34,7 +36,8 @@ class ButtonHandler {
      */
     public static void setButtons(MenuItem undo, MenuItem redo, MenuItem group, MenuItem ungroup, MenuItem selectAll,
             MenuItem delete, MenuItem play, MenuItem stop, MenuItem newB, MenuItem open, MenuItem save, MenuItem saveAs,
-            MenuItem cut, MenuItem copy, MenuItem paste, CheckMenuItem cSharp, PlayLine line) {
+            MenuItem cut, MenuItem copy, MenuItem paste, MenuItem up, MenuItem down, CheckMenuItem cSharp, PlayLine line) {
+            
         undoButton = undo;
         redoButton = redo;
         groupButton = group;
@@ -51,9 +54,12 @@ class ButtonHandler {
         cutButton = cut;
         copyButton = copy;
         pasteButton = paste;
+        upOctave = up;
+        downOctave = down;
         cSharpButton = cSharp;
 
         playline = line;
+        
     }
 
     /**
@@ -73,6 +79,7 @@ class ButtonHandler {
         updateUndoingButtons();
         updateCopyingButtons();
         updateSavingButtons();
+        updateOctaveButtons();
     }
 
     /**
@@ -157,6 +164,20 @@ class ButtonHandler {
      */
     private static void updateSavingButtons() {
         saveButton.setDisable(!FileManager.getUnsaved());
+    }
+
+    private static void updateOctaveButtons() {
+        numCurrentlySelected = 0;
+        upOctave.setDisable(true);
+        downOctave.setDisable(true);
+        NoteHandler.allPlayables.forEach((playable) -> {
+            if (playable.getSelected()) {
+                numCurrentlySelected++;
+                upOctave.setDisable(false);
+                downOctave.setDisable(false);
+            }
+
+        });
     }
 
 }

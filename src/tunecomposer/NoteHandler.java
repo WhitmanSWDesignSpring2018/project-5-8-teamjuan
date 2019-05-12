@@ -23,11 +23,17 @@ public class NoteHandler {
     public static final int RECTHEIGHT = 10;
     public static final int MARGIN = 5;
 
+    public static final double UPOCTAVE = -120.0;
+    public static final double DOWNOCTAVE = 120.0;
     /**
      * End time for MidiPlayer
      */
     public static double lastNote = 0;
 
+    /**
+     * Y value to change octaves
+     */
+    public static double changeOctave = 0;
     /**
      * Hashset that stores all playables.
      */
@@ -161,6 +167,26 @@ public class NoteHandler {
         });
         NoteHandler.allPlayables.addAll(toAdd);
         NoteHandler.allPlayables.removeAll(toRemove);
+        ButtonHandler.updateAllButtons();
+    }
+
+    /**
+     * Moves the selected playables up or down an octave
+     * 
+     * @param direction up or down octave
+     */
+    public static void changeOctave(Boolean direction) {
+        HistoryManager.addEvent();
+        if(direction) {changeOctave = UPOCTAVE;}
+        else {changeOctave = DOWNOCTAVE;}
+        NoteHandler.allPlayables.forEach((playable) -> {
+            if (playable.getSelected()) {
+                playable.getAllRectangles().forEach((note) -> {
+                    double current = note.getY();
+                    note.setY(current + changeOctave);
+                });
+            }
+        });
         ButtonHandler.updateAllButtons();
     }
 

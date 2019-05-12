@@ -1,0 +1,11 @@
+For the final project, Team Juan had fun. 
+
+The first time Team Juan met was a refactoring meeting; notably, Team Juan moved all mouse events away from Gesture and Note to minimized how much cross-class dependency there was. Undo/Redo was refactored to be done in XML. The PlayLine bug - that is, getting the line to end at the correct and updated position - wa fixed. The outer rectangle mismatch for Gestures was finally(!) solved as well. The save file error was also fixed. In other words, most issues noted on GitHub have been fixed as a response to the feedback Team Juan got on project 7. In doing so, the program arguably became more elegant through Team Juan's active attempts to follow the single responsibility principle, the open-closed principle, law of Demeter, and clear, concise code in the final refactoring session. 
+
+The user interface was given a facelift -- a new color theme and an updated background that mimics that of an actual piano keyboard has been introduced to make TuneComposer more user friendly and straightforward. 
+
+Much of the additional functionality added in this project came about from Team Juan's think-pair-share discussions; we suggested things that would improve our experience using TuneComposer and/or amuse members of Team Juan. The group of four built off of what was there post-refactoring, and notably added a Transpose and RandomComposition class. C# mode was an addition to ButtonHandler. 
+
+As for velocity: this was difficult to calculate, similar to much of the math Team Juan found themselves trying to reason through when dealing with octaves and C# mode. Many of the new functionality was added in the moment and unplanned for. Most functionality additions took one to two hours to implement. The grand total of time on this project took about 10 hours, which Team Juan deemed to be particularly efficient and satisfactory seeing that the final project was much more open ended compared to prior projects. 
+
+Team Juan is stoked to be finished with TuneComposer as well as generally grateful to have been a team. Previous habits - that is, surrounding a single computer, moments of breaking apart to pair program, sitting and talking made a reappearance. 

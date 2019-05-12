@@ -40,41 +40,16 @@ public class Note implements Playable {
      * @param note the note to be cloned
      */
     public Note(Note note) {
-        List<Double> coords = note.getCoords();
-        x_coord = coords.get(0);
-        y_coord = coords.get(1);
-        rectWidth = coords.get(2);
-        List<Integer> noteInfo = note.getNoteInfo();
-        startTime = noteInfo.get(0);
-        pitch = noteInfo.get(1);
-        instrument = note.getInstrument();
+        note.updateRectangle();
+        this.x_coord = note.x_coord;
+        this.y_coord = note.y_coord;
+        this.rectWidth = note.rectWidth;
+        this.startTime = note.startTime;
+        this.pitch = note.pitch;
+        this.instrument = note.instrument;
         noteRect = new MoveableRect();
         createRect();
         setSelected(note.getSelected());
-    }
-
-    /**
-     * Creates new selected Rectangle at given coordinates with a default width of
-     * 100 pixels and creates a note of the given instrument at the calculated start
-     * time and pitch.
-     * 
-     * @param x    x-coordinate of new rectangle and starting time for note
-     * @param y    y-coordinate of new rectangle and pitch of note
-     * @param inst instrument that the note should be played
-     */
-    public Note(double x, double y, Instrument inst) {
-
-        startTime = (int) x;
-        pitch = NoteHandler.MAX_PITCH - (int) y / NoteHandler.RECTHEIGHT;
-
-        x_coord = x;
-        y_coord = y - (y % NoteHandler.RECTHEIGHT);
-
-        instrument = inst;
-        rectWidth = NoteHandler.DEFAULT_DURATION;
-        noteRect = new MoveableRect();
-        createRect();
-        setSelected(true);
     }
 
     /**
@@ -82,15 +57,31 @@ public class Note implements Playable {
      * and creates a note of the given instrument at the calculated start
      * time and pitch.
      * 
-     * @param x     x-coordinate of new rectangle and starting time for note
-     * @param y     y-coordinate of new rectangle and pitch of note
-     * @param inst  instrument that the note should be played
+     * @param x    x-coordinate of new rectangle and starting time for note
+     * @param y    y-coordinate of new rectangle and pitch of note
+     * @param inst instrument that the note should be played
      * @param width width of rectangle
      */
     public Note(double x, double y, Instrument inst, double width) {
-        this(x, y, inst);
-        setWidth(width);
-        noteRect.updateInnerFields();
+
+        setFields(x, y, width);
+        
+        instrument = inst;
+        noteRect = new MoveableRect();
+        createRect();
+        setSelected(true);
+    }
+    /**
+     * Creates new selected Rectangle at given coordinates with a default width of
+     * 100 pixels and creates a note of the given instrument at the calculated start
+     * time and pitch.
+     * 
+     * @param x     x-coordinate of new rectangle and starting time for note
+     * @param y     y-coordinate of new rectangle and pitch of note
+     * @param inst  instrument that the note should be played
+     */
+    public Note(double x, double y, Instrument inst) {
+        this(x, y, inst, NoteHandler.DEFAULT_DURATION);
     }
 
     /**
@@ -127,6 +118,7 @@ public class Note implements Playable {
 
     /**
      * Sets the width to a value during construction.
+     * @param width double desired width of note
      */
     private void setWidth(double width) {
         rectWidth = width;
@@ -134,37 +126,26 @@ public class Note implements Playable {
     }
 
     /**
-     * Gets coordinates of the note in the form of an arraylist
-     * 
-     * @return arraylist of coordinates and rectangle width
+     * Sets the class fields based on inputs.
+     * @param x double x coordinate
+     * @param y double y coordinate
+     * @param width double width of note
      */
-    public List<Double> getCoords() {
-        List<Double> arr = new ArrayList<Double>();
-        arr.add(x_coord);
-        arr.add(y_coord);
-        arr.add(rectWidth);
-        return arr;
+    private void setFields(double x, double y, double width) {
+        startTime = (int) x;
+        pitch = NoteHandler.MAX_PITCH - (int) y / NoteHandler.RECTHEIGHT;
+
+        x_coord = x;
+        y_coord = y - (y % NoteHandler.RECTHEIGHT);
+
+        rectWidth = width;
     }
 
     /**
-     * Gets startTime and pitch of the note.
-     * 
-     * @return startTime and pitch
+     * Updates the class fields based on rectangle.
      */
-    public List<Integer> getNoteInfo() {
-        List<Integer> arr = new ArrayList<Integer>();
-        arr.add(startTime);
-        arr.add(pitch);
-        return arr;
-    }
-
-    /**
-     * Gets the instrument type of the note.
-     * 
-     * @return instrument type
-     */
-    public Instrument getInstrument() {
-        return instrument;
+    public void updateRectangle() {
+        setFields(noteRect.getX(), noteRect.getY(), noteRect.getWidth());
     }
 
     /**
@@ -176,7 +157,6 @@ public class Note implements Playable {
         noteRect.setWidth(rectWidth);
         noteRect.setHeight(NoteHandler.RECTHEIGHT);
         noteRect.updateInnerFields();
-        noteRect.setMouseTransparent(false);
 
         setMouseHandlers();
     }
@@ -185,6 +165,8 @@ public class Note implements Playable {
      * Sets all mouse handlers for mouse presses, drags, and releases.
      */
     public void setMouseHandlers() {
+        noteRect.setMouseTransparent(false);
+
         noteRect.setOnMousePressed((MouseEvent pressedEvent) -> {
             ClickHandler.handleNoteClick(pressedEvent, this);
             ClickHandler.handleNotePress(pressedEvent, this);
@@ -222,19 +204,10 @@ public class Note implements Playable {
      * 
      * @return this Note's Rectangle
      */
-    public List<MoveableRect> getRectangle() {
+    public List<MoveableRect> getAllRectangles() {
         List<MoveableRect> arr = new ArrayList<MoveableRect>();
         arr.add(noteRect);
         return arr;
-    }
-
-    /**
-     * Gets the note's rectangle using getRectangle() method.
-     * 
-     * @return this Note's rectangle
-     */
-    public List<MoveableRect> getAllRectangles() {
-        return getRectangle();
     }
 
     /**
@@ -271,81 +244,4 @@ public class Note implements Playable {
         }
     }
 
-    /**
-     * When the user presses the mouse to start dragging, calculate the offset
-     * between the upper-left corner of the Rectangle and where the mouse is in the
-     * Rectangle
-     * 
-     * @param event mouse click
-     */
-    public void onMousePressed(MouseEvent event) {
-        noteRect.startLocationChange(event);
-    }
-
-    /**
-     * While the user is dragging the mouse, move the Rectangle with it
-     * 
-     * @param event mouse drag
-     */
-    public void onMouseDragged(MouseEvent event) {
-        noteRect.changeLocation(event);
-    }
-
-    /**
-     * When the user stops dragging the mouse, set Note fields to the Rectangle's
-     * current location
-     * 
-     * @param event mouse click
-     */
-    public void onMouseReleased(MouseEvent event) {
-        noteRect.stopLocationChange(event);
-
-        startTime = (int) noteRect.getX();
-        pitch = NoteHandler.MAX_PITCH - (int) noteRect.getY() / NoteHandler.RECTHEIGHT;
-
-        x_coord = noteRect.getX();
-        y_coord = noteRect.getY() - (noteRect.getY() % NoteHandler.RECTHEIGHT);
-
-    }
-
-    /**
-     * Check whether the user has clicked within the last 5 pixels of the Rectangle
-     * 
-     * @param event mouse click
-     * @return true if mouse is within the last 5 pixels of the Rectangle
-     */
-    public boolean clickedOnRightEdge(MouseEvent event) {
-        return noteRect.clickedOnRightEdge(event);
-    }
-
-    /**
-     * When the user clicks near the right end of the Rectangle, calculate the
-     * offset between the right edge of the Rectangle and where the mouse is in the
-     * Rectangle
-     * 
-     * @param event mouse click
-     */
-    public void onMousePressedRightEdge(MouseEvent event) {
-        noteRect.startWidthChange(event);
-    }
-
-    /**
-     * While the user is dragging the mouse, change the width of the Rectangle
-     * 
-     * @param event mouse drag
-     */
-    public void onMouseDraggedRightEdge(MouseEvent event) {
-        noteRect.changeWidth(event, NoteHandler.MARGIN);
-    }
-
-    /**
-     * When the user stops dragging the mouse, set Rectangle width to final width
-     * 
-     * @param event mouse release
-     */
-    public void onMouseReleasedRightEdge(MouseEvent event) {
-        noteRect.stopWidthChange(event, NoteHandler.MARGIN);
-        rectWidth = noteRect.getWidth();
-    }
-
-}
+} 

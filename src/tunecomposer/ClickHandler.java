@@ -28,7 +28,7 @@ public class ClickHandler {
         
         NoteHandler.allPlayables.add(note);
         
-        note.getRectangle().forEach((n) -> {
+        note.getAllRectangles().forEach((n) -> {
             notePane.getChildren().add(n);
         });
         ButtonHandler.updateAllButtons();
@@ -63,14 +63,21 @@ public class ClickHandler {
      * @param note note Rectangle that was clicked
      */
     public static void handleNotePress(MouseEvent event, Playable note) {
-        changeDuration = note.clickedOnRightEdge(event);
+        changeDuration = false;
+        note.getAllRectangles().forEach((rect) -> {
+            if (rect.clickedOnRightEdge(event)) {
+                changeDuration = true;
+            }
+        });
         NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMousePressedRightEdge(event);
-                } else {
-                    n.onMousePressed(event);
-                }
+                n.getAllRectangles().forEach((rect) -> {
+                    if (changeDuration) {
+                        rect.startWidthChange(event);
+                    } else {
+                        rect.startLocationChange(event);
+                    }
+                });
             }
         });
     }
@@ -83,11 +90,13 @@ public class ClickHandler {
     public static void handleNoteDrag(MouseEvent event) {
         NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMouseDraggedRightEdge(event);
-                } else {
-                    n.onMouseDragged(event);
-                }
+                n.getAllRectangles().forEach((rect) -> {
+                    if (changeDuration) {
+                        rect.changeWidth(event);
+                    } else {
+                        rect.changeLocation(event);
+                    }
+                });
             }
         });
     }
@@ -100,11 +109,14 @@ public class ClickHandler {
         clickInPane = false;
         NoteHandler.allPlayables.forEach((n) -> {
             if (n.getSelected()) {
-                if (changeDuration) {
-                    n.onMouseReleasedRightEdge(event);
-                } else {
-                    n.onMouseReleased(event);
-                }
+                n.getAllRectangles().forEach((rect) -> {
+                    if (changeDuration) {
+                        rect.stopWidthChange(event);
+                    } else {
+                        rect.stopLocationChange(event);
+                    }
+                });
+                n.updateRectangle();
             }
         });
         changeDuration = false;

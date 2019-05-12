@@ -19,6 +19,10 @@
     -fx-fill: gainsboro;
 }
 
+.middle-c {
+    -fx-fill: peachpuff;
+}
+
 .play-line {
     -fx-stroke: #E81A0B;
 }

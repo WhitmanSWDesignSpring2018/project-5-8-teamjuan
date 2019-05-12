@@ -461,11 +461,21 @@ public class TuneComposer extends Application {
         }
     }
 
+    /**
+     * Moves selected notes up an octave
+     * 
+     * @param event the menu selection event
+     */
     @FXML
     private void handleUpOctave(ActionEvent event) {
         NoteHandler.changeOctave(true);
     }
 
+    /**
+     * Moves selected notes down an octave
+     * 
+     * @param event the menu selection event
+     */
     @FXML
     private void handleDownOctave(ActionEvent event) {
         NoteHandler.changeOctave(false);

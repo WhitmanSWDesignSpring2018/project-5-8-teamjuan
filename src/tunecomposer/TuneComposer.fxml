@@ -127,6 +127,7 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="upOctave" mnemonicParsing="false" onAction="#handleUpOctave" text="Up Octave" />
                   <MenuItem fx:id="downOctave" mnemonicParsing="false" onAction="#handleDownOctave" text="Down Octave" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <CheckMenuItem fx:id="cSharpButton" mnemonicParsing="false" onAction="#handleCSharp" text="C# Mode" />
 
               </items>

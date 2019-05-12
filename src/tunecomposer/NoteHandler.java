@@ -153,6 +153,7 @@ public class NoteHandler {
                     double current = note.getY();
                     note.setY(current + changeOctave);
                 });
+                playable.updateRectangle();
             }
         });
         ButtonHandler.updateAllButtons();

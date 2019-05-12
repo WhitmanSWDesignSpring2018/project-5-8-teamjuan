@@ -138,8 +138,7 @@ public class FileManager {
         tuneChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
         File selectedFile = tuneChooser.showOpenDialog(tuneStage);
         if (selectedFile != null) {
-            TuneParser.parseFile(selectedFile);
-            NoteHandler.restore(notePane);
+            TuneParser.parseFile(selectedFile, notePane);
             current = selectedFile;
         }
     }

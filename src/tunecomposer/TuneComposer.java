@@ -266,7 +266,7 @@ public class TuneComposer extends Application {
     public void sharpKeys(int key) {
         double octave = 12.0;
         for (int j = key; j < 128; j += octave) {
-            Rectangle sharp = new Rectangle(0.0, (double) (10 * j), 2000.0, 10.0);
+            Rectangle sharp = new Rectangle(0.0, (double) (10 * j), 10000.0, 10.0);
             sharp.getStyleClass().add("sharp");
             background.getChildren().add(sharp);
         }
@@ -277,7 +277,7 @@ public class TuneComposer extends Application {
      */
 
     public void middleC() {
-        Rectangle middleC = new Rectangle(0.0, (double) 10 * 68, 2000.0, 10.0);
+        Rectangle middleC = new Rectangle(0.0, (double) 10 * 68, 10000.0, 10.0);
         middleC.getStyleClass().add("middle-c");
         background.getChildren().add(middleC);
     }

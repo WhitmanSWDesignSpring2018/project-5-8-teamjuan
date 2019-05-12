@@ -4,7 +4,7 @@ The first time Team Juan met was a refactoring meeting; notably, Team Juan moved
 
 The user interface was given a facelift -- a new color theme and an updated background that mimics that of an actual piano keyboard has been introduced to make TuneComposer more user friendly and straightforward. 
 
-Much of the additional functionality added in this project came about from Team Juan's think-pair-share discussions; we suggested things that would improve our experience using TuneComposer and/or amuse members of Team Juan. The group of four built off of what was there post-refactoring, and notably added a Transpose and RandomComposition class. C# mode was an addition to ButtonHandler. 
+Much of the additional functionality added in this project came about from Team Juan's think-pair-share discussions; members suggested things that would improve their experience using TuneComposer and/or amuse members of Team Juan. The group of four built off of what was there post-refactoring, and notably added a Transpose and RandomComposition class. C# mode was an addition to ButtonHandler. 
 
 As for velocity: this was difficult to calculate, similar to much of the math Team Juan found themselves trying to reason through when dealing with octaves and C# mode. Many of the new functionality was added in the moment and unplanned for. Most functionality additions took one to two hours to implement. The grand total of time on this project took about 10 hours, which Team Juan deemed to be particularly efficient and satisfactory seeing that the final project was much more open ended compared to prior projects. 
 

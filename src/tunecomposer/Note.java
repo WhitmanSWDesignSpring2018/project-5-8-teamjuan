@@ -128,6 +128,7 @@ public class Note implements Playable {
      */
     public void updateRectangle() {
         setFields(noteRect.getX(), noteRect.getY(), noteRect.getWidth());
+        noteRect.updateInnerFields();
     }
 
     /**

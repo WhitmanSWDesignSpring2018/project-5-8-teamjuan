@@ -46,11 +46,11 @@ public class TuneComposer extends Application {
     /**
      * Positions of the first Sharp/Flat keys on the Pane.
      */
-    private int cSharp = 9;
-    private int dSharp = 11;
-    private int fSharp = 14;
-    private int gSharp = 16;
-    private int aSharp = 18;
+    private int cSharp = 5;
+    private int dSharp = 7;
+    private int fSharp = 10;
+    private int gSharp = 12;
+    private int aSharp = 14;
 
     /**
      * A line moves from left to right across the main pane. It crosses each note as
@@ -229,7 +229,7 @@ public class TuneComposer extends Application {
      */
     public void initialize() {
         // Add gray lines to background
-        for (int i = 1; i < 128; i++) {
+        for (int i = 0; i < 128; i++) {
             Line row = new Line(0, 10 * i, 10000, 10 * i);
             row.getStyleClass().add("row-divider");
             background.getChildren().add(row);
@@ -458,6 +458,7 @@ public class TuneComposer extends Application {
 
     /**
      * Handles C sharp mode.
+     * 
      * @param event the menu selection event
      */
     @FXML

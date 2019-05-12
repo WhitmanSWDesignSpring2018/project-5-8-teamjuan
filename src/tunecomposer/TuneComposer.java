@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.sound.midi.ShortMessage;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Alert.AlertType;
 
 /**
@@ -142,6 +143,8 @@ public class TuneComposer extends Application {
     private MenuItem copyButton;
     @FXML
     private MenuItem pasteButton;
+    @FXML
+    private CheckMenuItem cSharpButton;
 
     /**
      * Plays notes that have been added. Called when the Play button is clicked.
@@ -247,7 +250,7 @@ public class TuneComposer extends Application {
 
         ButtonHandler.setButtons(undoButton, redoButton, groupButton, ungroupButton, selectAllButton, deleteButton,
                 playButton, stopButton, newButton, openButton, saveButton, saveAsButton, cutButton, copyButton,
-                pasteButton, playLine);
+                pasteButton, cSharpButton, playLine);
     }
 
     /**
@@ -451,6 +454,15 @@ public class TuneComposer extends Application {
             RandomComposition.createRand(notePane);
             ButtonHandler.updateAllButtons();
         }
+    }
+
+    /**
+     * Handles C sharp mode.
+     * @param event the menu selection event
+     */
+    @FXML
+    private void handleCSharp(ActionEvent event) {
+
     }
 
     /**

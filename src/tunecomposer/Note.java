@@ -196,8 +196,13 @@ public class Note implements Playable {
      * Adds this Note to the MidiPlayer
      */
     public void schedule() {
-        TuneComposer.PLAYER.addNote(pitch, NoteHandler.VOLUME, startTime, (int) rectWidth, instrument.ordinal(),
+        if (ButtonHandler.getCSharp()) {
+            TuneComposer.PLAYER.addNote(pitch - ((pitch -9) % 12), NoteHandler.VOLUME, startTime, (int) rectWidth, instrument.ordinal(),
                 NoteHandler.TRACK);
+        } else {
+            TuneComposer.PLAYER.addNote(pitch, NoteHandler.VOLUME, startTime, (int) rectWidth, instrument.ordinal(),
+                NoteHandler.TRACK);
+        }
     }
 
     /**

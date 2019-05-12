@@ -8,6 +8,9 @@ import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import javafx.scene.layout.Pane;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -31,8 +34,8 @@ public class TuneParser {
      * @throws SAXException
      * @throws IOException
      */
-    public static void parseFile(File file) {
-        parseString(readFile(file));
+    public static void parseFile(File file, Pane notePane) {
+        parseString(readFile(file), notePane);
     }
 
     /**
@@ -73,15 +76,14 @@ public class TuneParser {
      * 
      * @param str
      */
-    public static void parseString(String str) {
+    public static void parseString(String str, Pane notePane) {
         Document doc = StringToXMLConverter.convertStringToDocument(str);
 
         Element root = doc.getDocumentElement();
-        // TODO: make sure root has tagname "Composition"
 
         NodeList allChildren = root.getChildNodes();
 
-        buildPlayables(allChildren);
+        buildPlayables(allChildren, notePane);
     }
 
     /**
@@ -89,7 +91,7 @@ public class TuneParser {
      * 
      * @param children
      */
-    private static void buildPlayables(NodeList children) {
+    private static void buildPlayables(NodeList children, Pane notePane) {
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             String name = child.getNodeName();
@@ -97,9 +99,9 @@ public class TuneParser {
             NodeList innerChildren = child.getChildNodes();
 
             if (name == "Gesture") {
-                NoteHandler.allPlayables.add(addGesture(attributes, innerChildren));
+                NoteHandler.allPlayables.add(addGesture(attributes, innerChildren, notePane));
             } else if (name == "Note") {
-                NoteHandler.allPlayables.add(addNote(attributes, innerChildren));
+                NoteHandler.allPlayables.add(addNote(attributes, innerChildren, notePane));
             }
         }
     }
@@ -111,7 +113,7 @@ public class TuneParser {
      * @param children
      * @return Gesture
      */
-    private static Gesture addGesture(NamedNodeMap attributes, NodeList children) {
+    private static Gesture addGesture(NamedNodeMap attributes, NodeList children, Pane notePane) {
         Set<Playable> gesturePlayables = new HashSet<Playable>();
         MoveableRect outerRect = null;
         for (int i = 0; i < children.getLength(); i++) {
@@ -121,11 +123,12 @@ public class TuneParser {
             NodeList innerChildren = child.getChildNodes();
 
             if (name == "Gesture") {
-                gesturePlayables.add(addGesture(attr, innerChildren));
+                gesturePlayables.add(addGesture(attr, innerChildren, notePane));
             } else if (name == "Note") {
-                gesturePlayables.add(addNote(attr, innerChildren));
+                gesturePlayables.add(addNote(attr, innerChildren, notePane));
             } else if (name == "MoveableRect") {
                 outerRect = createRect(child);
+                notePane.getChildren().add(outerRect);
             }
         }
         return new Gesture(Boolean.parseBoolean(attributes.getNamedItem("isSelected").getNodeValue()),
@@ -139,12 +142,14 @@ public class TuneParser {
      * @param children
      * @return Note
      */
-    private static Note addNote(NamedNodeMap attributes, NodeList children) {
+    private static Note addNote(NamedNodeMap attributes, NodeList children, Pane notePane) {
+        MoveableRect noteRect = createRect(children.item(0));
+        notePane.getChildren().add(noteRect);
         return new Note(Integer.parseInt(attributes.getNamedItem("pitch").getNodeValue()),
                 Integer.parseInt(attributes.getNamedItem("startTime").getNodeValue()),
                 Instrument.getInstrument(attributes.getNamedItem("instrument").getNodeValue()),
                 Boolean.parseBoolean(attributes.getNamedItem("isSelected").getNodeValue()),
-                createRect(children.item(0)));
+                noteRect);
     }
 
     /**

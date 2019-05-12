@@ -42,8 +42,7 @@ public class ClipboardManager {
      */
     public static void paste(Pane notePane) {
         HistoryManager.addEvent();
-        TuneParser.parseString(clippy.getString());
-        NoteHandler.restore(notePane);
+        TuneParser.parseString(clippy.getString(), notePane);
         ButtonHandler.updateAllButtons();
     }
 

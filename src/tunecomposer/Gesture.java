@@ -31,24 +31,6 @@ public class Gesture implements Playable {
     private double margin = 5;
 
     /**
-     * Creates a clone of the given gesture.
-     * 
-     * @param gest gesture to be cloned
-     */
-    public Gesture(Gesture gest) {
-        this.allPlayables = new HashSet<Playable>();
-        gest.allPlayables.forEach((playable) -> {
-            if (playable.getClass() == Gesture.class) {
-                addPlayable(new Gesture((Gesture) playable));
-            } else {
-                addPlayable(new Note((Note) playable));
-            }
-        });
-        createRectangle();
-        setSelected(gest.getSelected());
-    }
-
-    /**
      * Constructs a Gesture.
      */
     public Gesture() {

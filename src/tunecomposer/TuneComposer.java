@@ -144,6 +144,10 @@ public class TuneComposer extends Application {
     @FXML
     private MenuItem pasteButton;
     @FXML
+    private MenuItem upOctave;
+    @FXML
+    private MenuItem downOctave;
+    @FXML
     private CheckMenuItem cSharpButton;
 
     /**
@@ -250,7 +254,8 @@ public class TuneComposer extends Application {
 
         ButtonHandler.setButtons(undoButton, redoButton, groupButton, ungroupButton, selectAllButton, deleteButton,
                 playButton, stopButton, newButton, openButton, saveButton, saveAsButton, cutButton, copyButton,
-                pasteButton, cSharpButton, playLine);
+                pasteButton, upOctave, downOctave, cSharpButton, playLine);
+
     }
 
     /**
@@ -454,6 +459,16 @@ public class TuneComposer extends Application {
             RandomComposition.createRand(notePane);
             ButtonHandler.updateAllButtons();
         }
+    }
+
+    @FXML
+    private void handleUpOctave(ActionEvent event) {
+        NoteHandler.changeOctave(true);
+    }
+
+    @FXML
+    private void handleDownOctave(ActionEvent event) {
+        NoteHandler.changeOctave(false);
     }
 
     /**

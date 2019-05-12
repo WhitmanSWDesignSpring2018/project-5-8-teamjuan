@@ -35,24 +35,6 @@ public class Note implements Playable {
     private boolean isSelected;
 
     /**
-     * Creates a new rectangle that is the clone of a given note.
-     * 
-     * @param note the note to be cloned
-     */
-    public Note(Note note) {
-        note.updateRectangle();
-        this.x_coord = note.x_coord;
-        this.y_coord = note.y_coord;
-        this.rectWidth = note.rectWidth;
-        this.startTime = note.startTime;
-        this.pitch = note.pitch;
-        this.instrument = note.instrument;
-        noteRect = new MoveableRect();
-        createRect();
-        setSelected(note.getSelected());
-    }
-
-    /**
      * Creates new selected Rectangle at given coordinates with given width 
      * and creates a note of the given instrument at the calculated start
      * time and pitch.
@@ -214,8 +196,13 @@ public class Note implements Playable {
      * Adds this Note to the MidiPlayer
      */
     public void schedule() {
-        TuneComposer.PLAYER.addNote(pitch, NoteHandler.VOLUME, startTime, (int) rectWidth, instrument.ordinal(),
+        if (ButtonHandler.getCSharp()) {
+            TuneComposer.PLAYER.addNote(pitch - ((pitch -9) % 12), NoteHandler.VOLUME, startTime, (int) rectWidth, instrument.ordinal(),
                 NoteHandler.TRACK);
+        } else {
+            TuneComposer.PLAYER.addNote(pitch, NoteHandler.VOLUME, startTime, (int) rectWidth, instrument.ordinal(),
+                NoteHandler.TRACK);
+        }
     }
 
     /**

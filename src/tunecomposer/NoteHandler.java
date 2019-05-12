@@ -40,50 +40,18 @@ public class NoteHandler {
     protected static Set<Playable> allPlayables = new HashSet<Playable>();
 
     /**
-     * Duplicates current state of notes
-     * 
-     * @return HashSet of current Playables
-     */
-    public static Set<Playable> copyCurrentState() {
-        Set<Playable> currentState = new HashSet<Playable>();
-        allPlayables.forEach((playable) -> {
-            if (playable.getClass() == Gesture.class) {
-                currentState.add(new Gesture((Gesture) playable));
-            } else {
-                currentState.add(new Note((Note) playable));
-            }
-        });
-        return currentState;
-    }
-
-    /**
      * Resets the state of the pane(playables) back to the given state.
      * 
      * @param state    the state to be restored
      * @param notePane the pane
      * 
      */
-    public static void restore(Set<Playable> state, Pane notePane) {
+    public static void restore(String state, Pane notePane) {
         allPlayables.forEach((playable) -> {
             notePane.getChildren().removeAll(playable.getAllRectangles());
         });
         allPlayables.clear();
-        allPlayables = new HashSet<Playable>(state);
-        allPlayables.forEach((playable) -> {
-            notePane.getChildren().addAll(playable.getAllRectangles());
-        });
-    }
-
-    /**
-     * Restores the state of the Pane.
-     */
-    public static void restore(Pane notePane) {
-        allPlayables.forEach((playable) -> {
-            notePane.getChildren().removeAll(playable.getAllRectangles());
-        });
-        allPlayables.forEach((playable) -> {
-            notePane.getChildren().addAll(playable.getAllRectangles());
-        });
+        TuneParser.parseString(state, notePane);
     }
 
     /**

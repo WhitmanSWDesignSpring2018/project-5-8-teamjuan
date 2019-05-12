@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -123,9 +124,13 @@
             <Menu mnemonicParsing="false" text="Fun">
               <items>
                 <MenuItem fx:id="randomComp" mnemonicParsing="false" onAction="#handleRandomComp" text="Random Composition" />
+<<<<<<< HEAD
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="upOctave" mnemonicParsing="false" onAction="#handleUpOctave" text="Up Octave" />
                   <MenuItem fx:id="downOctave" mnemonicParsing="false" onAction="#handleDownOctave" text="Down Octave" />
+=======
+                  <CheckMenuItem fx:id="cSharpButton" mnemonicParsing="false" onAction="#handleCSharp" text="C# Mode" />
+>>>>>>> master
               </items>
             </Menu>
         </menus>

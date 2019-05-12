@@ -66,7 +66,7 @@ public class FileManager {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         tuneChooser.getExtensionFilters().add(extFilter);
         File saveFile = tuneChooser.showSaveDialog(tuneStage);
-        if(current != null) {
+        if (saveFile != null) {
             saveFile(NoteHandler.createXMLDocString(), saveFile);
             current = saveFile;
             unsaved = false;
@@ -138,8 +138,7 @@ public class FileManager {
         tuneChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
         File selectedFile = tuneChooser.showOpenDialog(tuneStage);
         if (selectedFile != null) {
-            TuneParser.parseFile(selectedFile);
-            NoteHandler.restore(notePane);
+            TuneParser.parseFile(selectedFile, notePane);
             current = selectedFile;
         }
     }

@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.sound.midi.ShortMessage;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Alert.AlertType;
 
 /**
@@ -45,11 +46,11 @@ public class TuneComposer extends Application {
     /**
      * Positions of the first Sharp/Flat keys on the Pane.
      */
-    private int cSharp = 9;
-    private int dSharp = 11;
-    private int fSharp = 14;
-    private int gSharp = 16;
-    private int aSharp = 18;
+    private int cSharp = 5;
+    private int dSharp = 7;
+    private int fSharp = 10;
+    private int gSharp = 12;
+    private int aSharp = 14;
 
     /**
      * A line moves from left to right across the main pane. It crosses each note as
@@ -146,6 +147,8 @@ public class TuneComposer extends Application {
     private MenuItem upOctave;
     @FXML
     private MenuItem downOctave;
+    @FXML
+    private CheckMenuItem cSharpButton;
 
     /**
      * Plays notes that have been added. Called when the Play button is clicked.
@@ -230,7 +233,7 @@ public class TuneComposer extends Application {
      */
     public void initialize() {
         // Add gray lines to background
-        for (int i = 1; i < 128; i++) {
+        for (int i = 0; i < 128; i++) {
             Line row = new Line(0, 10 * i, 10000, 10 * i);
             row.getStyleClass().add("row-divider");
             background.getChildren().add(row);
@@ -251,7 +254,8 @@ public class TuneComposer extends Application {
 
         ButtonHandler.setButtons(undoButton, redoButton, groupButton, ungroupButton, selectAllButton, deleteButton,
                 playButton, stopButton, newButton, openButton, saveButton, saveAsButton, cutButton, copyButton,
-                pasteButton, upOctave, downOctave, playLine);
+                pasteButton, upOctave, downOctave, cSharpButton, playLine);
+
     }
 
     /**
@@ -465,6 +469,16 @@ public class TuneComposer extends Application {
     @FXML
     private void handleDownOctave(ActionEvent event) {
         NoteHandler.changeOctave(false);
+    }
+
+    /**
+     * Handles C sharp mode.
+     * 
+     * @param event the menu selection event
+     */
+    @FXML
+    private void handleCSharp(ActionEvent event) {
+
     }
 
     /**

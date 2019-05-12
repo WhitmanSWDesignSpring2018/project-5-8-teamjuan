@@ -250,6 +250,11 @@ public class TuneComposer extends Application {
                 pasteButton, playLine);
     }
 
+    /**
+     * Marks the sharps/flats on the pane.
+     * 
+     * @param key
+     */
     public void sharpKeys(int key) {
         double octave = 12.0;
         for (int j = key; j < 128; j += octave) {
@@ -258,6 +263,10 @@ public class TuneComposer extends Application {
             background.getChildren().add(sharp);
         }
     }
+
+    /**
+     * Marks Middle C, C4, on the pane for the user.
+     */
 
     public void middleC() {
         Rectangle middleC = new Rectangle(0.0, (double) 10 * 68, 2000.0, 10.0);

@@ -54,9 +54,8 @@ Earned|Possible|Requirement
 As promised, I am not looking closely at your code for this iteration, only spot-checking.
 
 * 4/4 UML diagram is accurate and complete.
-* 1/1 New classes/methods are reasonably self-explanatory.
 * 3/3 Design overview addresses strategy for Undo/Redo.
-* 2/2 Design overview addresses strategy for disabling/enabling menu items.
+* 3/3 Design overview addresses strategy for disabling/enabling menu items.
 * 6/6 Assessment of what is elegant and what is not thoughtfully addresses object-oriented design principles. | _I like that you thought about implications for change (project 7 requiremnets)._
 * 1/1 Velocity is presented. 
 * 1/1 Team retrospective is presented. | _Thanks for your thoughts! This was a really good reflection - sorry I did not get you feedback earlier._
